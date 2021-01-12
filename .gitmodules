@@ -1,0 +1,3 @@
+[submodule "gtfs-validator"]
+	path = gtfs-validator
+	url = https://github.com/MobilityData/gtfs-validator.git

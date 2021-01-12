@@ -1,0 +1,6 @@
+rootProject.name = 'validator-webapp'
+include 'webapp'
+include 'gtfs-validator'
+include ':gtfs-validator:core'
+include ':gtfs-validator:processor'
+include ':gtfs-validator:main'
