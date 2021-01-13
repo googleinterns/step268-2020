@@ -1,0 +1,4 @@
+rootProject.name = 'gtfs-validator'
+include 'core'
+include 'processor'
+include 'main'
