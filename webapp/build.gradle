@@ -30,8 +30,10 @@ dependencies {
   implementation project(':gtfs-validator:core')
   implementation project(':gtfs-validator:processor')
   implementation project(':gtfs-validator:main')
-  // implementation project(path:':gtfs-validator', configuration: 'default')
 
+  implementation platform('com.google.cloud:libraries-bom:16.2.1')
+
+  compile 'commons-fileupload:commons-fileupload:1.4'
 
 // Add your dependencies here.
 //  compile 'com.google.cloud:google-cloud:+'   // Latest Cloud API's http://googlecloudplatform.github.io/google-cloud-java
