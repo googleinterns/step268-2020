@@ -77,7 +77,7 @@ public class UploadServlet extends HttpServlet {
             item.write(storeFile);
 
             // TO DO: Call validator here 
-            response.getWriter().println("Upload has been done successfully!");
+            response.getWriter().println("Uploaded successfully!");
           }
         }
       }
