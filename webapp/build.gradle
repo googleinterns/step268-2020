@@ -34,10 +34,7 @@ dependencies {
   implementation platform('com.google.cloud:libraries-bom:16.2.1')
 
   compile 'commons-fileupload:commons-fileupload:1.4'
-
-// Add your dependencies here.
-//  compile 'com.google.cloud:google-cloud:+'   // Latest Cloud API's http://googlecloudplatform.github.io/google-cloud-java
-
+  
   testCompile 'junit:junit:4.12'
   testCompile 'com.google.truth:truth:0.33'
   testCompile 'org.mockito:mockito-all:1.10.19'
@@ -53,7 +50,6 @@ appengineStage.dependsOn test
 
 appengine {  // App Engine tasks configuration
   deploy {   // deploy configuration
-    // projectId = System.getenv('GOOGLE_CLOUD_PROJECT')
     projectId = 'lilhunt-step-intern'
     version = '1'
   }
