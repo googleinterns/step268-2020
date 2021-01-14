@@ -30,11 +30,6 @@ dependencies {
   implementation project(':gtfs-validator:core')
   implementation project(':gtfs-validator:processor')
   implementation project(':gtfs-validator:main')
-  // implementation project(path:':gtfs-validator', configuration: 'default')
-
-
-// Add your dependencies here.
-//  compile 'com.google.cloud:google-cloud:+'   // Latest Cloud API's http://googlecloudplatform.github.io/google-cloud-java
 
   testCompile 'junit:junit:4.12'
   testCompile 'com.google.truth:truth:0.33'
@@ -51,7 +46,6 @@ appengineStage.dependsOn test
 
 appengine {  // App Engine tasks configuration
   deploy {   // deploy configuration
-    // projectId = System.getenv('GOOGLE_CLOUD_PROJECT')
     projectId = 'lilhunt-step-intern'
     version = '1'
   }
