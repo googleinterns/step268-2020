@@ -11,7 +11,7 @@
 // // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
-package com.google.sps.servlets; 
+package com.google.sps.servlets;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +88,7 @@ public class UploadServlet extends HttpServlet {
             String validatorOutputJson = runValidator(filePath, 1, "nl-openov");
 
             response.getWriter().println("Upload has been done successfully!");
-            // Print the json output 
+            // Print the json output
             response.getWriter().println(validatorOutputJson);
           }
         }
