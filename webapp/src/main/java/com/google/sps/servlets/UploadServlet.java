@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Logging;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +46,11 @@ public class UploadServlet extends HttpServlet {
   private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; // 3MB
   private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
   private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
+
+  // Log any issues
+  private static final Logger LOGGER = Logger.getLogger(UploadServlet.class.getName());
+
+  private static final int NUM_THREADS = 1;
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -84,17 +90,18 @@ public class UploadServlet extends HttpServlet {
             // Save the file on disk
             item.write(storeFile);
 
-            // TO DO: get feed name and thread specification from form
-            String validatorOutputJson = runValidator(filePath, 1, "nl-openov");
+            // TO DO: get feed name from the user form
+            String feedName = "nl-openov";
+            String validatorOutputJson = runValidator(filePath, NUM_THREADS, feedName);
 
             response.getWriter().println("Upload has been done successfully!");
-            // Print the json output
+            // Print the json output to the user
             response.getWriter().println(validatorOutputJson);
           }
         }
       }
-    } catch (Exception ex) {
-      response.getWriter().println("There was an error: " + ex.getMessage());
+    } catch (Exception e) {
+      response.getWriter().println("There was an error: " + e.getMessage());
     }
   }
 
@@ -115,25 +122,17 @@ public class UploadServlet extends HttpServlet {
     try {
       gtfsInput = GtfsInput.createFromPath(Paths.get(filePath));
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.log(Level.SEVERE, "Exception occured", e);
       return null;
     }
     feedContainer =
         feedLoader.loadAndValidate(gtfsInput, feedName, validatorLoader, noticeContainer);
 
-    // Write the output to the temporary file: what happens when multiple files are written?
-    // Need a unique name ... or just write it to reponse and display it as HTML?
-    try {
-      Files.write(Paths.get("/tmp/", "report.json"),
-          noticeContainer.exportJson().getBytes(StandardCharsets.UTF_8));
-    } catch (IOException exception) {
-      exception.printStackTrace();
-    }
-
     final long endNanos = System.nanoTime();
-    System.out.println(
-        String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
-    System.out.println("Table totals: " + feedContainer.tableTotals());
+    Logger.log(
+        Level.INFO, String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
+    Logger.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
+
     return noticeContainer.exportJson();
   }
 }
