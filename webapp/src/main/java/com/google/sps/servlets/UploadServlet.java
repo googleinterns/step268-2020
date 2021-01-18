@@ -92,11 +92,11 @@ public class UploadServlet extends HttpServlet {
 
             // TO DO: get feed name from the user form
             String feedName = "nl-openov";
-            String validatorOutputJson = runValidator(filePath, NUM_THREADS, feedName);
+            NoticeContainer validatorNotices = runValidator(filePath, NUM_THREADS, feedName);
 
             response.getWriter().println("Upload has been done successfully!");
             // Print the json output to the user
-            response.getWriter().println(validatorOutputJson);
+            response.getWriter().println(validatorNotices.exportJson());
           }
         }
       }
@@ -106,7 +106,7 @@ public class UploadServlet extends HttpServlet {
   }
 
   // Calls the global mobility validator function to load and validate the transit data
-  public static String runValidator(String filePath, int numThreads, String feedNameString) {
+  public static NoticeContainer runValidator(String filePath, int numThreads, String feedNameString) {
     ValidatorLoader validatorLoader = new ValidatorLoader();
     GtfsFeedLoader feedLoader = new GtfsFeedLoader();
 
@@ -133,6 +133,6 @@ public class UploadServlet extends HttpServlet {
         Level.INFO, String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
     Logger.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
 
-    return noticeContainer.exportJson();
+    return noticeContainer;
   }
 }
