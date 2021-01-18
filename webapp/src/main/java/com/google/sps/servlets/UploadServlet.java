@@ -38,10 +38,71 @@ import org.mobilitydata.gtfsvalidator.validator.ValidatorLoader;
 // TO DO: unit tests
 @WebServlet("/fileupload")
 public class UploadServlet extends HttpServlet {
+  // Store the files temporarily in /tmp
+  private static final String UPLOAD_DIRECTORY = "/tmp";
+
+  // Upload settings
+  private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3; // 3MB
+  private static final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
+  private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
+
   // Log any issues
   private static final Logger LOGGER = Logger.getLogger(UploadServlet.class.getName());
 
   private static final int NUM_THREADS = 1;
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    // Ensure the request contains a file
+    if (!ServletFileUpload.isMultipartContent(request)) {
+      response.getWriter().println("Error: Form must has enctype=multipart/form-data.");
+      return;
+    }
+
+    DiskFileItemFactory factory = new DiskFileItemFactory();
+    factory.setSizeThreshold(MEMORY_THRESHOLD);
+    factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+
+    ServletFileUpload upload = new ServletFileUpload(factory);
+    upload.setFileSizeMax(MAX_FILE_SIZE);
+    upload.setSizeMax(MAX_REQUEST_SIZE);
+
+    String uploadPath = UPLOAD_DIRECTORY;
+
+    // Create the directory if it does not exist
+    File uploadDir = new File(uploadPath);
+    if (!uploadDir.exists()) {
+      uploadDir.mkdir();
+    }
+
+    try {
+      List<FileItem> formItems = upload.parseRequest(request);
+      if (formItems != null && formItems.size() > 0) {
+        for (FileItem item : formItems) {
+          // Only processes files
+          if (!item.isFormField()) {
+            String fileName = new File(item.getName()).getName();
+            String filePath = uploadPath + File.separator + fileName;
+            File storeFile = new File(filePath);
+
+            // Save the file on disk
+            item.write(storeFile);
+
+            // TO DO: get feed name from the user form
+            String feedName = "nl-openov";
+            NoticeContainer validatorNotices = runValidator(filePath, feedName);
+
+            response.getWriter().println("Upload has been done successfully!");
+            // Print the json output to the user
+            response.getWriter().println(validatorNotices.exportJson());
+          }
+        }
+      }
+    } catch (Exception e) {
+      response.getWriter().println("There was an error: " + e.getMessage());
+    }
+  }
 
   // Calls the global mobility validator function to load and validate the transit data
   public static NoticeContainer runValidator(String filePath, String feedNameString) {
