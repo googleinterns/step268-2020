@@ -105,8 +105,7 @@ public class UploadServlet extends HttpServlet {
   }
 
   // Calls the global mobility validator function to load and validate the transit data
-  public static NoticeContainer runValidator(
-      String filePath, String feedNameString) {
+  public static NoticeContainer runValidator(String filePath, String feedNameString) {
     ValidatorLoader validatorLoader = new ValidatorLoader();
     GtfsFeedLoader feedLoader = new GtfsFeedLoader();
 
