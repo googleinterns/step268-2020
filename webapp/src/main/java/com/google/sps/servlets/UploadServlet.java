@@ -15,12 +15,11 @@ package com.google.sps.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.logging.Logging;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -130,9 +129,9 @@ public class UploadServlet extends HttpServlet {
         feedLoader.loadAndValidate(gtfsInput, feedName, validatorLoader, noticeContainer);
 
     final long endNanos = System.nanoTime();
-    Logger.log(
+    LOGGER.log(
         Level.INFO, String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
-    Logger.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
+    LOGGER.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
 
     return noticeContainer;
   }
