@@ -54,7 +54,7 @@ public class GtfsFeedLoader {
     public GtfsFeedLoader() {
         ClassPath classPath;
         try {
-            classPath = ClassPath.from(ClassLoader.getSystemClassLoader());
+            classPath = ClassPath.from(getClass().getClassLoader());
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
