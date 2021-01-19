@@ -47,7 +47,7 @@ public class UploadServlet extends HttpServlet {
   private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
 
   // Log any issues
-  private static final Logger LOGGER = Logger.getLogger(UploadServlet.class.getName());
+  private static final Logger logger = Logger.getLogger(UploadServlet.class.getName());
 
   private static final int NUM_THREADS = 1;
 
@@ -121,16 +121,16 @@ public class UploadServlet extends HttpServlet {
     try {
       gtfsInput = GtfsInput.createFromPath(Paths.get(filePath));
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Exception occured", e);
+      logger.log(Level.SEVERE, "Exception occured", e);
       return null;
     }
     feedContainer =
         feedLoader.loadAndValidate(gtfsInput, feedName, validatorLoader, noticeContainer);
 
     final long endNanos = System.nanoTime();
-    LOGGER.log(
+    logger.log(
         Level.INFO, String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
-    LOGGER.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
+    logger.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
 
     return noticeContainer;
   }
