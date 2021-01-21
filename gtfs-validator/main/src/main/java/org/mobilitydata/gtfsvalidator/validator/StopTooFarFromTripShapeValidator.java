@@ -66,8 +66,6 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
     public void validate(NoticeContainer noticeContainer) {
         // Cache for previously tested shape_id and stop_id pairs - no need to test them more than once.
         final Set<String> testedCache = new HashSet<>();
-        // The maximum acceptance distance difference from the stop to the trip shape.
-        final double distanceThreshold = 1000.0;
         // Go through the pair of tripId and the corresponding stop time list one by one.
         for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry : Multimaps.asMap(stopTimeTable.byTripIdMap()).entrySet()) {
             final String tripId = tripIdStopTimeListEntry.getKey();
