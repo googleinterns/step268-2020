@@ -22,12 +22,12 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
 import com.google.common.collect.ImmutableMap;
 
 public class StopTooFarFromTripShapeNotice extends Notice {
-    public StopTooFarFromTripShapeNotice(GtfsStopTime stopTime, GtfsTrip trip, double tripBufferMeters) {
+    public StopTooFarFromTripShapeNotice(String stopId, int stopSequence, String tripId, String shapeId, double tripBufferMeters) {
         super(ImmutableMap.of(
-            "stopId", stopTime.stopId(),
-            "stopSequence", stopTime.stopSequence(),
-            "tripId", trip.tripId(),
-            "shapeId", trip.shapeId(),
+            "stopId", stopId,
+            "stopSequence", stopSequence,
+            "tripId", tripId,
+            "shapeId", shapeId,
             "tripBufferMeters", tripBufferMeters
         ));
     }
