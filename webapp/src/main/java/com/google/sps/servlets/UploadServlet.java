@@ -36,7 +36,6 @@ import org.mobilitydata.gtfsvalidator.table.GtfsFeedContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsFeedLoader;
 import org.mobilitydata.gtfsvalidator.validator.ValidatorLoader;
 
-// TO DO: unit tests
 @WebServlet("/fileupload")
 public class UploadServlet extends HttpServlet {
   // Store the files temporarily in /tmp
