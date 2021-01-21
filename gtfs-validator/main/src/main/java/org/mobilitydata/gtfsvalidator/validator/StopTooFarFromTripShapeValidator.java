@@ -91,7 +91,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 if (stop == null) {
                     continue;
                 }
-                if (!(stop.locationType() == GtfsLocationType.STOP) && !(stop.locationType() == GtfsLocationType.BOARDING_AREA)) {
+                if (stop.locationType() != GtfsLocationType.STOP && stop.locationType() != GtfsLocationType.BOARDING_AREA) {
                     // This rule only applies to stops of location_type "STOP" or "BOARDING_AREA".
                     continue;
                 }
