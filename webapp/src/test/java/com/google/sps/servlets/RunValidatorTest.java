@@ -38,4 +38,11 @@ public class RunValidatorTest {
     assertThat(json.exportJson()).contains("\"code\":\"unknown_column\",\"totalNotices\":5");
     assertThat(json.exportJson()).contains("\"code\":\"unexpected_file\",\"totalNotices\":5");
   }
+
+  @Test
+  public void testInvalidFilePath() {
+    NoticeContainer json =
+        UploadServlet.runValidator("src/test/resources/file_does_not_exist.zip", "us-bay-area");
+    assertThat(json).isNull();
+  }
 }
