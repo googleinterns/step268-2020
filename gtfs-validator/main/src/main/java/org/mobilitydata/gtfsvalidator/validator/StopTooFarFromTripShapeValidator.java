@@ -17,10 +17,10 @@
 package org.mobilitydata.gtfsvalidator.validator;
 
 import com.google.common.collect.Multimaps;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Arrays;
 import org.locationtech.spatial4j.distance.DistanceUtils;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.Shape;
@@ -65,7 +65,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
     @Override
     public void validate(NoticeContainer noticeContainer) {
         // Cache for previously tested shape_id and stop_id pairs - no need to test them more than once.
-        final Set<String> testedCache = new HashSet<>();
+        final Map<String, List<String>> testedCache = new HashMap<>();
         // Go through the pair of tripId and the corresponding stop time list one by one.
         for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry : Multimaps.asMap(stopTimeTable.byTripIdMap()).entrySet()) {
             final String tripId = tripIdStopTimeListEntry.getKey();
@@ -91,12 +91,16 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                     // This rule only applies to stops of location_type "STOP" or "BOARDING_AREA".
                     continue;
                 }
-                if (testedCache.contains(trip.shapeId() + stop.stopId())) {
+                if (!testedCache.containsKey(trip.shapeId())) {
+                    // Record the shape_id and stop_id pair if the shape_id never appeared before.
+                    testedCache.put(trip.shapeId(), Arrays.asList(stop.stopId()));
+                } else if (testedCache.get(trip.shapeId()).contains(stop.stopId())) {
                     // Skip tested shape_id and stop_id pair.
                     continue;
+                } else {
+                    // Record the new shape_id and stop_id pair (when the shape_id has appeared).
+                    testedCache.get(trip.shapeId()).add(stop.stopId());
                 }
-                // A given trip shape and a specific stop (for the trip) combines a unique String key that only need to be checked once.
-                testedCache.add(trip.shapeId() + stop.stopId());
                 // Check whether the stop position is within an acceptable distance threshold from the trip shape.
                 Point p = getShapeFactory().pointXY(stop.stopLon(), stop.stopLat());
                 if (!tripShapeGivenThreshold.relate(p).equals(SpatialRelation.CONTAINS)) {
