@@ -50,13 +50,17 @@ import static org.locationtech.spatial4j.context.SpatialContext.GEO;
  */
 @GtfsValidator
 public class StopTooFarFromTripShapeValidator extends FileValidator {
-    @Inject GtfsStopTimeTableContainer stopTimeTable;
+    @Inject
+    GtfsStopTimeTableContainer stopTimeTable;
 
-    @Inject GtfsTripTableContainer tripTable;
+    @Inject
+    GtfsTripTableContainer tripTable;
 
-    @Inject GtfsShapeTableContainer shapeTable;
+    @Inject
+    GtfsShapeTableContainer shapeTable;
 
-    @Inject GtfsStopTableContainer stopTable;
+    @Inject
+    GtfsStopTableContainer stopTable;
 
     // Spatial operation buffer values
     public static final double TRIP_BUFFER_METERS = 100;
