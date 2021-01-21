@@ -100,8 +100,10 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                     continue;
                 }
                 if (testedCache.contains(trip.shapeId() + stop.stopId())) {
+                    // Skip tested shape_id and stop_id pair.
                     continue;
                 }
+                // A given trip shape and a specific stop (for the trip) combines a unique String key that only need to be checked once.
                 testedCache.add(trip.shapeId() + stop.stopId());
                 // Check whether the stop position is within an acceptable distance threshold from the trip shape.
                 Point p = getShapeFactory().pointXY(stop.stopLon(), stop.stopLat());
