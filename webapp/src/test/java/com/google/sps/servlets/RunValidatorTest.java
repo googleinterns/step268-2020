@@ -119,7 +119,7 @@ public class RunValidatorTest {
     MockHttpServletResponse response = new MockHttpServletResponse();
 
     // Locate the file from resources
-    String resourceName = "/idx.html";
+    String resourceName = "/wrong_file_type.html";
     String partName = "invalid_file";
     byte[] fileContent =
         FileCopyUtils.copyToByteArray(getClass().getResourceAsStream(resourceName));
