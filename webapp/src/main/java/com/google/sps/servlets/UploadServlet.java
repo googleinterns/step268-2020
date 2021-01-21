@@ -39,17 +39,17 @@ public class UploadServlet extends HttpServlet {
 
   // Calls the global mobility validator function to load and validate the transit data
   public static NoticeContainer runValidator(String filePath, String feedNameString) {
-    ValidatorLoader validatorLoader = new ValidatorLoader();
-    GtfsFeedLoader feedLoader = new GtfsFeedLoader();
+    final ValidatorLoader validatorLoader = new ValidatorLoader();
+    final GtfsFeedLoader feedLoader = new GtfsFeedLoader();
 
-    GtfsFeedName feedName = GtfsFeedName.parseString(feedNameString);
+    final GtfsFeedName feedName = GtfsFeedName.parseString(feedNameString);
     final long startNanos = System.nanoTime();
 
     // Input.
     feedLoader.setNumThreads(NUM_THREADS);
-    NoticeContainer noticeContainer = new NoticeContainer();
-    GtfsFeedContainer feedContainer;
-    GtfsInput gtfsInput;
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    final GtfsFeedContainer feedContainer;
+    final GtfsInput gtfsInput;
 
     try {
       gtfsInput = GtfsInput.createFromPath(Paths.get(filePath));
