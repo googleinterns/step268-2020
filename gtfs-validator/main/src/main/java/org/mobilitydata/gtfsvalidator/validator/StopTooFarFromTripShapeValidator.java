@@ -20,7 +20,7 @@ import com.google.common.collect.Multimaps;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Arrays;
+import java.util.ArrayList;
 import org.locationtech.spatial4j.distance.DistanceUtils;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.Shape;
@@ -92,13 +92,15 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                     continue;
                 }
                 if (!testedCache.containsKey(trip.shapeId())) {
-                    // Record the shape_id and stop_id pair if the shape_id never appeared before.
-                    testedCache.put(trip.shapeId(), Arrays.asList(stop.stopId()));
+                    // Record the shape_id and stop_id pair when shape_id never appeared before.
+                    List<String> stopIds = new ArrayList<>();
+                    stopIds.add(stop.stopId());
+                    testedCache.put(trip.shapeId(), stopIds);
                 } else if (testedCache.get(trip.shapeId()).contains(stop.stopId())) {
                     // Skip tested shape_id and stop_id pair.
                     continue;
                 } else {
-                    // Record the new shape_id and stop_id pair (when the shape_id has appeared).
+                    // Record the new shape_id and stop_id pair when shape_id has appeared.
                     testedCache.get(trip.shapeId()).add(stop.stopId());
                 }
                 // Check whether the stop position is within an acceptable distance threshold from the trip shape.
