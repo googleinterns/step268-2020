@@ -54,9 +54,8 @@ public class UploadServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    // Ensure the request contains a file
-    if (!(ServletFileUpload.isMultipartContent(request)
-            || request.getContentType().contains("multipart"))) {
+    // Ensure the request type allows for file upload
+    if (!request.getContentType().contains("multipart/form-data")) {
       response.getWriter().println("Error: Form must has enctype=multipart/form-data.");
       return;
     }
