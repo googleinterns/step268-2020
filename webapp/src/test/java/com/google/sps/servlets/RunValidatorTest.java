@@ -53,6 +53,13 @@ public class RunValidatorTest {
   }
 
   @Test
+  public void testInvalidFilePath() {
+    NoticeContainer json =
+        UploadServlet.runValidator("src/test/resources/file_does_not_exist.zip", "us-bay-area");
+    assertThat(json).isNull();
+  }
+
+  @Test
   public void testValidFileUpload() throws IOException, ServletException {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
