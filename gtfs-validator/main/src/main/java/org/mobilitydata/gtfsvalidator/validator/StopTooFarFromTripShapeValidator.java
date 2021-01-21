@@ -72,9 +72,13 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
             final List<GtfsStopTime> stopTimeList = tripIdStopTimeListEntry.getValue();
             final GtfsTrip trip = tripTable.byTripId(tripId);
             if (trip == null || stopTimeList == null || stopTimeList.isEmpty() || trip.shapeId() == null) {
+                // This rule only applies when all necessary fields exist.
                 continue;
             }
             final List<GtfsShape> shapeList = shapeTable.byShapeId(trip.shapeId());
+            if (shapeList == null || shapeList.isEmpty()) {
+                continue;
+            }
 
             // Create a polyline from the GTFS shapes data.
             ShapeFactory.LineStringBuilder lineBuilder = getShapeFactory().lineString();
@@ -88,7 +92,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
             // Check if each stop is within the buffer polygon.
             for (GtfsStopTime stopTime : stopTimeList) {
                 GtfsStop stop = stopTable.byStopId(stopTime.stopId());
-                if (stop == null || shapeList == null || shapeList.isEmpty()) {
+                if (stop == null) {
                     continue;
                 }
                 if (!(stop.locationType() == GtfsLocationType.STOP) && !(stop.locationType() == GtfsLocationType.BOARDING_AREA)) {
