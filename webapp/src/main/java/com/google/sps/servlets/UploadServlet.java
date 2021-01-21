@@ -99,7 +99,7 @@ public class UploadServlet extends HttpServlet {
             if (validatorNotices != null) {
               response.getWriter().println(validatorNotices.exportJson());
             } else {
-              response.getWriter().println("File is invalid");
+              response.getWriter().println("The validator was unable to process this file.");
             }
           }
         }

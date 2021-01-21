@@ -139,7 +139,7 @@ public class RunValidatorTest {
 
     String validUploadMsg = "Upload has been done successfully!";
     assertThat(response.getContentAsString()).contains(validUploadMsg);
-    assertThat(response.getContentAsString()).contains("File is invalid");
+    assertThat(response.getContentAsString()).contains("The validator was unable to process this file.");
   }
 
   @Test
