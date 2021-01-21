@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import com.google.common.base.Preconditions;
+import java.util.List;
 import java.util.ArrayList;
 import org.mobilitydata.gtfsvalidator.table.GtfsStop;
 import org.mobilitydata.gtfsvalidator.table.GtfsStopTableContainer;
@@ -58,8 +59,7 @@ public class StopTooFarFromTripShapeValidatorTest {
         Preconditions.checkArgument(stopIds.length == stopLats.length, "stopIds.length must be equal to stopLats.length");
         Preconditions.checkArgument(stopLats.length == stopLons.length, "stopLats.length must be equal to stopLons.length");
         Preconditions.checkArgument(stopIds.length == locationTypes.length, "stopIds.length must be equal to locationTypes.length");
-        ArrayList<GtfsStop> stops = new ArrayList<>();
-        stops.ensureCapacity(stopIds.length);
+        List<GtfsStop> stops = new ArrayList<>();
         for (int i = 0; i < stopIds.length; i++) {
             stops.add(createStop(stops.size() + 1, stopIds[i], stopLats[i], stopLons[i], locationTypes[i]));
         }
@@ -69,8 +69,7 @@ public class StopTooFarFromTripShapeValidatorTest {
     private static GtfsStopTimeTableContainer createStopTimeTable(String[] tripIds, String[] stopIds, int[] stopSequences, NoticeContainer noticeContainer) {
         Preconditions.checkArgument(tripIds.length == stopIds.length, "tripIds.length must be equal to stopIds.length");
         Preconditions.checkArgument(stopIds.length == stopSequences.length, "stopIds.length must be equal to stopSequences.length");
-        ArrayList<GtfsStopTime> stopTimes = new ArrayList<>();
-        stopTimes.ensureCapacity(stopIds.length);
+        List<GtfsStopTime> stopTimes = new ArrayList<>();
         for (int i = 0; i < stopIds.length; i++) {
             stopTimes.add(createStopTime(stopTimes.size() + 1, tripIds[i], stopIds[i], stopSequences[i]));
         }
@@ -81,8 +80,7 @@ public class StopTooFarFromTripShapeValidatorTest {
         Preconditions.checkArgument(shapeIds.length == shapePtLats.length, "shapeIds.length must be equal to shapePtLats.length");
         Preconditions.checkArgument(shapePtLats.length == shapePtLons.length, "shapePtLats.length must be equal to shapePtLons.length");
         Preconditions.checkArgument(shapeIds.length == shapePtSequences.length, "shapeIds.length must be equal to shapePtSequences.length");
-        ArrayList<GtfsShape> shapes = new ArrayList<>();
-        shapes.ensureCapacity(shapePtLats.length);
+        List<GtfsShape> shapes = new ArrayList<>();
         for (int i = 0; i < shapePtLats.length; i++) {
             shapes.add(createShape(shapes.size() + 1, shapeIds[i], shapePtLats[i], shapePtLons[i], shapePtSequences[i]));
         }
@@ -91,8 +89,7 @@ public class StopTooFarFromTripShapeValidatorTest {
 
     private static GtfsTripTableContainer createTripTable(String[] tripIds, String[] shapeIds, NoticeContainer noticeContainer) {
         Preconditions.checkArgument(tripIds.length == shapeIds.length, "tripIds.length must be equal to shapeIds.length");
-        ArrayList<GtfsTrip> trips = new ArrayList<>();
-        trips.ensureCapacity(tripIds.length);
+        List<GtfsTrip> trips = new ArrayList<>();
         for (int i = 0; i < tripIds.length; i++) {
             trips.add(createTrip(trips.size() + 1, tripIds[i], shapeIds[i]));
         }
