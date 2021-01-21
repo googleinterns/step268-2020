@@ -79,16 +79,8 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
             if (shapeList == null || shapeList.isEmpty()) {
                 continue;
             }
-
-            // Create a polyline from the GTFS shapes data.
-            ShapeFactory.LineStringBuilder lineBuilder = getShapeFactory().lineString();
-            for (GtfsShape shape : shapeList) {
-                lineBuilder.pointXY(shape.shapePtLon(), shape.shapePtLat());
-            }
-            Shape shapeLine = lineBuilder.build();
-            // Create the buffered version of the trip as a polygon.
-            Shape shapeBuffer = shapeLine.getBuffered(TRIP_BUFFER_DEGREES, shapeLine.getContext());
-
+            // Get the trip shape polygon given the Gtfs shapes data and TRIP_BUFFER_DEGREES.
+            Shape tripShapeGivenThreshold = createTripShapePolygonGivenThreshold(shapeList);
             // Check if each stop is within the buffer polygon.
             for (GtfsStopTime stopTime : stopTimeList) {
                 GtfsStop stop = stopTable.byStopId(stopTime.stopId());
@@ -107,11 +99,24 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 testedCache.add(trip.shapeId() + stop.stopId());
                 // Check whether the stop position is within an acceptable distance threshold from the trip shape.
                 Point p = getShapeFactory().pointXY(stop.stopLon(), stop.stopLat());
-                if (!shapeBuffer.relate(p).equals(SpatialRelation.CONTAINS)) {
+                if (!tripShapeGivenThreshold.relate(p).equals(SpatialRelation.CONTAINS)) {
                     noticeContainer.addNotice(new StopTooFarFromTripShapeNotice(stop.stopId(), stopTime.stopSequence(), trip.tripId(), trip.shapeId(), TRIP_BUFFER_METERS));
                 }
             }
         }
+    }
+
+    /** Create the trip shape polygon from the Gtfs shapes data and a given distance threshold from a stop to a trip shape. */
+    private static Shape createTripShapePolygonGivenThreshold(List<GtfsShape> shapeList) {
+        // Create a polyline from the Gtfs shapes data.
+        ShapeFactory.LineStringBuilder lineBuilder = getShapeFactory().lineString();
+        for (GtfsShape shape : shapeList) {
+            lineBuilder.pointXY(shape.shapePtLon(), shape.shapePtLat());
+        }
+        Shape shapeLine = lineBuilder.build();
+        // Create the buffered version of the trip as a polygon considering distance threshold.
+        Shape shapeBuffer = shapeLine.getBuffered(TRIP_BUFFER_DEGREES, shapeLine.getContext());
+        return shapeBuffer;
     }
 
     private static ShapeFactory getShapeFactory() {
