@@ -104,7 +104,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 // Check whether the stop position is within an acceptable distance threshold from the trip shape.
                 Point p = getShapeFactory().pointXY(stop.stopLon(), stop.stopLat());
                 if (!shapeBuffer.relate(p).equals(SpatialRelation.CONTAINS)) {
-                    noticeContainer.addNotice(new StopTooFarFromTripShapeNotice(stopTime, trip, TRIP_BUFFER_METERS));
+                    noticeContainer.addNotice(new StopTooFarFromTripShapeNotice(stop.stopId(), stopTime.stopSequence(), trip.tripId(), trip.shapeId(), TRIP_BUFFER_METERS));
                 }
             }
         }
