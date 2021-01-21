@@ -158,7 +158,7 @@ public class StopTooFarFromTripShapeValidatorTest {
             noticeContainer);
         validator.validate(noticeContainer);
         assertThat(noticeContainer.getNotices()).containsExactly(
-            new StopTooFarFromTripShapeNotice("1003", 3, 28.05673053256373d, -82.4170801432763d, "trip1", "shape1", StopTooFarFromTripShapeValidator.TRIP_BUFFER_METERS)
+            new StopTooFarFromTripShapeNotice("1003", 3, "trip1", "shape1", StopTooFarFromTripShapeValidator.TRIP_BUFFER_METERS)
         );
     }
 }
