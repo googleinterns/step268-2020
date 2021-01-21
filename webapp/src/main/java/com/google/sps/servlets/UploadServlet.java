@@ -60,38 +60,38 @@ public class UploadServlet extends HttpServlet {
       return;
     }
 
-    DiskFileItemFactory factory = new DiskFileItemFactory();
+    final DiskFileItemFactory factory = new DiskFileItemFactory();
     factory.setSizeThreshold(MEMORY_THRESHOLD);
     factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
 
-    ServletFileUpload upload = new ServletFileUpload(factory);
+    final ServletFileUpload upload = new ServletFileUpload(factory);
     upload.setFileSizeMax(MAX_FILE_SIZE);
     upload.setSizeMax(MAX_REQUEST_SIZE);
 
-    String uploadPath = UPLOAD_DIRECTORY;
+    final String uploadPath = UPLOAD_DIRECTORY;
 
     // Create the directory if it does not exist
-    File uploadDir = new File(uploadPath);
+    final File uploadDir = new File(uploadPath);
     if (!uploadDir.exists()) {
       uploadDir.mkdir();
     }
 
     try {
-      List<FileItem> formItems = upload.parseRequest(request);
+      final List<FileItem> formItems = upload.parseRequest(request);
       if (formItems != null && formItems.size() > 0) {
         for (FileItem item : formItems) {
           // Only processes files
           if (!item.isFormField()) {
-            String fileName = new File(item.getName()).getName();
-            String filePath = uploadPath + File.separator + fileName;
-            File storeFile = new File(filePath);
+            final String fileName = new File(item.getName()).getName();
+            final String filePath = uploadPath + File.separator + fileName;
+            final File storeFile = new File(filePath);
 
             // Save the file on disk
             item.write(storeFile);
 
             // TO DO: get feed name from the user form
             String feedName = "nl-openov";
-            NoticeContainer validatorNotices = runValidator(filePath, feedName);
+            final NoticeContainer validatorNotices = runValidator(filePath, feedName);
 
             response.getWriter().println("Upload has been done successfully!");
             // Print the json output to the user
