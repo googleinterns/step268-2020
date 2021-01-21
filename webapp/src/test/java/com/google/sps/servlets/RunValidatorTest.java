@@ -56,6 +56,8 @@ public class RunValidatorTest {
   public void testValidFileUpload() throws IOException, ServletException {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
+
+    // Load file from resources
     String resourceName = "/SAMPLE.zip";
     String partName = "SAMPLE";
     byte[] fileContent =
@@ -65,20 +67,91 @@ public class RunValidatorTest {
         new Part[] {new FilePart(partName, new ByteArrayPartSource(resourceName, fileContent))};
     MultipartRequestEntity multipartRequestEntity =
         new MultipartRequestEntity(parts, new PostMethod().getParams());
-    // Serialize request body
+    // Convert to bytes and write to entity
     ByteArrayOutputStream requestContent = new ByteArrayOutputStream();
     multipartRequestEntity.writeRequest(requestContent);
-    // Set request body to HTTP servlet request
+    // Update request
     request.setContent(requestContent.toByteArray());
-    // Set content type to HTTP servlet request (important, includes Mime boundary string)
     request.setContentType(multipartRequestEntity.getContentType());
-
-    System.out.println(request.getContentType());
 
     new UploadServlet().doPost(request, response);
 
-    String validMsg = "Upload has been done successfully!";
-    assertThat(response.getContentAsString()).contains(validMsg);
+    String validUploadMsg = "Upload has been done successfully!";
+    assertThat(response.getContentAsString()).contains(validUploadMsg);
     assertThat(response.getContentAsString()).contains("invalid_row_length");
+  }
+
+  @Test
+  public void testInvalidFileUpload() throws IOException, ServletException {
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    MockHttpServletResponse response = new MockHttpServletResponse();
+
+    // Locate the file from resources
+    String resourceName = "/invalid_file_type.zip";
+    String partName = "invalid_file";
+    byte[] fileContent =
+        FileCopyUtils.copyToByteArray(getClass().getResourceAsStream(resourceName));
+    // Create part & entity from resource
+    Part[] parts =
+        new Part[] {new FilePart(partName, new ByteArrayPartSource(resourceName, fileContent))};
+    MultipartRequestEntity multipartRequestEntity =
+        new MultipartRequestEntity(parts, new PostMethod().getParams());
+    // Convert to bytes and write to entity
+    ByteArrayOutputStream requestContent = new ByteArrayOutputStream();
+    multipartRequestEntity.writeRequest(requestContent);
+    // Update request
+    request.setContent(requestContent.toByteArray());
+    request.setContentType(multipartRequestEntity.getContentType());
+
+    new UploadServlet().doPost(request, response);
+
+    String validUploadMsg = "Upload has been done successfully!";
+    assertThat(response.getContentAsString()).contains(validUploadMsg);
+    assertThat(response.getContentAsString())
+        .contains("\"code\":\"unexpected_file\",\"totalNotices\":1");
+    assertThat(response.getContentAsString())
+        .contains("\"code\":\"missing_required_file\",\"totalNotices\":5");
+  }
+
+  @Test
+  public void testWrongFileType() throws IOException, ServletException {
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    MockHttpServletResponse response = new MockHttpServletResponse();
+
+    // Locate the file from resources
+    String resourceName = "/idx.html";
+    String partName = "invalid_file";
+    byte[] fileContent =
+        FileCopyUtils.copyToByteArray(getClass().getResourceAsStream(resourceName));
+    // Create part & entity from resource
+    Part[] parts =
+        new Part[] {new FilePart(partName, new ByteArrayPartSource(resourceName, fileContent))};
+    MultipartRequestEntity multipartRequestEntity =
+        new MultipartRequestEntity(parts, new PostMethod().getParams());
+    // Convert to bytes and write to entity
+    ByteArrayOutputStream requestContent = new ByteArrayOutputStream();
+    multipartRequestEntity.writeRequest(requestContent);
+    // Update request
+    request.setContent(requestContent.toByteArray());
+    request.setContentType(multipartRequestEntity.getContentType());
+
+    new UploadServlet().doPost(request, response);
+
+    String validUploadMsg = "Upload has been done successfully!";
+    assertThat(response.getContentAsString()).contains(validUploadMsg);
+    assertThat(response.getContentAsString()).contains("File is invalid");
+  }
+
+  @Test
+  public void testNoFileSelected() throws IOException, ServletException {
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    MockHttpServletResponse response = new MockHttpServletResponse();
+
+    // No file was selected
+    request.setContentType("multipart/form-data;");
+
+    new UploadServlet().doPost(request, response);
+
+    assertThat(response.getContentAsString()).contains("There was an error: null");
   }
 }

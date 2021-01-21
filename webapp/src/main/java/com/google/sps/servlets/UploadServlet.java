@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +56,8 @@ public class UploadServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     // Ensure the request contains a file
-    if (!ServletFileUpload.isMultipartContent(request)) {
+    if (!(ServletFileUpload.isMultipartContent(request)
+            || request.getContentType().contains("multipart"))) {
       response.getWriter().println("Error: Form must has enctype=multipart/form-data.");
       return;
     }
@@ -95,7 +97,11 @@ public class UploadServlet extends HttpServlet {
 
             response.getWriter().println("Upload has been done successfully!");
             // Print the json output to the user
-            response.getWriter().println(validatorNotices.exportJson());
+            if (validatorNotices != null) {
+              response.getWriter().println(validatorNotices.exportJson());
+            } else {
+              response.getWriter().println("File is invalid");
+            }
           }
         }
       }
@@ -120,6 +126,9 @@ public class UploadServlet extends HttpServlet {
 
     try {
       gtfsInput = GtfsInput.createFromPath(Paths.get(filePath));
+    } catch (ZipException e) {
+      logger.log(Level.SEVERE, "Exception occured, not a zip file", e);
+      return null;
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Exception occured", e);
       return null;
