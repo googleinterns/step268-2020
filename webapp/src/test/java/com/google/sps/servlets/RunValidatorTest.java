@@ -66,7 +66,7 @@ public class RunValidatorTest {
     assertThat(json.exportJson()).contains("\"code\":\"unexpected_file\",\"totalNotices\":1");
     assertThat(json.exportJson()).contains("\"code\":\"missing_required_file\",\"totalNotices\":5");
   }
-  
+
   @Test
   public void testValidFileUpload() throws IOException, ServletException {
     MockHttpServletRequest request = new MockHttpServletRequest();
@@ -122,7 +122,8 @@ public class RunValidatorTest {
 
     String validUploadMsg = "Upload has been done successfully!";
     assertThat(response.getContentAsString()).contains(validUploadMsg);
-    assertThat(response.getContentAsString()).contains("The validator was unable to process this file.");
+    assertThat(response.getContentAsString())
+        .contains("The validator was unable to process this file.");
   }
 
   @Test
