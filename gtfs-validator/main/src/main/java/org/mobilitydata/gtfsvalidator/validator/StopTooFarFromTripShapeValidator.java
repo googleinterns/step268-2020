@@ -18,9 +18,10 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import com.google.common.collect.Multimaps;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.HashSet;
 import org.locationtech.spatial4j.distance.DistanceUtils;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.Shape;
@@ -70,7 +71,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
     @Override
     public void validate(NoticeContainer noticeContainer) {
         // Cache for previously tested shape_id and stop_id pairs - no need to test them more than once.
-        final Map<String, List<String>> testedCache = new HashMap<>();
+        final Map<String, Set<String>> testedCache = new HashMap<>();
         // Go through the pair of tripId and the corresponding stop time list one by one.
         for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry : 
                 Multimaps.asMap(stopTimeTable.byTripIdMap()).entrySet()) {
@@ -99,7 +100,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 }
                 if (!testedCache.containsKey(trip.shapeId())) {
                     // Record the shape_id and stop_id pair when shape_id never appeared before.
-                    List<String> stopIds = new ArrayList<>();
+                    Set<String> stopIds = new HashSet<>();
                     stopIds.add(stop.stopId());
                     testedCache.put(trip.shapeId(), stopIds);
                 } else if (testedCache.get(trip.shapeId()).contains(stop.stopId())) {
