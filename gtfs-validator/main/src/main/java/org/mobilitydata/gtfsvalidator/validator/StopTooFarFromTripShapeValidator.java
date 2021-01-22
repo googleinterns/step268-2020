@@ -64,7 +64,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
     GtfsStopTableContainer stopTable;
 
     // Spatial operation buffer values
-    public static final double TRIP_BUFFER_METERS = 100;
+    static final double TRIP_BUFFER_METERS = 100;
     private static final double TRIP_BUFFER_DEGREES = 
         DistanceUtils.KM_TO_DEG * (TRIP_BUFFER_METERS / 1000.0d);
 
