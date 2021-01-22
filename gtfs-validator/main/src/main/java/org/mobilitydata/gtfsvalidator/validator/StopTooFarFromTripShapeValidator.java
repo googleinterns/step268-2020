@@ -83,7 +83,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 continue;
             }
             final List<GtfsShape> shapeList = shapeTable.byShapeId(trip.shapeId());
-            if (shapeList == null || shapeList.isEmpty()) {
+            if (shapeList == null) {
                 continue;
             }
             // Get the trip shape polygon given the Gtfs shapes data and TRIP_BUFFER_DEGREES.
