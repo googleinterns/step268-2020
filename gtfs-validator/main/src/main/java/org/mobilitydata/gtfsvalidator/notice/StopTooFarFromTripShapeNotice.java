@@ -16,9 +16,6 @@
 
 package org.mobilitydata.gtfsvalidator.notice;
 
-import org.mobilitydata.gtfsvalidator.table.GtfsStopTime;
-import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
-
 import com.google.common.collect.ImmutableMap;
 
 public class StopTooFarFromTripShapeNotice extends Notice {
