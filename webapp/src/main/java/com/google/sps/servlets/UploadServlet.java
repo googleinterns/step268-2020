@@ -49,7 +49,10 @@ public class UploadServlet extends HttpServlet {
   // Log any issues
   private static final Logger logger = Logger.getLogger(UploadServlet.class.getName());
 
+  // Required to call the global mobility validate function
   private static final int NUM_THREADS = 1;
+  // Feed name required but does not affect code, so hard coded in
+  private static final String FEED_NAME = "au-transit";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -89,9 +92,7 @@ public class UploadServlet extends HttpServlet {
             // Save the file on disk
             item.write(storeFile);
 
-            // TO DO: get feed name from the user form
-            String feedName = "nl-openov";
-            final NoticeContainer validatorNotices = runValidator(filePath, feedName);
+            final NoticeContainer validatorNotices = runValidator(filePath);
 
             response.getWriter().println("Upload has been done successfully!");
             // Print the json output to the user
@@ -109,11 +110,11 @@ public class UploadServlet extends HttpServlet {
   }
 
   // Calls the global mobility validator function to load and validate the transit data
-  public static NoticeContainer runValidator(String filePath, String feedNameString) {
+  public static NoticeContainer runValidator(String filePath) {
     final ValidatorLoader validatorLoader = new ValidatorLoader();
     final GtfsFeedLoader feedLoader = new GtfsFeedLoader();
 
-    final GtfsFeedName feedName = GtfsFeedName.parseString(feedNameString);
+    final GtfsFeedName feedName = GtfsFeedName.parseString(FEED_NAME);
     final long startNanos = System.nanoTime();
 
     // Input.
