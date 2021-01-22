@@ -1,0 +1,16 @@
+{namespace validator.templates}
+
+/**
+ * Renders a basic explanation of the validation notice.
+ * @param numNotices
+ * @param notices
+ */
+{template .unknownColumnNotice}
+  <p class="warning">Warning - Unknown Column(s) found!</p>
+  <p><b>{$numNotices}</b> unknown column(s) found in:</p>
+  {foreach $notice in $notices}
+    <p>Filename: <i>{$notice.filename}</i></p>
+    <p>Column name: <i>{$notice.fieldName}</i> at position <i>{$notice.index}</i></p>
+  {/foreach}
+  <p>Please delete or rename column!</p>
+{/template}
