@@ -45,4 +45,12 @@ public class RunValidatorTest {
         UploadServlet.runValidator("src/test/resources/file_does_not_exist.zip", "us-bay-area");
     assertThat(json).isNull();
   }
+
+  @Test
+  public void testWrongFileTypeInZip() throws IOException, ServletException {
+    NoticeContainer json =
+        UploadServlet.runValidator("src/test/resources/invalid_file_type.zip", "us-bay-area");
+    assertThat(json.exportJson()).contains("\"code\":\"unexpected_file\",\"totalNotices\":1");
+    assertThat(json.exportJson()).contains("\"code\":\"missing_required_file\",\"totalNotices\":5");
+  }
 }
