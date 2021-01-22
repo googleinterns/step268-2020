@@ -50,13 +50,17 @@ import static org.locationtech.spatial4j.context.SpatialContext.GEO;
  */
 @GtfsValidator
 public class StopTooFarFromTripShapeValidator extends FileValidator {
-    @Inject GtfsStopTimeTableContainer stopTimeTable;
+    @Inject
+    GtfsStopTimeTableContainer stopTimeTable;
 
-    @Inject GtfsTripTableContainer tripTable;
+    @Inject
+    GtfsTripTableContainer tripTable;
 
-    @Inject GtfsShapeTableContainer shapeTable;
+    @Inject
+    GtfsShapeTableContainer shapeTable;
 
-    @Inject GtfsStopTableContainer stopTable;
+    @Inject
+    GtfsStopTableContainer stopTable;
 
     // Spatial operation buffer values
     public static final double TRIP_BUFFER_METERS = 100;
@@ -87,7 +91,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 if (stop == null) {
                     continue;
                 }
-                if (!(stop.locationType() == GtfsLocationType.STOP) && !(stop.locationType() == GtfsLocationType.BOARDING_AREA)) {
+                if (stop.locationType() != GtfsLocationType.STOP && stop.locationType() != GtfsLocationType.BOARDING_AREA) {
                     // This rule only applies to stops of location_type "STOP" or "BOARDING_AREA".
                     continue;
                 }
