@@ -78,7 +78,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
             final String tripId = tripIdStopTimeListEntry.getKey();
             final List<GtfsStopTime> stopTimeList = tripIdStopTimeListEntry.getValue();
             final GtfsTrip trip = tripTable.byTripId(tripId);
-            if (trip == null || stopTimeList == null || stopTimeList.isEmpty() || trip.shapeId() == null) {
+            if (trip == null || trip.shapeId() == null) {
                 // This rule only applies when all necessary fields exist.
                 continue;
             }
