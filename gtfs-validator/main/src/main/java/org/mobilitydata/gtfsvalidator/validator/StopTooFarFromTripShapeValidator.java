@@ -18,9 +18,10 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import com.google.common.collect.Multimaps;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.HashSet;
 import org.locationtech.spatial4j.distance.DistanceUtils;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.Shape;
@@ -64,23 +65,25 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
 
     // Spatial operation buffer values
     public static final double TRIP_BUFFER_METERS = 100;
-    private static final double TRIP_BUFFER_DEGREES = DistanceUtils.KM_TO_DEG * (TRIP_BUFFER_METERS / 1000.0d);
+    private static final double TRIP_BUFFER_DEGREES = 
+        DistanceUtils.KM_TO_DEG * (TRIP_BUFFER_METERS / 1000.0d);
 
     @Override
     public void validate(NoticeContainer noticeContainer) {
         // Cache for previously tested shape_id and stop_id pairs - no need to test them more than once.
-        final Map<String, List<String>> testedCache = new HashMap<>();
+        final Map<String, Set<String>> testedCache = new HashMap<>();
         // Go through the pair of tripId and the corresponding stop time list one by one.
-        for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry : Multimaps.asMap(stopTimeTable.byTripIdMap()).entrySet()) {
+        for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry : 
+                Multimaps.asMap(stopTimeTable.byTripIdMap()).entrySet()) {
             final String tripId = tripIdStopTimeListEntry.getKey();
             final List<GtfsStopTime> stopTimeList = tripIdStopTimeListEntry.getValue();
             final GtfsTrip trip = tripTable.byTripId(tripId);
-            if (trip == null || stopTimeList == null || stopTimeList.isEmpty() || trip.shapeId() == null) {
+            if (trip == null || trip.shapeId() == null) {
                 // This rule only applies when all necessary fields exist.
                 continue;
             }
             final List<GtfsShape> shapeList = shapeTable.byShapeId(trip.shapeId());
-            if (shapeList == null || shapeList.isEmpty()) {
+            if (shapeList == null) {
                 continue;
             }
             // Get the trip shape polygon given the Gtfs shapes data and TRIP_BUFFER_DEGREES.
@@ -97,7 +100,7 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 }
                 if (!testedCache.containsKey(trip.shapeId())) {
                     // Record the shape_id and stop_id pair when shape_id never appeared before.
-                    List<String> stopIds = new ArrayList<>();
+                    Set<String> stopIds = new HashSet<>();
                     stopIds.add(stop.stopId());
                     testedCache.put(trip.shapeId(), stopIds);
                 } else if (testedCache.get(trip.shapeId()).contains(stop.stopId())) {
@@ -110,13 +113,22 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 // Check whether the stop position is within an acceptable distance threshold from the trip shape.
                 Point p = getShapeFactory().pointXY(stop.stopLon(), stop.stopLat());
                 if (!tripShapeGivenThreshold.relate(p).equals(SpatialRelation.CONTAINS)) {
-                    noticeContainer.addNotice(new StopTooFarFromTripShapeNotice(stop.stopId(), stopTime.stopSequence(), trip.tripId(), trip.shapeId(), TRIP_BUFFER_METERS));
+                    noticeContainer.addNotice(
+                        new StopTooFarFromTripShapeNotice(
+                            stop.stopId(),
+                            stopTime.stopSequence(),
+                            trip.tripId(),
+                            trip.shapeId(),
+                            TRIP_BUFFER_METERS));
                 }
             }
         }
     }
 
-    /** Create the trip shape polygon from the Gtfs shapes data and a given distance threshold from a stop to a trip shape. */
+    /** 
+     * Create the trip shape polygon from the Gtfs shapes data and a given distance threshold 
+     * from a stop to a trip shape. 
+     */
     private static Shape createTripShapePolygonGivenThreshold(List<GtfsShape> shapeList) {
         // Create a polyline from the Gtfs shapes data.
         ShapeFactory.LineStringBuilder lineBuilder = getShapeFactory().lineString();
