@@ -16,12 +16,14 @@
 
 package org.mobilitydata.gtfsvalidator.validator;
 
+import static org.locationtech.spatial4j.context.SpatialContext.GEO;
+
 import com.google.common.collect.Multimaps;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.locationtech.spatial4j.distance.DistanceUtils;
 import org.locationtech.spatial4j.shape.Point;
 import org.locationtech.spatial4j.shape.Shape;
@@ -30,6 +32,7 @@ import org.locationtech.spatial4j.shape.SpatialRelation;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.notice.StopTooFarFromTripShapeNotice;
 import org.mobilitydata.gtfsvalidator.table.GtfsLocationType;
 import org.mobilitydata.gtfsvalidator.table.GtfsShape;
 import org.mobilitydata.gtfsvalidator.table.GtfsShapeTableContainer;
@@ -39,41 +42,33 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTime;
 import org.mobilitydata.gtfsvalidator.table.GtfsStopTimeTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
 import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
-import org.mobilitydata.gtfsvalidator.notice.StopTooFarFromTripShapeNotice;
-
-import static org.locationtech.spatial4j.context.SpatialContext.GEO;
 
 /**
  * Validates that a stop is within a distance threshold for a trip shape.
- * <p>
- * Generated notices:
- * * StopTooFarFromTripShapeNotice
+ *
+ * <p>Generated notices: * StopTooFarFromTripShapeNotice
  */
 @GtfsValidator
 public class StopTooFarFromTripShapeValidator extends FileValidator {
-    @Inject
-    GtfsStopTimeTableContainer stopTimeTable;
+    @Inject GtfsStopTimeTableContainer stopTimeTable;
 
-    @Inject
-    GtfsTripTableContainer tripTable;
+    @Inject GtfsTripTableContainer tripTable;
 
-    @Inject
-    GtfsShapeTableContainer shapeTable;
+    @Inject GtfsShapeTableContainer shapeTable;
 
-    @Inject
-    GtfsStopTableContainer stopTable;
+    @Inject GtfsStopTableContainer stopTable;
 
     // Spatial operation buffer values
     static final double TRIP_BUFFER_METERS = 100;
-    private static final double TRIP_BUFFER_DEGREES = 
-        DistanceUtils.KM_TO_DEG * (TRIP_BUFFER_METERS / 1000.0d);
+    private static final double TRIP_BUFFER_DEGREES =
+            DistanceUtils.KM_TO_DEG * (TRIP_BUFFER_METERS / 1000.0d);
 
     @Override
     public void validate(NoticeContainer noticeContainer) {
         // Cache for previously tested shape_id and stop_id pairs - no need to test them more than once.
         final Map<String, Set<String>> testedCache = new HashMap<>();
         // Go through the pair of tripId and the corresponding stop time list one by one.
-        for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry : 
+        for (Map.Entry<String, List<GtfsStopTime>> tripIdStopTimeListEntry :
                 Multimaps.asMap(stopTimeTable.byTripIdMap()).entrySet()) {
             final String tripId = tripIdStopTimeListEntry.getKey();
             final List<GtfsStopTime> stopTimeList = tripIdStopTimeListEntry.getValue();
@@ -94,7 +89,8 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                 if (stop == null) {
                     continue;
                 }
-                if (stop.locationType() != GtfsLocationType.STOP && stop.locationType() != GtfsLocationType.BOARDING_AREA) {
+                if (stop.locationType() != GtfsLocationType.STOP
+                        && stop.locationType() != GtfsLocationType.BOARDING_AREA) {
                     // This rule only applies to stops of location_type "STOP" or "BOARDING_AREA".
                     continue;
                 }
@@ -110,24 +106,24 @@ public class StopTooFarFromTripShapeValidator extends FileValidator {
                     // Record the new shape_id and stop_id pair when shape_id has appeared.
                     testedCache.get(trip.shapeId()).add(stop.stopId());
                 }
-                // Check whether the stop position is within an acceptable distance threshold from the trip shape.
+                // Check whether stop position is within an acceptable distance threshold from trip shape.
                 Point p = getShapeFactory().pointXY(stop.stopLon(), stop.stopLat());
                 if (!tripShapeGivenThreshold.relate(p).equals(SpatialRelation.CONTAINS)) {
                     noticeContainer.addNotice(
-                        new StopTooFarFromTripShapeNotice(
-                            stop.stopId(),
-                            stopTime.stopSequence(),
-                            trip.tripId(),
-                            trip.shapeId(),
-                            TRIP_BUFFER_METERS));
+                            new StopTooFarFromTripShapeNotice(
+                                    stop.stopId(),
+                                    stopTime.stopSequence(),
+                                    trip.tripId(),
+                                    trip.shapeId(),
+                                    TRIP_BUFFER_METERS));
                 }
             }
         }
     }
 
-    /** 
-     * Create the trip shape polygon from the Gtfs shapes data and a given distance threshold 
-     * from a stop to a trip shape. 
+    /**
+     * Create the trip shape polygon from the Gtfs shapes data and a given distance threshold from a
+     * stop to a trip shape.
      */
     private static Shape createTripShapePolygonGivenThreshold(List<GtfsShape> shapeList) {
         // Create a polyline from the Gtfs shapes data.
