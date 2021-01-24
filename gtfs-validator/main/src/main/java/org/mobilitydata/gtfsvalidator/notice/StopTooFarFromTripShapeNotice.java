@@ -22,13 +22,14 @@ public class StopTooFarFromTripShapeNotice extends Notice {
     // TODO: More fields (e.g. stop location & information related to trip shape polygon) will be
     // added to support notice visualisation.
     public StopTooFarFromTripShapeNotice(
-        String stopId, int stopSequence, String tripId, String shapeId, double tripBufferMeters) {
-        super(ImmutableMap.of(
-            "stopId", stopId,
-            "stopSequence", stopSequence,
-            "tripId", tripId,
-            "shapeId", shapeId,
-            "tripBufferMeters", tripBufferMeters));
+            String stopId, int stopSequence, String tripId, String shapeId, double tripBufferMeters) {
+        super(
+                ImmutableMap.of(
+                        "stopId", stopId,
+                        "stopSequence", stopSequence,
+                        "tripId", tripId,
+                        "shapeId", shapeId,
+                        "tripBufferMeters", tripBufferMeters));
     }
 
     @Override
