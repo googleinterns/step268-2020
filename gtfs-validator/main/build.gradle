@@ -73,6 +73,7 @@ dependencies {
     testImplementation "com.google.truth:truth:1.0.1"
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
     testImplementation 'org.mockito:mockito-core:3.6.28'
+    compile group: 'org.locationtech.spatial4j', name: 'spatial4j', version: '0.8'
 }
 
 test {
