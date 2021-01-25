@@ -37,53 +37,6 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
 @RunWith(JUnit4.class)
 public class StopTooFarFromTripShapeValidatorTest {
-    public static GtfsStop createStop(
-            long csvRowNumber,
-            String stopId,
-            double stopLat,
-            double stopLon,
-            GtfsLocationType locationType) {
-        return new GtfsStop.Builder()
-                .setCsvRowNumber(csvRowNumber)
-                .setStopId(stopId)
-                .setStopLat(stopLat)
-                .setStopLon(stopLon)
-                .setLocationType(locationType.getNumber())
-                .build();
-    }
-
-    public static GtfsStopTime createStopTime(
-            long csvRowNumber, String tripId, String stopId, int stopSequence) {
-        return new GtfsStopTime.Builder()
-                .setCsvRowNumber(csvRowNumber)
-                .setTripId(tripId)
-                .setStopId(stopId)
-                .setStopSequence(stopSequence)
-                .build();
-    }
-
-    public static GtfsShape createShape(
-            long csvRowNumber,
-            String shapeId,
-            double shapePtLat,
-            double shapePtLon,
-            int shapePtSequence) {
-        return new GtfsShape.Builder()
-                .setCsvRowNumber(csvRowNumber)
-                .setShapeId(shapeId)
-                .setShapePtLat(shapePtLat)
-                .setShapePtLon(shapePtLon)
-                .setShapePtSequence(shapePtSequence)
-                .build();
-    }
-
-    public static GtfsTrip createTrip(long csvRowNumber, String tripId, String shapeId) {
-        return new GtfsTrip.Builder()
-                .setCsvRowNumber(csvRowNumber)
-                .setTripId(tripId)
-                .setShapeId(shapeId)
-                .build();
-    }
 
     @Test
     public void stopWithinTripShapeShouldNotGenerateNotice() {
@@ -95,29 +48,89 @@ public class StopTooFarFromTripShapeValidatorTest {
         // Create stopTable:
         List<GtfsStop> stops = new ArrayList<>();
         stops.add(
-                createStop(1, "1001", 28.05811731042478d, -82.41616877502503d, GtfsLocationType.STOP));
+                new GtfsStop.Builder()
+                        .setCsvRowNumber(1)
+                        .setStopId("1001")
+                        .setStopLat(28.05811731042478d)
+                        .setStopLon(-82.41616877502503d)
+                        .setLocationType(GtfsLocationType.STOP.getNumber())
+                        .build());
         stops.add(
-                createStop(2, "1002", 28.05812364854794d, -82.41617370439423d, GtfsLocationType.STOP));
+                new GtfsStop.Builder()
+                        .setCsvRowNumber(2)
+                        .setStopId("1002")
+                        .setStopLat(28.05812364854794d)
+                        .setStopLon(-82.41617370439423d)
+                        .setLocationType(GtfsLocationType.STOP.getNumber())
+                        .build());
         validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
 
         // Create stopTimeTable:
         List<GtfsStopTime> stopTimes = new ArrayList<>();
-        stopTimes.add(createStopTime(1, "trip1", "1001", 1));
-        stopTimes.add(createStopTime(2, "trip1", "1002", 2));
+        stopTimes.add(
+                new GtfsStopTime.Builder()
+                        .setCsvRowNumber(1)
+                        .setTripId("trip1")
+                        .setStopId("1001")
+                        .setStopSequence(1)
+                        .build());
+        stopTimes.add(
+                new GtfsStopTime.Builder()
+                        .setCsvRowNumber(2)
+                        .setTripId("trip1")
+                        .setStopId("1002")
+                        .setStopSequence(2)
+                        .build());
         validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
         // Create shapeTable:
         List<GtfsShape> shapes = new ArrayList<>();
-        shapes.add(createShape(1, "shape1", 28.05724310653972d, -82.41350776611507d, 1));
-        shapes.add(createShape(2, "shape1", 28.05746701492806d, -82.41493135129478d, 2));
-        shapes.add(createShape(3, "shape1", 28.05800068503469d, -82.4159394137605d, 3));
-        shapes.add(createShape(4, "shape1", 28.05808869825447d, -82.41648754043338d, 4));
-        shapes.add(createShape(5, "shape1", 28.05809979887893d, -82.41773971025437d, 5));
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(1)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05724310653972d)
+                        .setShapePtLon(-82.41350776611507d)
+                        .setShapePtSequence(1)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(2)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05746701492806d)
+                        .setShapePtLon(-82.41493135129478d)
+                        .setShapePtSequence(2)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(3)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05800068503469d)
+                        .setShapePtLon(-82.4159394137605d)
+                        .setShapePtSequence(3)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(4)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05808869825447d)
+                        .setShapePtLon(-82.41648754043338d)
+                        .setShapePtSequence(4)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(5)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05809979887893d)
+                        .setShapePtLon(-82.41773971025437d)
+                        .setShapePtSequence(5)
+                        .build());
         validator.shapeTable = GtfsShapeTableContainer.forEntities(shapes, noticeContainer);
 
         // Create tripTable:
         List<GtfsTrip> trips = new ArrayList<>();
-        trips.add(createTrip(1, "trip1", "shape1"));
+        trips.add(
+                new GtfsTrip.Builder().setCsvRowNumber(1).setTripId("trip1").setShapeId("shape1").build());
         validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
 
         validator.validate(noticeContainer);
@@ -134,32 +147,105 @@ public class StopTooFarFromTripShapeValidatorTest {
         // Create stopTable:
         List<GtfsStop> stops = new ArrayList<>();
         stops.add(
-                createStop(1, "1001", 28.05811731042478d, -82.41616877502503d, GtfsLocationType.STOP));
+                new GtfsStop.Builder()
+                        .setCsvRowNumber(1)
+                        .setStopId("1001")
+                        .setStopLat(28.05811731042478d)
+                        .setStopLon(-82.41616877502503d)
+                        .setLocationType(GtfsLocationType.STOP.getNumber())
+                        .build());
         stops.add(
-                createStop(2, "1002", 28.05812364854794d, -82.41617370439423d, GtfsLocationType.STOP));
+                new GtfsStop.Builder()
+                        .setCsvRowNumber(2)
+                        .setStopId("1002")
+                        .setStopLat(28.05812364854794d)
+                        .setStopLon(-82.41617370439423d)
+                        .setLocationType(GtfsLocationType.STOP.getNumber())
+                        .build());
         // stopId "1003" is the location OUTSIDE buffer.
-        stops.add(createStop(3, "1003", 28.05673053256373d, -82.4170801432763d, GtfsLocationType.STOP));
+        stops.add(
+                new GtfsStop.Builder()
+                        .setCsvRowNumber(3)
+                        .setStopId("1003")
+                        .setStopLat(28.05673053256373d)
+                        .setStopLon(-82.4170801432763d)
+                        .setLocationType(GtfsLocationType.STOP.getNumber())
+                        .build());
         validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
 
         // Create stopTimeTable:
         List<GtfsStopTime> stopTimes = new ArrayList<>();
-        stopTimes.add(createStopTime(1, "trip1", "1001", 1));
-        stopTimes.add(createStopTime(2, "trip1", "1002", 2));
-        stopTimes.add(createStopTime(3, "trip1", "1003", 3));
+        stopTimes.add(
+                new GtfsStopTime.Builder()
+                        .setCsvRowNumber(1)
+                        .setTripId("trip1")
+                        .setStopId("1001")
+                        .setStopSequence(1)
+                        .build());
+        stopTimes.add(
+                new GtfsStopTime.Builder()
+                        .setCsvRowNumber(2)
+                        .setTripId("trip1")
+                        .setStopId("1002")
+                        .setStopSequence(2)
+                        .build());
+        stopTimes.add(
+                new GtfsStopTime.Builder()
+                        .setCsvRowNumber(3)
+                        .setTripId("trip1")
+                        .setStopId("1003")
+                        .setStopSequence(3)
+                        .build());
         validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
         // Create shapeTable:
         List<GtfsShape> shapes = new ArrayList<>();
-        shapes.add(createShape(1, "shape1", 28.05724310653972d, -82.41350776611507d, 1));
-        shapes.add(createShape(2, "shape1", 28.05746701492806d, -82.41493135129478d, 2));
-        shapes.add(createShape(3, "shape1", 28.05800068503469d, -82.4159394137605d, 3));
-        shapes.add(createShape(4, "shape1", 28.05808869825447d, -82.41648754043338d, 4));
-        shapes.add(createShape(5, "shape1", 28.05809979887893d, -82.41773971025437d, 5));
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(1)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05724310653972d)
+                        .setShapePtLon(-82.41350776611507d)
+                        .setShapePtSequence(1)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(2)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05746701492806d)
+                        .setShapePtLon(-82.41493135129478d)
+                        .setShapePtSequence(2)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(3)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05800068503469d)
+                        .setShapePtLon(-82.4159394137605d)
+                        .setShapePtSequence(3)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(4)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05808869825447d)
+                        .setShapePtLon(-82.41648754043338d)
+                        .setShapePtSequence(4)
+                        .build());
+        shapes.add(
+                new GtfsShape.Builder()
+                        .setCsvRowNumber(5)
+                        .setShapeId("shape1")
+                        .setShapePtLat(28.05809979887893d)
+                        .setShapePtLon(-82.41773971025437d)
+                        .setShapePtSequence(5)
+                        .build());
         validator.shapeTable = GtfsShapeTableContainer.forEntities(shapes, noticeContainer);
 
         // Create tripTable:
         List<GtfsTrip> trips = new ArrayList<>();
-        trips.add(createTrip(1, "trip1", "shape1"));
+        trips.add(
+                new GtfsTrip.Builder().setCsvRowNumber(1).setTripId("trip1").setShapeId("shape1").build());
         validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
 
         validator.validate(noticeContainer);
