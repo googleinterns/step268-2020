@@ -3,3 +3,6 @@
 .settings/
 .project
 webapp/build/
+.idea/
+gradle/
+gradlew

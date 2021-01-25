@@ -38,31 +38,27 @@ import org.springframework.util.FileCopyUtils;
 public class RunValidatorTest {
   @Test
   public void testSimpleGtfsFeed() {
-    NoticeContainer json =
-        UploadServlet.runValidator("src/test/resources/SAMPLE.zip");
+    NoticeContainer json = UploadServlet.runValidator("src/test/resources/SAMPLE.zip");
     assertThat(json.exportJson()).contains("\"code\":\"invalid_row_length\",\"totalNotices\":13");
     assertThat(json.exportJson()).contains("\"code\":\"unknown_column\",\"totalNotices\":1");
   }
 
   @Test
   public void testBartGtfsFeed() {
-    NoticeContainer json =
-        UploadServlet.runValidator("src/test/resources/bart_gtfs.zip");
+    NoticeContainer json = UploadServlet.runValidator("src/test/resources/bart_gtfs.zip");
     assertThat(json.exportJson()).contains("\"code\":\"unknown_column\",\"totalNotices\":5");
     assertThat(json.exportJson()).contains("\"code\":\"unexpected_file\",\"totalNotices\":5");
   }
 
   @Test
   public void testInvalidFilePath() {
-    NoticeContainer json =
-        UploadServlet.runValidator("src/test/resources/file_does_not_exist.zip");
+    NoticeContainer json = UploadServlet.runValidator("src/test/resources/file_does_not_exist.zip");
     assertThat(json).isNull();
   }
 
   @Test
   public void testWrongFileTypeInZip() throws IOException, ServletException {
-    NoticeContainer json =
-        UploadServlet.runValidator("src/test/resources/invalid_file_type.zip");
+    NoticeContainer json = UploadServlet.runValidator("src/test/resources/invalid_file_type.zip");
     assertThat(json.exportJson()).contains("\"code\":\"unexpected_file\",\"totalNotices\":1");
     assertThat(json.exportJson()).contains("\"code\":\"missing_required_file\",\"totalNotices\":5");
   }
