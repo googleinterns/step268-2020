@@ -31,54 +31,54 @@ import static org.junit.Assert.assertThrows;
 
 @RunWith(JUnit4.class)
 public class GtfsZipInMemoryInputTest {
-    @Test
-    public void zipInput() throws IOException {
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        ZipOutputStream out = new ZipOutputStream(byteStream);
-        ZipEntry e = new ZipEntry("stops.txt");
-        out.putNextEntry(e);
-        final String content = "stops";
-        out.write(content.getBytes());
-        out.closeEntry();
-        out.close();
+  @Test
+  public void zipInput() throws IOException {
+    ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+    ZipOutputStream out = new ZipOutputStream(byteStream);
+    ZipEntry e = new ZipEntry("stops.txt");
+    out.putNextEntry(e);
+    final String content = "stops";
+    out.write(content.getBytes());
+    out.closeEntry();
+    out.close();
 
-        GtfsInput gtfsInput = new GtfsZipInMemoryInput("archived.zip", byteStream.toByteArray());
-        assertThat(gtfsInput.getFilenames()).containsExactly("stops.txt");
-        byte[] bytes = new byte[content.length()];
-        gtfsInput.getFile("stops.txt").read(bytes);
-        assertThat(bytes).isEqualTo(content.getBytes());
-        assertThrows(FileNotFoundException.class, () -> gtfsInput.getFile("missing.txt"));
-    }
+    GtfsInput gtfsInput = new GtfsZipInMemoryInput("archived.zip", byteStream.toByteArray());
+    assertThat(gtfsInput.getFilenames()).containsExactly("stops.txt");
+    byte[] bytes = new byte[content.length()];
+    gtfsInput.getFile("stops.txt").read(bytes);
+    assertThat(bytes).isEqualTo(content.getBytes());
+    assertThrows(FileNotFoundException.class, () -> gtfsInput.getFile("missing.txt"));
+  }
 
-    @Test
-    public void skipFilesInDirectories() throws IOException {
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        ZipOutputStream out = new ZipOutputStream(byteStream);
+  @Test
+  public void skipFilesInDirectories() throws IOException {
+    ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+    ZipOutputStream out = new ZipOutputStream(byteStream);
 
-        out.putNextEntry(new ZipEntry("stops.txt"));
-        out.closeEntry();
+    out.putNextEntry(new ZipEntry("stops.txt"));
+    out.closeEntry();
 
-        out.putNextEntry(new ZipEntry("nested/file.txt"));
-        out.closeEntry();
+    out.putNextEntry(new ZipEntry("nested/file.txt"));
+    out.closeEntry();
 
-        out.close();
+    out.close();
 
-        GtfsInput gtfsInput = new GtfsZipInMemoryInput("archived.zip", byteStream.toByteArray());
-        assertThat(gtfsInput.getFilenames()).containsExactly("stops.txt");
-        assertThrows(FileNotFoundException.class, () -> gtfsInput.getFile("nested/file.txt"));
-    }
+    GtfsInput gtfsInput = new GtfsZipInMemoryInput("archived.zip", byteStream.toByteArray());
+    assertThat(gtfsInput.getFilenames()).containsExactly("stops.txt");
+    assertThrows(FileNotFoundException.class, () -> gtfsInput.getFile("nested/file.txt"));
+  }
 
-    @Test
-    public void noFileExtension() throws IOException {
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        ZipOutputStream out = new ZipOutputStream(byteStream);
+  @Test
+  public void noFileExtension() throws IOException {
+    ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+    ZipOutputStream out = new ZipOutputStream(byteStream);
 
-        out.putNextEntry(new ZipEntry("noext"));
-        out.closeEntry();
+    out.putNextEntry(new ZipEntry("noext"));
+    out.closeEntry();
 
-        out.close();
+    out.close();
 
-        GtfsInput gtfsInput = new GtfsZipInMemoryInput("archived.zip", byteStream.toByteArray());
-        assertThat(gtfsInput.getFilenames()).containsExactly("noext");
-    }
+    GtfsInput gtfsInput = new GtfsZipInMemoryInput("archived.zip", byteStream.toByteArray());
+    assertThat(gtfsInput.getFilenames()).containsExactly("noext");
+  }
 }

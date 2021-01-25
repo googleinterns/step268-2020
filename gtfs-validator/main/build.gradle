@@ -20,7 +20,7 @@ plugins {
     id 'java'
 }
 
-applicationDefaultJvmArgs = [ "-Xmx8G" ]
+applicationDefaultJvmArgs = ["-Xmx8G"]
 
 group 'org.mobilitydata'
 version "${System.getenv("versionTag")}"

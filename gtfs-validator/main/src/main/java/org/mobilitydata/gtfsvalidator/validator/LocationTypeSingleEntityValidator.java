@@ -26,39 +26,37 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStop;
 
 /**
  * Validates presence or absence of `parent_station` field based on `location_type`.
- * <p>
- * Generated notices:
- * * StationWithParentStationNotice
- * * PlatformWithoutParentStationNotice
- * * LocationWithoutParentStationNotice
+ *
+ * <p>Generated notices: * StationWithParentStationNotice * PlatformWithoutParentStationNotice *
+ * LocationWithoutParentStationNotice
  */
 @GtfsValidator
 public class LocationTypeSingleEntityValidator extends SingleEntityValidator<GtfsStop> {
-    private boolean requiresParentStation(GtfsLocationType locationType) {
-        return locationType == GtfsLocationType.ENTRANCE ||
-                locationType == GtfsLocationType.GENERIC_NODE ||
-                locationType == GtfsLocationType.BOARDING_AREA;
-    }
+  private boolean requiresParentStation(GtfsLocationType locationType) {
+    return locationType == GtfsLocationType.ENTRANCE
+        || locationType == GtfsLocationType.GENERIC_NODE
+        || locationType == GtfsLocationType.BOARDING_AREA;
+  }
 
-    @Override
-    public void validate(GtfsStop location, NoticeContainer noticeContainer) {
-        if (location.hasParentStation()) {
-            if (location.locationType() == GtfsLocationType.STATION) {
-                noticeContainer.addNotice(new StationWithParentStationNotice(location.stopId(),
-                        location.csvRowNumber(), location.parentStation()));
-            }
-        } else if (location.locationType() == GtfsLocationType.STOP) {
-            if (!location.platformCode().isEmpty()) {
-                // This is a platform since it has platform_code. This is a separate notice from
-                // LocationWithoutParentStationNotice because it is less severe.
-                noticeContainer.addNotice(new PlatformWithoutParentStationNotice(location.stopId(),
-                        location.csvRowNumber()));
-            }
-        } else if (requiresParentStation(location.locationType())) {
-            noticeContainer.addNotice(new LocationWithoutParentStationNotice(location.stopId(), location.csvRowNumber(),
-                    location.locationTypeValue()));
-        }
+  @Override
+  public void validate(GtfsStop location, NoticeContainer noticeContainer) {
+    if (location.hasParentStation()) {
+      if (location.locationType() == GtfsLocationType.STATION) {
+        noticeContainer.addNotice(
+            new StationWithParentStationNotice(
+                location.stopId(), location.csvRowNumber(), location.parentStation()));
+      }
+    } else if (location.locationType() == GtfsLocationType.STOP) {
+      if (!location.platformCode().isEmpty()) {
+        // This is a platform since it has platform_code. This is a separate notice from
+        // LocationWithoutParentStationNotice because it is less severe.
+        noticeContainer.addNotice(
+            new PlatformWithoutParentStationNotice(location.stopId(), location.csvRowNumber()));
+      }
+    } else if (requiresParentStation(location.locationType())) {
+      noticeContainer.addNotice(
+          new LocationWithoutParentStationNotice(
+              location.stopId(), location.csvRowNumber(), location.locationTypeValue()));
     }
+  }
 }
-
-

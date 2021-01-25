@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>GTFS Validator</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="style.css" rel="stylesheet">
     <script src="script.js"></script>
-  </head>
-  <body>
-    <div id="content">
-      <h1><a href="index.html">GTFS Validator</a></h1>
-      <h2>About</h2>
-      <p>The General Transit Feed Specification (GTFS) is an open data standard. It enables transit agencies to share their data describing their transit service in a standard format that can be used by rider-facing software applications. </p>
-      <h2>How to use</h2>
-      <p>Upload a compressed .zip file including all of the individual files for your transit service.</p>
-      <form method="post" action="fileupload" enctype="multipart/form-data">
-        <input type="file" name="file" id="file" accept=".zip" required/>
+</head>
+<body>
+<div id="content">
+    <h1><a href="index.html">GTFS Validator</a></h1>
+    <h2>About</h2>
+    <p>The General Transit Feed Specification (GTFS) is an open data standard. It enables transit agencies to share
+        their data describing their transit service in a standard format that can be used by rider-facing software
+        applications. </p>
+    <h2>How to use</h2>
+    <p>Upload a compressed .zip file including all of the individual files for your transit service.</p>
+    <form action="fileupload" enctype="multipart/form-data" method="post">
+        <input accept=".zip" id="file" name="file" required type="file"/>
         <br>
         <button class="btn btn-outline-primary" type="submit">Upload</button>
-      </form>
-    </div>
-  </body>
+    </form>
+</div>
+</body>
 </html>

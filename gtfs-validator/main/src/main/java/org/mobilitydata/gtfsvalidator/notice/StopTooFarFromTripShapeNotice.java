@@ -19,21 +19,21 @@ package org.mobilitydata.gtfsvalidator.notice;
 import com.google.common.collect.ImmutableMap;
 
 public class StopTooFarFromTripShapeNotice extends Notice {
-    // TODO: More fields (e.g. stop location & information related to trip shape polygon) will be
-    // added to support notice visualisation.
-    public StopTooFarFromTripShapeNotice(
-            String stopId, int stopSequence, String tripId, String shapeId, double tripBufferMeters) {
-        super(
-                ImmutableMap.of(
-                        "stopId", stopId,
-                        "stopSequence", stopSequence,
-                        "tripId", tripId,
-                        "shapeId", shapeId,
-                        "tripBufferMeters", tripBufferMeters));
-    }
+  // TODO: More fields (e.g. stop location & information related to trip shape polygon) will be
+  // added to support notice visualisation.
+  public StopTooFarFromTripShapeNotice(
+      String stopId, int stopSequence, String tripId, String shapeId, double tripBufferMeters) {
+    super(
+        ImmutableMap.of(
+            "stopId", stopId,
+            "stopSequence", stopSequence,
+            "tripId", tripId,
+            "shapeId", shapeId,
+            "tripBufferMeters", tripBufferMeters));
+  }
 
-    @Override
-    public String getCode() {
-        return "stop_too_far_from_trip_shape";
-    }
+  @Override
+  public String getCode() {
+    return "stop_too_far_from_trip_shape";
+  }
 }

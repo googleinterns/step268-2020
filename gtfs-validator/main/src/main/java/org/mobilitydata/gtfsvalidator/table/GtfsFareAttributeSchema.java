@@ -30,37 +30,38 @@ import java.util.Currency;
 
 @GtfsTable("fare_attributes.txt")
 public interface GtfsFareAttributeSchema extends GtfsEntity {
-    @FieldType(FieldTypeEnum.ID)
-    @PrimaryKey
-    @Required
-    String fareId();
+  @FieldType(FieldTypeEnum.ID)
+  @PrimaryKey
+  @Required
+  String fareId();
 
-    @Required
-    @NonNegative
-    BigDecimal price();
+  @Required
+  @NonNegative
+  BigDecimal price();
 
-    @Required
-    Currency currencyType();
+  @Required
+  Currency currencyType();
 
-    @Required
-    GtfsFareAttributePaymentMethod paymentMethod();
+  @Required
+  GtfsFareAttributePaymentMethod paymentMethod();
 
-    /**
-     * Indicates the number of transfers permitted on this fare.
-     * <p>
-     * If this field is left empty, it means that unlimited transfers are permitted.
-     * The {@code GtfsFareAttributeTransfers} enum does not have a special constant for that case. So, before calling
-     * {@code transfers()}, always check if this field is set using {@code hasTransfers()} method.
-     *
-     * @return The number of permitted transfers.
-     */
-    GtfsFareAttributeTransfers transfers();
+  /**
+   * Indicates the number of transfers permitted on this fare.
+   *
+   * <p>If this field is left empty, it means that unlimited transfers are permitted. The {@code
+   * GtfsFareAttributeTransfers} enum does not have a special constant for that case. So, before
+   * calling {@code transfers()}, always check if this field is set using {@code hasTransfers()}
+   * method.
+   *
+   * @return The number of permitted transfers.
+   */
+  GtfsFareAttributeTransfers transfers();
 
-    @FieldType(FieldTypeEnum.ID)
-    @ForeignKey(table = "agency.txt", field = "agency_id")
-    @ConditionallyRequired
-    String agencyId();
+  @FieldType(FieldTypeEnum.ID)
+  @ForeignKey(table = "agency.txt", field = "agency_id")
+  @ConditionallyRequired
+  String agencyId();
 
-    @NonNegative
-    int transferDuration();
+  @NonNegative
+  int transferDuration();
 }

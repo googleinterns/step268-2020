@@ -25,29 +25,23 @@ import org.mobilitydata.gtfsvalidator.type.GtfsTime;
 import static org.mobilitydata.gtfsvalidator.table.GtfsFrequencyTableLoader.FILENAME;
 
 /**
- * Validates `frequencies.start_time` is before or equal to `frequencies.end_time` for a single entity.
- * <p>
- * Generated notices:
- * * StartAndEndTimeOutOfOrder
+ * Validates `frequencies.start_time` is before or equal to `frequencies.end_time` for a single
+ * entity.
+ *
+ * <p>Generated notices: * StartAndEndTimeOutOfOrder
  */
 @GtfsValidator
 public class FrequencyTimeInOrderValidator extends SingleEntityValidator<GtfsFrequency> {
-    @Override
-    public void validate(GtfsFrequency frequency, NoticeContainer noticeContainer) {
-        // validate() will only be called if startTime and endTime have been populated for this frequency
-        GtfsTime startTime = frequency.startTime();
-        GtfsTime endTime = frequency.endTime();
-        if (startTime.isAfter(endTime)) {
-            noticeContainer.addNotice(
-                    new StartAndEndTimeOutOfOrderNotice(
-                            FILENAME,
-                            frequency.tripId(),
-                            frequency.csvRowNumber(),
-                            startTime,
-                            endTime
-                    )
-            );
-        }
+  @Override
+  public void validate(GtfsFrequency frequency, NoticeContainer noticeContainer) {
+    // validate() will only be called if startTime and endTime have been populated for this
+    // frequency
+    GtfsTime startTime = frequency.startTime();
+    GtfsTime endTime = frequency.endTime();
+    if (startTime.isAfter(endTime)) {
+      noticeContainer.addNotice(
+          new StartAndEndTimeOutOfOrderNotice(
+              FILENAME, frequency.tripId(), frequency.csvRowNumber(), startTime, endTime));
     }
+  }
 }
-

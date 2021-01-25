@@ -29,27 +29,24 @@ import java.util.Set;
 
 /**
  * Validates that every shape in "shapes.txt" is used by some trip from "trips.txt"
- * <p>
- * Generated notices:
- * * UnusedShapeNotice
+ *
+ * <p>Generated notices: * UnusedShapeNotice
  */
 @GtfsValidator
 public class ShapeUsageValidator extends FileValidator {
-    @Inject
-    GtfsTripTableContainer tripTable;
+  @Inject GtfsTripTableContainer tripTable;
 
-    @Inject
-    GtfsShapeTableContainer shapeTable;
+  @Inject GtfsShapeTableContainer shapeTable;
 
-    @Override
-    public void validate(NoticeContainer noticeContainer) {
-        // Do not report the same shape_id multiple times.
-        Set<String> reportedShapes = new HashSet<>();
-        for (GtfsShape shape : shapeTable.getEntities()) {
-            String shapeId = shape.shapeId();
-            if (reportedShapes.add(shapeId) && tripTable.byShapeId(shapeId).isEmpty()) {
-                noticeContainer.addNotice(new UnusedShapeNotice(shapeId, shape.csvRowNumber()));
-            }
-        }
+  @Override
+  public void validate(NoticeContainer noticeContainer) {
+    // Do not report the same shape_id multiple times.
+    Set<String> reportedShapes = new HashSet<>();
+    for (GtfsShape shape : shapeTable.getEntities()) {
+      String shapeId = shape.shapeId();
+      if (reportedShapes.add(shapeId) && tripTable.byShapeId(shapeId).isEmpty()) {
+        noticeContainer.addNotice(new UnusedShapeNotice(shapeId, shape.csvRowNumber()));
+      }
     }
+  }
 }
