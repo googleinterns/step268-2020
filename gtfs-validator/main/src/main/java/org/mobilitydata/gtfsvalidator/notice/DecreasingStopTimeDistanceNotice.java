@@ -23,7 +23,7 @@ public class DecreasingStopTimeDistanceNotice extends ValidationNotice {
       String tripId,
       long csvRowNumber,
       int stopSequence,
-      double shapeDistTraveled
+      double shapeDistTraveled,
       long prevCsvRowNumber,
       int prevStopSequence,
       double prevShapeDistTraveled) {
