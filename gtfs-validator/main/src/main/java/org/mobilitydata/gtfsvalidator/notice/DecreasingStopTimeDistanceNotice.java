@@ -18,7 +18,7 @@ package org.mobilitydata.gtfsvalidator.notice;
 
 import com.google.common.collect.ImmutableMap;
 
-public class DecreasingStopTimeDistanceNotice extends ValidationNotice {
+public class DecreasingStopTimeDistanceNotice extends Notice {
   public DecreasingStopTimeDistanceNotice(
       String tripId,
       long csvRowNumber,
