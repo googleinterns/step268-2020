@@ -25,29 +25,29 @@ import java.util.Locale;
 
 @GtfsTable("translations.txt")
 public interface GtfsTranslationSchema extends GtfsEntity {
-    @Required
-    @CachedField
-    String tableName();
+  @Required
+  @CachedField
+  String tableName();
 
-    @Required
-    @CachedField
-    String fieldName();
+  @Required
+  @CachedField
+  String fieldName();
 
-    @Required
-    Locale language();
+  @Required
+  Locale language();
 
-    @Required
-    String translation();
+  @Required
+  String translation();
 
-    @ConditionallyRequired
-    @CachedField
-    String recordId();
+  @ConditionallyRequired
+  @CachedField
+  String recordId();
 
-    @ConditionallyRequired
-    @CachedField
-    String recordSubId();
+  @ConditionallyRequired
+  @CachedField
+  String recordSubId();
 
-    @ConditionallyRequired
-    @CachedField
-    String fieldValue();
+  @ConditionallyRequired
+  @CachedField
+  String fieldValue();
 }
