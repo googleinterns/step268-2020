@@ -62,10 +62,10 @@ public class StopTimeIncreasingDistanceValidatorTest {
   @Test
   public void stopTimeIncreasingDistanceShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    StopTimeIncreasingDistanceValidator validator = new StopTimeIncreasingDistanceValidator();
+    final StopTimeIncreasingDistanceValidator validator = new StopTimeIncreasingDistanceValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
+    final List<GtfsStopTime> stopTimes = new ArrayList<>();
     stopTimes.add(stopTime1);
     stopTimes.add(stopTime2);
     validator.table = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
@@ -77,10 +77,10 @@ public class StopTimeIncreasingDistanceValidatorTest {
   @Test
   public void stopTimeDecreasingDistanceShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    StopTimeIncreasingDistanceValidator validator = new StopTimeIncreasingDistanceValidator();
+    final StopTimeIncreasingDistanceValidator validator = new StopTimeIncreasingDistanceValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
+    final List<GtfsStopTime> stopTimes = new ArrayList<>();
     stopTimes.add(stopTime1);
     stopTimes.add(stopTime2);
     stopTimes.add(stopTime3);
@@ -96,10 +96,10 @@ public class StopTimeIncreasingDistanceValidatorTest {
   @Test
   public void stopTimeNotChangingDistanceShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    StopTimeIncreasingDistanceValidator validator = new StopTimeIncreasingDistanceValidator();
+    final StopTimeIncreasingDistanceValidator validator = new StopTimeIncreasingDistanceValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
+    final List<GtfsStopTime> stopTimes = new ArrayList<>();
     stopTimes.add(stopTime1);
     stopTimes.add(stopTime2);
     stopTimes.add(stopTime4);
