@@ -21,21 +21,20 @@ import com.google.common.collect.ImmutableMap;
 import static org.mobilitydata.gtfsvalidator.table.GtfsRouteTableLoader.FILENAME;
 
 public class SameNameAndDescriptionForRouteNotice extends Notice {
-    public SameNameAndDescriptionForRouteNotice(long csvRowNumber,
-                                                String routeId,
-                                                String routeDesc,
-                                                String routeShortOrLongName) {
-        super(new ImmutableMap.Builder<String, Object>()
-                .put("filename", FILENAME)
-                .put("routeId", routeId)
-                .put("csvRowNumber", csvRowNumber)
-                .put("routeDesc", routeDesc)
-                .put("specifiedField", routeShortOrLongName)
-                .build());
-    }
+  public SameNameAndDescriptionForRouteNotice(
+      long csvRowNumber, String routeId, String routeDesc, String routeShortOrLongName) {
+    super(
+        new ImmutableMap.Builder<String, Object>()
+            .put("filename", FILENAME)
+            .put("routeId", routeId)
+            .put("csvRowNumber", csvRowNumber)
+            .put("routeDesc", routeDesc)
+            .put("specifiedField", routeShortOrLongName)
+            .build());
+  }
 
-    @Override
-    public String getCode() {
-        return "same_route_name_and_description";
-    }
+  @Override
+  public String getCode() {
+    return "same_route_name_and_description";
+  }
 }
