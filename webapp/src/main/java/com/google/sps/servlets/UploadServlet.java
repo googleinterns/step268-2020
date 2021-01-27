@@ -54,6 +54,40 @@ public class UploadServlet extends HttpServlet {
   // Feed name required but does not affect code, so hard coded in
   private static final String FEED_NAME = "au-transit";
 
+  // Calls the global mobility validator function to load and validate the transit data
+  public static NoticeContainer runValidator(String filePath) {
+    final ValidatorLoader validatorLoader = new ValidatorLoader();
+    final GtfsFeedLoader feedLoader = new GtfsFeedLoader();
+
+    final GtfsFeedName feedName = GtfsFeedName.parseString(FEED_NAME);
+    final long startNanos = System.nanoTime();
+
+    // Input.
+    feedLoader.setNumThreads(NUM_THREADS);
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    final GtfsFeedContainer feedContainer;
+    final GtfsInput gtfsInput;
+
+    try {
+      gtfsInput = GtfsInput.createFromPath(Paths.get(filePath));
+    } catch (ZipException e) {
+      logger.log(Level.SEVERE, "Exception occured, not a zip file", e);
+      return null;
+    } catch (IOException e) {
+      logger.log(Level.SEVERE, "Exception occured", e);
+      return null;
+    }
+    feedContainer =
+        feedLoader.loadAndValidate(gtfsInput, feedName, validatorLoader, noticeContainer);
+
+    final long endNanos = System.nanoTime();
+    logger.log(
+        Level.INFO, String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
+    logger.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
+
+    return noticeContainer;
+  }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -107,39 +141,5 @@ public class UploadServlet extends HttpServlet {
     } catch (Exception e) {
       response.getWriter().println("There was an error: " + e.getMessage());
     }
-  }
-
-  // Calls the global mobility validator function to load and validate the transit data
-  public static NoticeContainer runValidator(String filePath) {
-    final ValidatorLoader validatorLoader = new ValidatorLoader();
-    final GtfsFeedLoader feedLoader = new GtfsFeedLoader();
-
-    final GtfsFeedName feedName = GtfsFeedName.parseString(FEED_NAME);
-    final long startNanos = System.nanoTime();
-
-    // Input.
-    feedLoader.setNumThreads(NUM_THREADS);
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    final GtfsFeedContainer feedContainer;
-    final GtfsInput gtfsInput;
-
-    try {
-      gtfsInput = GtfsInput.createFromPath(Paths.get(filePath));
-    } catch (ZipException e) {
-      logger.log(Level.SEVERE, "Exception occured, not a zip file", e);
-      return null;
-    } catch (IOException e) {
-      logger.log(Level.SEVERE, "Exception occured", e);
-      return null;
-    }
-    feedContainer =
-        feedLoader.loadAndValidate(gtfsInput, feedName, validatorLoader, noticeContainer);
-
-    final long endNanos = System.nanoTime();
-    logger.log(
-        Level.INFO, String.format("Validation took %.3f seconds", (endNanos - startNanos) / 1e9));
-    logger.log(Level.INFO, "Table totals: " + feedContainer.tableTotals());
-
-    return noticeContainer;
   }
 }

@@ -29,68 +29,69 @@ import java.util.List;
 
 /**
  * Container for validation notices (errors and warnings).
- * <p>
- * This class is not intentionally not thread-safe to increase performance. Each thread
- * has it's own NoticeContainer, and after execution is complete the results are merged.
+ *
+ * <p>This class is not intentionally not thread-safe to increase performance. Each thread has it's
+ * own NoticeContainer, and after execution is complete the results are merged.
  */
 public class NoticeContainer {
-    private static final int MAX_EXPORTS_PER_NOTICE_TYPE = 100000;
-    private static final Gson DEFAULT_GSON = new GsonBuilder().serializeNulls().create();
+  private static final int MAX_EXPORTS_PER_NOTICE_TYPE = 100000;
+  private static final Gson DEFAULT_GSON = new GsonBuilder().serializeNulls().create();
 
-    private final List<Notice> notices = new ArrayList<>();
+  private final List<Notice> notices = new ArrayList<>();
 
-    public void addNotice(Notice notice) {
-        notices.add(notice);
-    }
+  public void addNotice(Notice notice) {
+    notices.add(notice);
+  }
 
-    public List<Notice> getNotices() {
-        return notices;
-    }
+  public List<Notice> getNotices() {
+    return notices;
+  }
 
-    public String exportJson() {
-        JsonObject root = new JsonObject();
-        JsonArray jsonNotices = new JsonArray();
-        root.add("notices", jsonNotices);
+  public String exportJson() {
+    JsonObject root = new JsonObject();
+    JsonArray jsonNotices = new JsonArray();
+    root.add("notices", jsonNotices);
 
-        ListMultimap<Integer, Notice> noticesByType = getNoticesByType();
-        for (Collection<Notice> noticesOfType : noticesByType.asMap().values()) {
-            JsonObject noticesOfTypeJson = new JsonObject();
-            jsonNotices.add(noticesOfTypeJson);
-            noticesOfTypeJson.addProperty("code", noticesOfType.iterator().next().getCode());
-            noticesOfTypeJson.addProperty("totalNotices", noticesOfType.size());
-            JsonArray noticesArrayJson = new JsonArray();
-            noticesOfTypeJson.add("notices", noticesArrayJson);
-            int i = 0;
-            for (Notice notice : noticesOfType) {
-                ++i;
-                if (i > MAX_EXPORTS_PER_NOTICE_TYPE) {
-                    // Do not export too many notices for this type.
-                    break;
-                }
-                noticesArrayJson.add(DEFAULT_GSON.toJsonTree(notice.getContext()));
-            }
+    ListMultimap<Integer, Notice> noticesByType = getNoticesByType();
+    for (Collection<Notice> noticesOfType : noticesByType.asMap().values()) {
+      JsonObject noticesOfTypeJson = new JsonObject();
+      jsonNotices.add(noticesOfTypeJson);
+      noticesOfTypeJson.addProperty("code", noticesOfType.iterator().next().getCode());
+      noticesOfTypeJson.addProperty("totalNotices", noticesOfType.size());
+      JsonArray noticesArrayJson = new JsonArray();
+      noticesOfTypeJson.add("notices", noticesArrayJson);
+      int i = 0;
+      for (Notice notice : noticesOfType) {
+        ++i;
+        if (i > MAX_EXPORTS_PER_NOTICE_TYPE) {
+          // Do not export too many notices for this type.
+          break;
         }
-
-        return DEFAULT_GSON.toJson(root);
+        noticesArrayJson.add(DEFAULT_GSON.toJsonTree(notice.getContext()));
+      }
     }
 
-    private ListMultimap<Integer, Notice> getNoticesByType() {
-        ListMultimap<Integer, Notice> noticesByType = MultimapBuilder.treeKeys().arrayListValues().build();
-        for (Notice notice : notices) {
-            noticesByType.put(notice.getClass().hashCode(), notice);
-        }
-        return noticesByType;
-    }
+    return DEFAULT_GSON.toJson(root);
+  }
 
-    /**
-     * Adds all notices from another container.
-     * <p>
-     * This is useful for multithreaded validation: each thread has its own notice container which is merged
-     * into the global container when the thread finishes.
-     *
-     * @param otherContainer a container to take the notices from
-     */
-    public void addAll(NoticeContainer otherContainer) {
-        notices.addAll(otherContainer.notices);
+  private ListMultimap<Integer, Notice> getNoticesByType() {
+    ListMultimap<Integer, Notice> noticesByType =
+        MultimapBuilder.treeKeys().arrayListValues().build();
+    for (Notice notice : notices) {
+      noticesByType.put(notice.getClass().hashCode(), notice);
     }
+    return noticesByType;
+  }
+
+  /**
+   * Adds all notices from another container.
+   *
+   * <p>This is useful for multithreaded validation: each thread has its own notice container which
+   * is merged into the global container when the thread finishes.
+   *
+   * @param otherContainer a container to take the notices from
+   */
+  public void addAll(NoticeContainer otherContainer) {
+    notices.addAll(otherContainer.notices);
+  }
 }
