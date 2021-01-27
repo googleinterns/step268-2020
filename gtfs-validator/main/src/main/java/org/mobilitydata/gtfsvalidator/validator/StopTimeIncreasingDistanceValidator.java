@@ -26,7 +26,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTime;
 import org.mobilitydata.gtfsvalidator.table.GtfsStopTimeTableContainer;
 
 /**
- * Use case to validate that for each trip, stop times have increasing `shape_dist_travelled` values.
+ * Validates that for each trip, stop times have increasing `shape_dist_travelled` values.
  *
  * <p>Generated notice: {@link DecreasingStopTimeDistanceNotice}.
  */
