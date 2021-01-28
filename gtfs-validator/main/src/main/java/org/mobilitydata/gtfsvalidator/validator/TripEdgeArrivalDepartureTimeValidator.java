@@ -51,19 +51,19 @@ public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
       GtfsStopTime tripFirstStop = stopTimesForTrip.get(0);
       GtfsStopTime tripLastStop = stopTimesForTrip.get(stopTimesForTrip.size() - 1);
 
-      if (!tripFirstStop.arrivalTime()) {
+      if (!tripFirstStop.hasArrivalTime()) {
         noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
             "arrival_time", tripId, tripFirstStop.csvRowNumber(), tripFirstStop.stopSequence()));
       }
-      if (!tripFirstStop.departureTime()) {
+      if (!tripFirstStop.hasDepartureTime()) {
         noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
             "departure_time", tripId, tripFirstStop.csvRowNumber(), tripFirstStop.stopSequence()));
       }
-      if (!tripLastStop.arrivalTime()) {
+      if (!tripLastStop.hasArrivalTime()) {
         noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
             "arrival_time", tripId, tripLastStop.csvRowNumber(), tripLastStop.stopSequence()));
       }
-      if (!tripLastStop.departureTime()) {
+      if (!tripLastStop.hasDepartureTime()) {
         noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
             "departure_time", tripId, tripLastStop.csvRowNumber(), tripLastStop.stopSequence()));
       }
