@@ -43,6 +43,7 @@ public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
     for (GtfsTrip trip : tripTable.getEntities()) {
       final String tripId = trip.tripId();
       List<GtfsStopTime> stopTimes = stopTimeTable.byTripId(tripId);
+      // Only check if this is a meaningly trip with at least start and end stop
       if (stopTimes.size() >= 2) {
         GtfsStopTime tripStartStop = stopTimes.get(0);
         GtfsStopTime tripEndStop = stopTimes.get(stopTimes.size() - 1);
@@ -54,7 +55,6 @@ public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
           noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice("departure_time", tripId,
               tripStartStop.csvRowNumber(), tripStartStop.stopSequence()));
         }
-
         if (tripEndStop.arrivalTime() == null) {
           noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
               "arrival_time", tripId, tripEndStop.csvRowNumber(), tripEndStop.stopSequence()));
