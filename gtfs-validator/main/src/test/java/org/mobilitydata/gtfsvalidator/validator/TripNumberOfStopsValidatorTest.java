@@ -54,32 +54,17 @@ public class TripNumberOfStopsValidatorTest {
           .setStopId("stopB")
           .setStopSequence(2)
           .build();
-  private final GtfsStopTime stopTimeXD =
+  private final GtfsStopTime stopTimeXC =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(3)
           .setTripId("tripX")
-          .setStopId("stopD")
-          .setStopSequence(3)
-          .build();
-  // For tripY:
-  private final GtfsStopTime stopTimeYB =
-      new GtfsStopTime.Builder()
-          .setCsvRowNumber(4)
-          .setTripId("tripY")
-          .setStopId("stopB")
-          .setStopSequence(1)
-          .build();
-  private final GtfsStopTime stopTimeYC =
-      new GtfsStopTime.Builder()
-          .setCsvRowNumber(5)
-          .setTripId("tripY")
           .setStopId("stopC")
-          .setStopSequence(2)
+          .setStopSequence(3)
           .build();
   // For tripZ:
   private final GtfsStopTime stopTimeZB =
       new GtfsStopTime.Builder()
-          .setCsvRowNumber(6)
+          .setCsvRowNumber(4)
           .setTripId("tripZ")
           .setStopId("stopB")
           .setStopSequence(1)
@@ -87,24 +72,18 @@ public class TripNumberOfStopsValidatorTest {
 
   @Test
   public void tripServingMoreThanOneStopShouldNotGenerateNotice() {
-    // tripX has stopA, stopB, stopD in order
-    // tripY has stopB, stopC in order
+    // tripX has stopA, stopB, stopC in order
     final NoticeContainer noticeContainer = new NoticeContainer();
     TripNumberOfStopsValidator validator = new TripNumberOfStopsValidator();
 
-    // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
     trips.add(tripX);
-    trips.add(tripY);
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
 
-    // Create stopTimeTable:
     List<GtfsStopTime> stopTimes = new ArrayList<>();
     stopTimes.add(stopTimeXA);
     stopTimes.add(stopTimeXB);
-    stopTimes.add(stopTimeXD);
-    stopTimes.add(stopTimeYB);
-    stopTimes.add(stopTimeYC);
+    stopTimes.add(stopTimeXC);
     validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
     validator.validate(noticeContainer);
@@ -113,23 +92,16 @@ public class TripNumberOfStopsValidatorTest {
 
   @Test
   public void tripServingZeroStopShouldGenerateNotice() {
-    // tripX has stopA, stopB, stopD in order
     // tripY has NO stop - Meaningless Trip
     final NoticeContainer noticeContainer = new NoticeContainer();
     TripNumberOfStopsValidator validator = new TripNumberOfStopsValidator();
 
-    // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(tripX);
     trips.add(tripY);
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
 
-    // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(stopTimeXA);
-    stopTimes.add(stopTimeXB);
-    stopTimes.add(stopTimeXD);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable =
+        GtfsStopTimeTableContainer.forEntities(new ArrayList<>(), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).containsExactly(new MeaninglessTripNotice("tripY", 2));
@@ -137,30 +109,46 @@ public class TripNumberOfStopsValidatorTest {
 
   @Test
   public void tripServingOneStopShouldGenerateNotice() {
-    // tripX has stopA, stopB, stopD in order
-    // tripY has stopB, stopC in order
     // tripZ has only stopB - Meaningless Trip
     final NoticeContainer noticeContainer = new NoticeContainer();
     TripNumberOfStopsValidator validator = new TripNumberOfStopsValidator();
 
-    // Create tripTable:
+    List<GtfsTrip> trips = new ArrayList<>();
+    trips.add(tripZ);
+    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+
+    List<GtfsStopTime> stopTimes = new ArrayList<>();
+    stopTimes.add(stopTimeZB);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices()).containsExactly(new MeaninglessTripNotice("tripZ", 3));
+  }
+
+  @Test
+  public void tripsCombinationShouldGenerateCorrespondingNotices() {
+    // tripX has stopA, stopB, stopC in order
+    // tripY has NO stop - Meaningless Trip
+    // tripZ has only stopB - Meaningless Trip
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    TripNumberOfStopsValidator validator = new TripNumberOfStopsValidator();
+
     List<GtfsTrip> trips = new ArrayList<>();
     trips.add(tripX);
     trips.add(tripY);
     trips.add(tripZ);
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
 
-    // Create stopTimeTable:
     List<GtfsStopTime> stopTimes = new ArrayList<>();
     stopTimes.add(stopTimeXA);
     stopTimes.add(stopTimeXB);
-    stopTimes.add(stopTimeXD);
-    stopTimes.add(stopTimeYB);
-    stopTimes.add(stopTimeYC);
+    stopTimes.add(stopTimeXC);
     stopTimes.add(stopTimeZB);
     validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
     validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices()).containsExactly(new MeaninglessTripNotice("tripZ", 3));
+    assertThat(noticeContainer.getNotices())
+        .containsExactly(
+            new MeaninglessTripNotice("tripY", 2), new MeaninglessTripNotice("tripZ", 3));
   }
 }
