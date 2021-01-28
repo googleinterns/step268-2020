@@ -28,4 +28,6 @@ function unknownColumnWarning() {
   document.getElementById("warning").appendChild(template);
   return template;
 }
-module.exports = unknownColumnWarning;
+module.exports = {
+  unknownColumnWarning: unknownColumnWarning
+};
