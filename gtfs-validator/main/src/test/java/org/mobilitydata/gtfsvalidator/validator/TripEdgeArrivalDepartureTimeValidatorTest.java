@@ -130,7 +130,6 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
 
     validator.validate(noticeContainer);
-    System.out.println(noticeContainer.exportJson());
     assertThat(noticeContainer.getNotices()).isEmpty();
   }
 

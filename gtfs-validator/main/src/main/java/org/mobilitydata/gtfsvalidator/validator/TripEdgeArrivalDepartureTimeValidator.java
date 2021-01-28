@@ -46,8 +46,6 @@ public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
       if (stopTimes.size() >= 2) {
         GtfsStopTime tripStartStop = stopTimes.get(0);
         GtfsStopTime tripEndStop = stopTimes.get(stopTimes.size() - 1);
-        System.out.println("STOP SEQ: " + tripEndStop.stopSequence());
-        System.out.println(tripEndStop.arrivalTime());
         if (tripStartStop.arrivalTime() == null) {
           noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
               "arrival_time", tripId, tripStartStop.csvRowNumber(), tripStartStop.stopSequence()));
