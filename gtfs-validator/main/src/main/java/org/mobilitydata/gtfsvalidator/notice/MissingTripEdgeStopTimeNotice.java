@@ -27,12 +27,12 @@ public class MissingTripEdgeStopTimeNotice extends Notice {
     super(
         ImmutableMap.of(
             "fieldName", fieldName,
-            "tripId", tripId
+            "tripId", tripId,
             "stopSequence", stopSequence));
   }
 
   @Override
   public String getCode() {
-    return "missing_trip_edge_stop_time_value",";
+    return "missing_trip_edge_stop_time_value";
   }
 }
