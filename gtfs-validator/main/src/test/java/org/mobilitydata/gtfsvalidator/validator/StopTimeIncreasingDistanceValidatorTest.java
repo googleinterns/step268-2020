@@ -30,34 +30,34 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTimeTableContainer;
 
 @RunWith(JUnit4.class)
 public class StopTimeIncreasingDistanceValidatorTest {
-  private final GtfsStopTime stopTime1 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(1)
-                                             .setTripId("trip1")
-                                             .setStopId("1001")
-                                             .setStopSequence(1)
-                                             .setShapeDistTraveled(1.0)
-                                             .build();
-  private final GtfsStopTime stopTime2 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(2)
-                                             .setTripId("trip1")
-                                             .setStopId("1002")
-                                             .setStopSequence(2)
-                                             .setShapeDistTraveled(1.5)
-                                             .build();
-  private final GtfsStopTime stopTime3 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(3)
-                                             .setTripId("trip1")
-                                             .setStopId("1003")
-                                             .setStopSequence(3)
-                                             .setShapeDistTraveled(1.4)
-                                             .build();
-  private final GtfsStopTime stopTime4 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(3)
-                                             .setTripId("trip1")
-                                             .setStopId("1003")
-                                             .setStopSequence(3)
-                                             .setShapeDistTraveled(1.5)
-                                             .build();
+  private final GtfsStopTime stopTime1_at_1_5 = new GtfsStopTime.Builder()
+                                                    .setCsvRowNumber(18)
+                                                    .setTripId("trip1")
+                                                    .setStopId("1004")
+                                                    .setStopSequence(1)
+                                                    .setShapeDistTraveled(1.5)
+                                                    .build();
+  private final GtfsStopTime stopTime2_at_3_5 = new GtfsStopTime.Builder()
+                                                    .setCsvRowNumber(34)
+                                                    .setTripId("trip1")
+                                                    .setStopId("1003")
+                                                    .setStopSequence(2)
+                                                    .setShapeDistTraveled(3.5)
+                                                    .build();
+  private final GtfsStopTime stopTime3_at_3_5 = new GtfsStopTime.Builder()
+                                                    .setCsvRowNumber(12)
+                                                    .setTripId("trip1")
+                                                    .setStopId("1001")
+                                                    .setStopSequence(3)
+                                                    .setShapeDistTraveled(3.5)
+                                                    .build();
+  private final GtfsStopTime stopTime3_at_3_4 = new GtfsStopTime.Builder()
+                                                    .setCsvRowNumber(5)
+                                                    .setTripId("trip1")
+                                                    .setStopId("1002")
+                                                    .setStopSequence(3)
+                                                    .setShapeDistTraveled(3.4)
+                                                    .build();
 
   @Test
   public void stopTimeIncreasingDistanceShouldNotGenerateNotice() {
@@ -66,8 +66,8 @@ public class StopTimeIncreasingDistanceValidatorTest {
 
     // Create stopTimeTable:
     final List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(stopTime1);
-    stopTimes.add(stopTime2);
+    stopTimes.add(stopTime1_at_1_5);
+    stopTimes.add(stopTime2_at_3_5);
     validator.table = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
     validator.validate(noticeContainer);
@@ -81,14 +81,17 @@ public class StopTimeIncreasingDistanceValidatorTest {
 
     // Create stopTimeTable:
     final List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(stopTime1);
-    stopTimes.add(stopTime2);
-    stopTimes.add(stopTime3);
+    stopTimes.add(stopTime1_at_1_5);
+    stopTimes.add(stopTime2_at_3_5);
+    stopTimes.add(stopTime3_at_3_4);
     validator.table = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
-        .containsExactly(new DecreasingStopTimeDistanceNotice("trip1", 3, 3, 1.4, 2, 2, 1.5));
+        .containsExactly(
+            new DecreasingStopTimeDistanceNotice(/* tripId = */ "trip1", /* csvRowNumber = */ 5,
+                /* stopSequence = */ 3, /* shapeDistTraveled = */ 3.4, /* prevCsvRowNumber = */ 34,
+                /* prevStopSequence = */ 2, /* prevShapeDistTraveled = */ 3.5));
   }
 
   // When distance travelled doesn't increase or decrease (stays constant), it does not generate a
@@ -100,9 +103,9 @@ public class StopTimeIncreasingDistanceValidatorTest {
 
     // Create stopTimeTable:
     final List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(stopTime1);
-    stopTimes.add(stopTime2);
-    stopTimes.add(stopTime4);
+    stopTimes.add(stopTime1_at_1_5);
+    stopTimes.add(stopTime2_at_3_5);
+    stopTimes.add(stopTime3_at_3_5);
     validator.table = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
 
     validator.validate(noticeContainer);
