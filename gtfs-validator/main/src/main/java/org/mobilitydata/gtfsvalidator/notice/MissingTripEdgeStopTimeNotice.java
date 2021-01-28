@@ -23,11 +23,13 @@ public class MissingTripEdgeStopTimeNotice extends Notice {
   public MissingTripEdgeStopTimeNotice(
       String fieldName,
       String tripId, 
+      int csvRowNumber,
       int stopSequence) {
     super(
         ImmutableMap.of(
             "fieldName", fieldName,
             "tripId", tripId,
+            "csvRowNumber", csvRowNumber,
             "stopSequence", stopSequence));
   }
 
