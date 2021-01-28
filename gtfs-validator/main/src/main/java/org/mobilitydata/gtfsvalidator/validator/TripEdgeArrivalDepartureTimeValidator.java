@@ -27,7 +27,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
 import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
 /**
- * Validates that trip edges (first and last stops) for a trip define both arrival and deperature
+ * Validates that trip edges (first and last stops) for a trip define both arrival and departure
  * stop times, for all trips.
  *
  * <p>Generated notice: {@link MissingTripEdgeStopTimeNotice} each time this is false.
@@ -42,27 +42,30 @@ public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
   public void validate(NoticeContainer noticeContainer) {
     for (GtfsTrip trip : tripTable.getEntities()) {
       final String tripId = trip.tripId();
-      List<GtfsStopTime> stopTimes = stopTimeTable.byTripId(tripId);
-      // Only check if this is a meaningly trip with at least start and end stop
-      if (stopTimes.size() >= 2) {
-        GtfsStopTime tripStartStop = stopTimes.get(0);
-        GtfsStopTime tripEndStop = stopTimes.get(stopTimes.size() - 1);
-        if (tripStartStop.arrivalTime() == null) {
-          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
-              "arrival_time", tripId, tripStartStop.csvRowNumber(), tripStartStop.stopSequence()));
-        }
-        if (tripStartStop.departureTime() == null) {
-          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice("departure_time", tripId,
-              tripStartStop.csvRowNumber(), tripStartStop.stopSequence()));
-        }
-        if (tripEndStop.arrivalTime() == null) {
-          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
-              "arrival_time", tripId, tripEndStop.csvRowNumber(), tripEndStop.stopSequence()));
-        }
-        if (tripEndStop.departureTime() == null) {
-          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
-              "departure_time", tripId, tripEndStop.csvRowNumber(), tripEndStop.stopSequence()));
-        }
+      List<GtfsStopTime> stopTimesForTrip = stopTimeTable.byTripId(tripId);
+
+      if (stopTimesForTrip.isEmpty()) {
+        return;
+      }
+
+      GtfsStopTime tripFirstStop = stopTimesForTrip.get(0);
+      GtfsStopTime tripLastStop = stopTimesForTrip.get(stopTimesForTrip.size() - 1);
+
+      if (!tripFirstStop.arrivalTime()) {
+        noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", tripId, tripFirstStop.csvRowNumber(), tripFirstStop.stopSequence()));
+      }
+      if (!tripFirstStop.departureTime()) {
+        noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+            "departure_time", tripId, tripFirstStop.csvRowNumber(), tripFirstStop.stopSequence()));
+      }
+      if (!tripLastStop.arrivalTime()) {
+        noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", tripId, tripLastStop.csvRowNumber(), tripLastStop.stopSequence()));
+      }
+      if (!tripLastStop.departureTime()) {
+        noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+            "departure_time", tripId, tripLastStop.csvRowNumber(), tripLastStop.stopSequence()));
       }
     }
   }
