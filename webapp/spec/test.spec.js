@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function unknownColumnWarning() {
-  // TODO: change from hardcoded values to parameters
-  const params = {
-    numNotices: 1,
-    notices: [
-      {
-        filename: "hello.txt",
-        fieldName: "column name",
-        index: 5
-      }
-    ]
-  }
-  const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
-  document.getElementById("warning").appendChild(template);
-  return template;
-}
-module.exports = unknownColumnWarning;
+const notice = require("../src/main/resources/output.js");
+
+describe('Unknown column warning notice', () => {
+  it('Should output single warning notice', () => {
+    const outputString = "<p>Warning - Unknown Column(s) found!</p>\n<p><b>1</b> unknown column(s) found in:</p>\
+    <p>Filename: <i>hello.txt</i></p>\n<p>Column name: <i>column name</i> at position <i>5</i></p>\
+    <p>Please delete or rename column!</p>";
+    expect(notice.unknownColumnWarning()).toEqual(outputString);
+  })
+})
