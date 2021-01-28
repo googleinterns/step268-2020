@@ -16,39 +16,56 @@
 
 package org.mobilitydata.gtfsvalidator.validator;
 
-import com.google.common.collect.Multimaps;
+import java.util.List;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
-import org.mobilitydata.gtfsvalidator.notice.DecreasingShapeDistanceNotice;
+import org.mobilitydata.gtfsvalidator.notice.MissingTripEdgeStopTimeNotice;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.table.GtfsStopTime;
 import org.mobilitydata.gtfsvalidator.table.GtfsStopTimeTableContainer;
-
-
-import java.util.List;
+import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
+import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
 /**
- * Validates that trip edges (first and last stops) for a trip have both arrival and deperature stop times, for all trips.
+ * Validates that trip edges (first and last stops) for a trip define both arrival and deperature
+ * stop times, for all trips.
  *
- * <p>Generated notice: {@link MissingTripEdgeStopTimeNotice}.
+ * <p>Generated notice: {@link MissingTripEdgeStopTimeNotice} each time this is false.
  */
 @GtfsValidator
 public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
-  @Inject GtfsStopTimeTableContainer table;
+  @Inject GtfsTripTableContainer tripTable;
+
+  @Inject GtfsStopTimeTableContainer stopTimeTable;
 
   @Override
   public void validate(NoticeContainer noticeContainer) {
-    // get all trips
+    for (GtfsTrip trip : tripTable.getEntities()) {
+      final String tripId = trip.tripId();
+      List<GtfsStopTime> stopTimes = stopTimeTable.byTripId(tripId);
+      if (stopTimes.size() >= 2){
+        GtfsStopTime tripStartStop = stopTimes.get(0);
+        GtfsStopTime tripEndStop = stopTimes.get(stopTimes.size() - 1);
+        System.out.println("STOP SEQ: " + tripEndStop.stopSequence());
+        System.out.println(tripEndStop.arrivalTime());
+        if (tripStartStop.arrivalTime() == null) {
+          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+              "arrival_time", tripId, tripStartStop.stopSequence()));
+        }
+        if (tripStartStop.departureTime() == null) {
+          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+              "departure_time", tripId, tripStartStop.stopSequence()));
+        }
 
-    // iterate through them all 
-
-    // check start / end 
-          
-              noticeContainer.addNotice(
-              new MissingTripEdgeStopTimeNotice(
-                  //add fields here
-                  ));
-        
-      
-    
+        if (tripEndStop.arrivalTime() == null) {
+          noticeContainer.addNotice(
+              new MissingTripEdgeStopTimeNotice("arrival_time", tripId, tripEndStop.stopSequence()));
+        }
+        if (tripEndStop.departureTime() == null) {
+          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+              "departure_time", tripId, tripEndStop.stopSequence()));
+        }
+      }
+    }
   }
 }
