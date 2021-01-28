@@ -21,13 +21,13 @@ import com.google.common.collect.ImmutableMap;
 // Trip edge = first or last stop 
 public class MissingTripEdgeStopTimeNotice extends Notice {
   public MissingTripEdgeStopTimeNotice(
-      String fieldName,
+      String arrivalOrDepartureTime,
       String tripId, 
       int csvRowNumber,
       int stopSequence) {
     super(
         ImmutableMap.of(
-            "fieldName", fieldName,
+            "arrivalOrDepartureTime", arrivalOrDepartureTime,
             "tripId", tripId,
             "csvRowNumber", csvRowNumber,
             "stopSequence", stopSequence));
@@ -35,6 +35,6 @@ public class MissingTripEdgeStopTimeNotice extends Notice {
 
   @Override
   public String getCode() {
-    return "missing_trip_edge_stop_time_value";
+    return "missing_trip_edge_arrival_time_departure_time";
   }
 }
