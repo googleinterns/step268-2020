@@ -154,9 +154,11 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(2);
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip1", 1));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip1", /* csvRowNumber = */ 18, /* stopSequence = */ 1));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip1", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip1", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
   }
 
   @Test
@@ -179,9 +181,11 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(2);
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("arrival_time", "trip2", 1));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", "trip2", /* csvRowNumber = */ 18, /* stopSequence = */ 1));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("arrival_time", "trip2", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", "trip2", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
   }
 
   @Test
@@ -204,13 +208,17 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(4);
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip2", 1));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip2", /* csvRowNumber = */ 18, /* stopSequence = */ 1));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip2", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip2", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("arrival_time", "trip2", 1));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", "trip2", /* csvRowNumber = */ 18, /* stopSequence = */ 1));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("arrival_time", "trip2", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", "trip2", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
   }
 
   @Test
@@ -237,14 +245,19 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(5);
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip1", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip1", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip2", 1));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip2", /* csvRowNumber = */ 18, /* stopSequence = */ 1));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("departure_time", "trip2", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "departure_time", "trip2", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("arrival_time", "trip2", 1));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", "trip2", /* csvRowNumber = */ 18, /* stopSequence = */ 1));
     assertThat(noticeContainer.getNotices())
-        .contains(new MissingTripEdgeStopTimeNotice("arrival_time", "trip2", 3));
+        .contains(new MissingTripEdgeStopTimeNotice(
+            "arrival_time", "trip2", /* csvRowNumber = */ 23, /* stopSequence = */ 3));
   }
 }

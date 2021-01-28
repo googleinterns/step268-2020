@@ -43,27 +43,27 @@ public class TripEdgeArrivalDepartureTimeValidator extends FileValidator {
     for (GtfsTrip trip : tripTable.getEntities()) {
       final String tripId = trip.tripId();
       List<GtfsStopTime> stopTimes = stopTimeTable.byTripId(tripId);
-      if (stopTimes.size() >= 2){
+      if (stopTimes.size() >= 2) {
         GtfsStopTime tripStartStop = stopTimes.get(0);
         GtfsStopTime tripEndStop = stopTimes.get(stopTimes.size() - 1);
         System.out.println("STOP SEQ: " + tripEndStop.stopSequence());
         System.out.println(tripEndStop.arrivalTime());
         if (tripStartStop.arrivalTime() == null) {
           noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
-              "arrival_time", tripId, tripStartStop.stopSequence()));
+              "arrival_time", tripId, tripStartStop.csvRowNumber(), tripStartStop.stopSequence()));
         }
         if (tripStartStop.departureTime() == null) {
-          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
-              "departure_time", tripId, tripStartStop.stopSequence()));
+          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice("departure_time", tripId,
+              tripStartStop.csvRowNumber(), tripStartStop.stopSequence()));
         }
 
         if (tripEndStop.arrivalTime() == null) {
-          noticeContainer.addNotice(
-              new MissingTripEdgeStopTimeNotice("arrival_time", tripId, tripEndStop.stopSequence()));
+          noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
+              "arrival_time", tripId, tripEndStop.csvRowNumber(), tripEndStop.stopSequence()));
         }
         if (tripEndStop.departureTime() == null) {
           noticeContainer.addNotice(new MissingTripEdgeStopTimeNotice(
-              "departure_time", tripId, tripEndStop.stopSequence()));
+              "departure_time", tripId, tripEndStop.csvRowNumber(), tripEndStop.stopSequence()));
         }
       }
     }
