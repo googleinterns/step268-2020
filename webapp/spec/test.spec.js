@@ -13,6 +13,7 @@
 // limitations under the License.
 
 const notice = require("../src/main/resources/output.js");
+require("/Users/anniewyang/Documents/step-validator/step268-2020/webapp/node_modules/google-closure-library");
 
 describe('Unknown column warning notice', () => {
   it('Should output single warning notice', () => {
