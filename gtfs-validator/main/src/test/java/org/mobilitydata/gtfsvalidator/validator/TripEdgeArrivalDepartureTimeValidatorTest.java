@@ -19,6 +19,7 @@ package org.mobilitydata.gtfsvalidator.validator;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
   private final GtfsTrip trip2 =
       new GtfsTrip.Builder().setCsvRowNumber(2).setTripId("trip2").build();
 
-  private final GtfsStopTime startStopTimeHasBothTrip1 =
+  private final GtfsStopTime startStopHasArrivalAndDepartureTrip1 =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(18)
           .setTripId("trip1")
@@ -47,7 +48,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
           .setArrivalTime(GtfsTime.fromString("12:02:34"))
           .setDepartureTime(GtfsTime.fromString("12:03:34"))
           .build();
-  private final GtfsStopTime startStopTimeHasArrivalTrip1 =
+  private final GtfsStopTime startStopNoDepartureTrip1 =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(18)
           .setTripId("trip1")
@@ -55,7 +56,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
           .setStopSequence(1)
           .setArrivalTime(GtfsTime.fromString("12:02:34"))
           .build();
-  private final GtfsStopTime startStopTimeHasDepartureTrip1 =
+  private final GtfsStopTime startStopNoArrivalTrip1 =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(18)
           .setTripId("trip1")
@@ -63,13 +64,13 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
           .setStopSequence(1)
           .setDepartureTime(GtfsTime.fromString("12:03:34"))
           .build();
-  private final GtfsStopTime startStopTimeHasNeitherTrip1 = new GtfsStopTime.Builder()
-                                                                .setCsvRowNumber(18)
-                                                                .setTripId("trip1")
-                                                                .setStopId("1001")
-                                                                .setStopSequence(1)
-                                                                .build();
-  private final GtfsStopTime endStopTimeHasBothTrip1 =
+  private final GtfsStopTime startStopNoArrivalOrDepartureTrip1 = new GtfsStopTime.Builder()
+                                                                      .setCsvRowNumber(18)
+                                                                      .setTripId("trip1")
+                                                                      .setStopId("1001")
+                                                                      .setStopSequence(1)
+                                                                      .build();
+  private final GtfsStopTime endStopHasArrivalAndDepartureTrip1 =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(23)
           .setTripId("trip1")
@@ -78,7 +79,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
           .setArrivalTime(GtfsTime.fromString("12:52:34"))
           .setDepartureTime(GtfsTime.fromString("12:53:34"))
           .build();
-  private final GtfsStopTime endStopTimeHasArrivalTrip1 =
+  private final GtfsStopTime endStopNoDepartureTrip1 =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(23)
           .setTripId("trip1")
@@ -86,7 +87,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
           .setStopSequence(3)
           .setArrivalTime(GtfsTime.fromString("12:52:34"))
           .build();
-  private final GtfsStopTime endStopTimeHasDepartureTrip1 =
+  private final GtfsStopTime endStopNoArrivalTrip1 =
       new GtfsStopTime.Builder()
           .setCsvRowNumber(23)
           .setTripId("trip1")
@@ -94,12 +95,12 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
           .setStopSequence(3)
           .setDepartureTime(GtfsTime.fromString("12:53:34"))
           .build();
-  private final GtfsStopTime endStopTimeHasNeitherTrip1 = new GtfsStopTime.Builder()
-                                                              .setCsvRowNumber(23)
-                                                              .setTripId("trip1")
-                                                              .setStopId("1003")
-                                                              .setStopSequence(3)
-                                                              .build();
+  private final GtfsStopTime endStopNoArrivalOrDepartureTrip1 = new GtfsStopTime.Builder()
+                                                                    .setCsvRowNumber(23)
+                                                                    .setTripId("trip1")
+                                                                    .setStopId("1003")
+                                                                    .setStopSequence(3)
+                                                                    .build();
   private final GtfsStopTime middleStopTrip1 = new GtfsStopTime.Builder()
                                                    .setCsvRowNumber(41)
                                                    .setTripId("trip1")
@@ -112,29 +113,28 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
                                                    .setStopId("1002")
                                                    .setStopSequence(2)
                                                    .build();
-  private final GtfsStopTime endStopTimeHasNeitherTrip2 = new GtfsStopTime.Builder()
-                                                              .setCsvRowNumber(25)
-                                                              .setTripId("trip2")
-                                                              .setStopId("1003")
-                                                              .setStopSequence(3)
-                                                              .build();
-  private final GtfsStopTime startStopTimeHasNeitherTrip2 = new GtfsStopTime.Builder()
-                                                                .setCsvRowNumber(20)
-                                                                .setTripId("trip2")
-                                                                .setStopId("1001")
-                                                                .setStopSequence(1)
-                                                                .build();
+  private final GtfsStopTime endStopNoArrivalOrDepartureTrip2 = new GtfsStopTime.Builder()
+                                                                    .setCsvRowNumber(25)
+                                                                    .setTripId("trip2")
+                                                                    .setStopId("1003")
+                                                                    .setStopSequence(3)
+                                                                    .build();
+  private final GtfsStopTime startStopNoArrivalOrDepartureTrip2 = new GtfsStopTime.Builder()
+                                                                      .setCsvRowNumber(20)
+                                                                      .setTripId("trip2")
+                                                                      .setStopId("1001")
+                                                                      .setStopSequence(1)
+                                                                      .build();
   @Test
   public void validShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasBothTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasBothTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(startStopHasArrivalAndDepartureTrip1, middleStopTrip1,
+            endStopHasArrivalAndDepartureTrip1),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -151,11 +151,10 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasArrivalTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasBothTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(
+            startStopNoDepartureTrip1, middleStopTrip1, endStopHasArrivalAndDepartureTrip1),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -174,11 +173,10 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasBothTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasArrivalTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable =
+        GtfsStopTimeTableContainer.forEntities(Arrays.asList(startStopHasArrivalAndDepartureTrip1,
+                                                   middleStopTrip1, endStopNoDepartureTrip1),
+            noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -197,11 +195,9 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasDepartureTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasBothTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(startStopNoArrivalTrip1, middleStopTrip1, endStopHasArrivalAndDepartureTrip1),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -220,11 +216,9 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasBothTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasDepartureTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(startStopHasArrivalAndDepartureTrip1, middleStopTrip1, endStopNoArrivalTrip1),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -243,11 +237,10 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasNeitherTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasBothTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(startStopNoArrivalOrDepartureTrip1, middleStopTrip1,
+            endStopHasArrivalAndDepartureTrip1),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -270,11 +263,10 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasBothTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasNeitherTrip1);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(startStopHasArrivalAndDepartureTrip1, middleStopTrip1,
+            endStopNoArrivalOrDepartureTrip1),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
@@ -297,14 +289,11 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
     TripEdgeArrivalDepartureTimeValidator validator = new TripEdgeArrivalDepartureTimeValidator();
 
     // Create stopTimeTable:
-    List<GtfsStopTime> stopTimes = new ArrayList<>();
-    stopTimes.add(startStopTimeHasBothTrip1);
-    stopTimes.add(middleStopTrip1);
-    stopTimes.add(endStopTimeHasArrivalTrip1);
-    stopTimes.add(startStopTimeHasNeitherTrip2);
-    stopTimes.add(middleStopTrip2);
-    stopTimes.add(endStopTimeHasNeitherTrip2);
-    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(stopTimes, noticeContainer);
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(startStopHasArrivalAndDepartureTrip1, middleStopTrip1,
+            endStopNoDepartureTrip1, startStopNoArrivalOrDepartureTrip2, middleStopTrip2,
+            endStopNoArrivalOrDepartureTrip2),
+        noticeContainer);
 
     // Create tripTable:
     List<GtfsTrip> trips = new ArrayList<>();
