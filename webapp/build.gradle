@@ -2,23 +2,38 @@ buildscript {    // Configuration for building
   repositories {
     jcenter()    // Bintray's repository - a fast Maven Central mirror & more
     mavenCentral()
+    maven {
+      url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+    }
   }
+
   dependencies {
     classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.2.0' // If a newer version is available, use it
+    classpath group: "com.liferay", name: "com.liferay.gradle.plugins.soy", version: "3.1.8"
+    classpath 'com.moowork.gradle:gradle-node-plugin:0.4'
   }
 }
 
 repositories {   // repositories for Jar's you access in your code
   maven {
     url 'https://oss.sonatype.org/content/repositories/snapshots' // SNAPSHOT repository (if needed)
+    url "https://repository-cdn.liferay.com/nexus/content/groups/public"
   }
   mavenCentral()
   jcenter()
 }
 
+configurations {
+  closureCompiler
+}
+
+
 apply plugin: 'java'                              // standard Java tasks
 apply plugin: 'war'                               // standard Web Archive plugin
 apply plugin: 'com.google.cloud.tools.appengine'  // App Engine tasks
+apply plugin: 'com.liferay.soy'
+apply plugin: 'com.liferay.soy.translation'
+apply plugin: 'node'
 
 dependencies {
   compile 'com.google.appengine:appengine-api-1.0-sdk:+'  // Latest App Engine Api's
@@ -26,10 +41,16 @@ dependencies {
 
   compile 'jstl:jstl:1.2'
 
+  compile group: 'com.google.template', name: 'soy', version: '2020-08-24'
+
+  closureCompiler 'com.google.javascript:closure-compiler:v20150609'
+
   implementation project(':gtfs-validator')
   implementation project(':gtfs-validator:core')
   implementation project(':gtfs-validator:processor')
   implementation project(':gtfs-validator:main')
+
+  implementation 'com.google.template:soy:2020-08-24'
 
   testCompile 'junit:junit:4.12'
   testCompile 'com.google.truth:truth:0.33'
@@ -49,6 +70,10 @@ appengine {  // App Engine tasks configuration
     projectId = 'lilhunt-step-intern'
     version = '1'
   }
+}
+task runExecutableJar(type: JavaExec) {
+  main = "-jar"
+  args('/Users/anniewyang/Documents/step-validator/step268-2020/webapp/src/main/resources/SoyToJsSrcCompiler.jar', '--outputPathFormat build/template.soy.js', '--srcs template.soy')
 }
 
 test {
