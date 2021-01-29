@@ -6,12 +6,14 @@ if (typeof validator.templates == 'undefined') { validator.templates = {}; }
 
 
 validator.templates.unknownColumnNotice = function(opt_data, opt_ignored) {
-  var output = '<p class="warning">Warning - Unknown Column(s) found!</p><p><b>' + soy.$$escapeHtml(opt_data.numNotices) + '</b> unknown column(s) found in:</p>';
-  var noticeList6 = opt_data.notices;
-  var noticeListLen6 = noticeList6.length;
-  for (var noticeIndex6 = 0; noticeIndex6 < noticeListLen6; noticeIndex6++) {
-    var noticeData6 = noticeList6[noticeIndex6];
-    output += '<p>Filename: <i>' + soy.$$escapeHtml(noticeData6.filename) + '</i></p><p>Column name: <i>' + soy.$$escapeHtml(noticeData6.fieldName) + '</i> at position <i>' + soy.$$escapeHtml(noticeData6.index) + '</i></p>';
+  var output = '';
+  var numNotices__soy3 = opt_data.notices.length;
+  output += '<p class="warning">Warning - Unknown Column Notice: Unknown Column(s) found!</p><p><b>' + soy.$$escapeHtml(numNotices__soy3) + '</b> unknown column(s) found in:</p>';
+  var noticeList7 = opt_data.notices;
+  var noticeListLen7 = noticeList7.length;
+  for (var noticeIndex7 = 0; noticeIndex7 < noticeListLen7; noticeIndex7++) {
+    var noticeData7 = noticeList7[noticeIndex7];
+    output += '<p>Filename: <i>' + soy.$$escapeHtml(noticeData7.filename) + '</i></p><p>Column name: <i>' + soy.$$escapeHtml(noticeData7.fieldName) + '</i> at position <i>' + soy.$$escapeHtml(noticeData7.index) + '</i></p>';
   }
   output += '<p>Please delete or rename column!</p>';
   return output;

@@ -73,9 +73,10 @@ appengine {  // App Engine tasks configuration
   }
 }
 task runExecutableJar(type: JavaExec) {
-  classpath = files("src/main/resources/SoyToJsCompiler.jar")
-  main = "-jar"
-  args('--outputPathFormat build/template.soy.js', '--srcs template.soy')
+  inputs.dir('src/main/resources')
+  outputs.dir('src/main/resources/build/')
+  classpath = files("src/main/resources/SoyToJsSrcCompiler.jar")
+  args '--outputPathFormat', 'src/main/resources/build/template.soy.js', '--srcs', 'src/main/resources/template.soy'
 }
 
 test {
