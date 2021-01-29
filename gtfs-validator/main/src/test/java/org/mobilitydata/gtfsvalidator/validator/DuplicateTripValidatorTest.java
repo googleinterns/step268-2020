@@ -27,7 +27,6 @@ import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
 import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
-
 @RunWith(JUnit4.class)
 public class DuplicateTripValidatorTest {
   private final GtfsTrip trip1 =
@@ -43,7 +42,8 @@ public class DuplicateTripValidatorTest {
     DuplicateTripValidator validator = new DuplicateTripValidator();
 
     // Create tripTable:
-    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1, trip3), noticeContainer);
+    validator.tripTable =
+        GtfsTripTableContainer.forEntities(Arrays.asList(trip1, trip3), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
@@ -55,7 +55,8 @@ public class DuplicateTripValidatorTest {
     DuplicateTripValidator validator = new DuplicateTripValidator();
 
     // Create tripTable:
-    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1,trip2), noticeContainer);
+    validator.tripTable =
+        GtfsTripTableContainer.forEntities(Arrays.asList(trip1, trip2), noticeContainer);
 
     validator.validate(noticeContainer);
     System.out.println(noticeContainer.exportJson());

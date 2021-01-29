@@ -18,17 +18,10 @@ package org.mobilitydata.gtfsvalidator.notice;
 
 import com.google.common.collect.ImmutableMap;
 
-// Trip edge = first or last stop 
 public class DuplicateTripNotice extends Notice {
-  public DuplicateTripNotice(
-      String tripId, 
-      long csvRowNumberTrip1,
-      long csvRowNumberTrip2) {
-    super(
-        ImmutableMap.of(
-            "tripId", tripId,
-            "csvRowNumberTrip1", csvRowNumberTrip1,
-            "csvRowNumberTrip2", csvRowNumberTrip2));
+  public DuplicateTripNotice(String tripId, long csvRowNumberTrip1, long csvRowNumberTrip2) {
+    super(ImmutableMap.of("tripId", tripId, "csvRowNumberTrip1", csvRowNumberTrip1,
+        "csvRowNumberTrip2", csvRowNumberTrip2));
   }
 
   @Override

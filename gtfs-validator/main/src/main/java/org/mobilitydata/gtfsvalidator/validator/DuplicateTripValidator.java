@@ -16,8 +16,8 @@
 
 package org.mobilitydata.gtfsvalidator.validator;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.DuplicateTripNotice;
@@ -26,10 +26,9 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
 import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
 /**
- * Validates that trip edges (first and last stops) for a trip define both arrival and departure
- * stop times, for all trips.
+ * Validates there are no duplicate trips.
  *
- * <p>Generated notice: {@link MissingTripEdgeStopTimeNotice} each time this is false.
+ * <p>Generated notice: {@link DuplicateTripNotice} for each duplicate.
  */
 @GtfsValidator
 public class DuplicateTripValidator extends FileValidator {
@@ -41,7 +40,8 @@ public class DuplicateTripValidator extends FileValidator {
     for (GtfsTrip trip : tripTable.getEntities()) {
       final String tripId = trip.tripId();
       if (tripIdAndCsv.containsKey(tripId)) {
-        noticeContainer.addNotice(new DuplicateTripNotice(tripId, trip.csvRowNumber(),tripIdAndCsv.get(tripId)));
+        noticeContainer.addNotice(
+            new DuplicateTripNotice(tripId, trip.csvRowNumber(), tripIdAndCsv.get(tripId)));
       }
       tripIdAndCsv.put(tripId, trip.csvRowNumber());
     }
