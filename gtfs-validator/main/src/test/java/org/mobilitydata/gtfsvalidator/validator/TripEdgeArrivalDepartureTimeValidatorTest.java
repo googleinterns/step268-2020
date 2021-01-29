@@ -18,9 +18,7 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -137,9 +135,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
@@ -157,9 +153,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -179,9 +173,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
             noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -200,9 +192,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -221,9 +211,8 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
+
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -243,9 +232,8 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
+
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(2);
@@ -269,9 +257,8 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
+
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(2);
@@ -296,10 +283,7 @@ public class TripEdgeArrivalDepartureTimeValidatorTest {
         noticeContainer);
 
     // Create tripTable:
-    List<GtfsTrip> trips = new ArrayList<>();
-    trips.add(trip1);
-    trips.add(trip2);
-    validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1, trip2), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices().size()).isEqualTo(5);
