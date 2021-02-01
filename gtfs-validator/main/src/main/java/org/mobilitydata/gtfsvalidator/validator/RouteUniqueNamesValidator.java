@@ -32,9 +32,9 @@ import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
  * <p>Generated notices:
  *
  * <ul>
- *   <li>{@link DuplicateRouteLongNameShortNameCombinationNotice}
- *   <li>{@link DuplicateRouteShortNameNotice}
  *   <li>{@link DuplicateRouteLongNameNotice}
+ *   <li>{@link DuplicateRouteShortNameNotice}
+ *   <li>{@link DuplicateRouteLongNameShortNameCombinationNotice}
  * </ul>
  */
 @GtfsValidator
@@ -48,10 +48,10 @@ public class RouteUniqueNamesValidator extends FileValidator {
       String routeLongName = Optional.ofNullable(route.routeLongName()).orElse("");
       String routeShortName = Optional.ofNullable(route.routeShortName()).orElse("");
       if (routeLongName != "") {
-        // For DuplicateRouteLongNameNotice
+        // TODO: For DuplicateRouteLongNameNotice
       }
       if (routeShortName != "") {
-        // For DuplicateRouteShortNameNotice
+        // TODO: For DuplicateRouteShortNameNotice
       }
       // Checks uniqueness of combination of fields `route_long_name` and `route_short_name`
       if (routesByLongNameShortName.containsKey(routeLongName + routeShortName)) {
