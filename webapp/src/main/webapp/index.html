@@ -11,9 +11,18 @@
   <body>
     <div id="content">
       <h1><a href="index.html">GTFS Validator</a></h1>
-      <div id="warning">
+      <h2>About</h2>
+      <p>The General Transit Feed Specification (GTFS) is an open data standard. It enables transit agencies to share their data describing their transit service in a standard format that can be used by rider-facing software applications. </p>
+      <h2>How to use</h2>
+      <p>Upload a compressed .zip file including all of the individual files for your transit service.</p>
+      <form method="post" action="fileupload" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" accept=".zip" required/>
+        <br>
+        <button class="btn btn-outline-primary" type="submit">Upload</button>
+      </form>
+    </div>
+    <div id="warning">
         <script>unknownColumnWarning()</script>
-      </div>
     </div>
   </body>
 </html>

@@ -31,53 +31,67 @@ import java.util.List;
 
 /**
  * Validates departure_time and arrival_time fields in "stop_times.txt".
- * <p>
- * Generated notices:
- * * StopTimeWithOnlyArrivalOrDepartureTimeNotice - a single departure_time or arrival_time is defined for a row (both
- * or none are expected)
- * * StopTimeWithDepartureBeforeArrivalTimeNotice - departure_time < arrival_time
- * * StopTimeWithArrivalBeforePreviousDepartureTimeNotice - prev(arrival_time) < curr(departure_time)
+ *
+ * <p>Generated notices:
+ *
+ * <ul>
+ *   <li>{@link StopTimeWithOnlyArrivalOrDepartureTimeNotice} - a single departure_time or
+ *       arrival_time is defined for a row (both or none are expected)
+ *   <li>{@link StopTimeWithDepartureBeforeArrivalTimeNotice} - departure_time < arrival_time
+ *   <li>{@link StopTimeWithArrivalBeforePreviousDepartureTimeNotice} - prev(arrival_time) <
+ *       curr(departure_time)
+ * </ul>
  */
 @GtfsValidator
 public class StopTimeArrivalAndDepartureTimeValidator extends FileValidator {
-    @Inject
-    GtfsStopTimeTableContainer table;
+  @Inject GtfsStopTimeTableContainer table;
 
-    @Override
-    public void validate(NoticeContainer noticeContainer) {
-        for (List<GtfsStopTime> stopTimeList : Multimaps.asMap(table.byTripIdMap()).values()) {
-            int previousDepartureRow = -1;
-            for (int i = 0; i < stopTimeList.size(); ++i) {
-                GtfsStopTime stopTime = stopTimeList.get(i);
-                final boolean hasDeparture = stopTime.hasDepartureTime();
-                final boolean hasArrival = stopTime.hasArrivalTime();
-                if (hasArrival != hasDeparture) {
-                    noticeContainer.addNotice(new StopTimeWithOnlyArrivalOrDepartureTimeNotice(
-                            stopTime.csvRowNumber(), stopTime.tripId(), stopTime.stopSequence(),
-                            hasArrival ? GtfsStopTimeTableLoader.ARRIVAL_TIME_FIELD_NAME
-                                    : GtfsStopTimeTableLoader.DEPARTURE_TIME_FIELD_NAME
-                    ));
-                }
-                if (hasDeparture && hasArrival) {
-                    if (stopTime.departureTime().isBefore(stopTime.arrivalTime())) {
-                        noticeContainer.addNotice(new StopTimeWithDepartureBeforeArrivalTimeNotice(
-                                stopTime.csvRowNumber(), stopTime.tripId(), stopTime.stopSequence(),
-                                stopTime.departureTime(), stopTime.arrivalTime()
-                        ));
-                    }
-                }
-                if (hasArrival && previousDepartureRow != -1 &&
-                        stopTime.arrivalTime().isBefore(stopTimeList.get(previousDepartureRow).departureTime())) {
-                    noticeContainer.addNotice(new StopTimeWithArrivalBeforePreviousDepartureTimeNotice(
-                            stopTime.csvRowNumber(), stopTimeList.get(previousDepartureRow).csvRowNumber(), stopTime.tripId(),
-                            stopTime.arrivalTime(), stopTimeList.get(previousDepartureRow).departureTime()
-                    ));
-                }
-                if (hasDeparture) {
-                    previousDepartureRow = i;
-                }
-            }
+  @Override
+  public void validate(NoticeContainer noticeContainer) {
+    for (List<GtfsStopTime> stopTimeList : Multimaps.asMap(table.byTripIdMap()).values()) {
+      int previousDepartureRow = -1;
+      for (int i = 0; i < stopTimeList.size(); ++i) {
+        GtfsStopTime stopTime = stopTimeList.get(i);
+        final boolean hasDeparture = stopTime.hasDepartureTime();
+        final boolean hasArrival = stopTime.hasArrivalTime();
+        if (hasArrival != hasDeparture) {
+          noticeContainer.addNotice(
+              new StopTimeWithOnlyArrivalOrDepartureTimeNotice(
+                  stopTime.csvRowNumber(),
+                  stopTime.tripId(),
+                  stopTime.stopSequence(),
+                  hasArrival
+                      ? GtfsStopTimeTableLoader.ARRIVAL_TIME_FIELD_NAME
+                      : GtfsStopTimeTableLoader.DEPARTURE_TIME_FIELD_NAME));
         }
+        if (hasDeparture && hasArrival) {
+          if (stopTime.departureTime().isBefore(stopTime.arrivalTime())) {
+            noticeContainer.addNotice(
+                new StopTimeWithDepartureBeforeArrivalTimeNotice(
+                    stopTime.csvRowNumber(),
+                    stopTime.tripId(),
+                    stopTime.stopSequence(),
+                    stopTime.departureTime(),
+                    stopTime.arrivalTime()));
+          }
+        }
+        if (hasArrival
+            && previousDepartureRow != -1
+            && stopTime
+                .arrivalTime()
+                .isBefore(stopTimeList.get(previousDepartureRow).departureTime())) {
+          noticeContainer.addNotice(
+              new StopTimeWithArrivalBeforePreviousDepartureTimeNotice(
+                  stopTime.csvRowNumber(),
+                  stopTimeList.get(previousDepartureRow).csvRowNumber(),
+                  stopTime.tripId(),
+                  stopTime.arrivalTime(),
+                  stopTimeList.get(previousDepartureRow).departureTime()));
+        }
+        if (hasDeparture) {
+          previousDepartureRow = i;
+        }
+      }
     }
+  }
 }
-

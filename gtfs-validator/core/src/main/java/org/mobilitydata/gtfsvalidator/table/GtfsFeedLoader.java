@@ -42,130 +42,142 @@ import java.util.concurrent.Executors;
 
 /**
  * Loader for a whole GTFS feed with all its CSV files.
- * <p>
- * The loader creates a {@code GtfsFeedContainer} object. Loaders for particular tables are discovered dynamically
- * based on {@code GtfsLoader} annotation.
+ *
+ * <p>The loader creates a {@code GtfsFeedContainer} object. Loaders for particular tables are
+ * discovered dynamically based on {@code GtfsLoader} annotation.
  */
 public class GtfsFeedLoader {
-    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-    private final HashMap<String, GtfsTableLoader> tableLoaders = new HashMap<>();
-    private int numThreads = 1;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final HashMap<String, GtfsTableLoader> tableLoaders = new HashMap<>();
+  private int numThreads = 1;
 
-    public GtfsFeedLoader() {
-        ClassPath classPath;
-        try {
-            classPath = ClassPath.from(ClassLoader.getSystemClassLoader());
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-        for (ClassPath.ClassInfo classInfo : classPath
-                .getTopLevelClassesRecursive("org.mobilitydata.gtfsvalidator.table")) {
-            Class<?> clazz = classInfo.load();
-            if (!(clazz.isAnnotationPresent(GtfsLoader.class) && GtfsTableLoader.class.isAssignableFrom(clazz))) {
-                continue;
-            }
-            GtfsTableLoader loader;
-            try {
-                loader = clazz.asSubclass(GtfsTableLoader.class).getConstructor().newInstance();
-            } catch (ReflectiveOperationException e) {
-                logger.atSevere().withCause(e).log(
-                        "Possible bug in GTFS annotation processor: expected a constructor without parameters for %s",
-                        clazz.getName());
-                continue;
-            }
-            tableLoaders.put(loader.gtfsFilename(), loader);
-        }
+  public GtfsFeedLoader() {
+    ClassPath classPath;
+    try {
+      classPath = ClassPath.from(getClass().getClassLoader());
+    } catch (IOException exception) {
+      throw new RuntimeException(exception);
     }
-
-    private static Reader createFileReader(InputStream stream) {
-        return new BufferedReader(new InputStreamReader(stream));
+    for (ClassPath.ClassInfo classInfo :
+        classPath.getTopLevelClassesRecursive("org.mobilitydata.gtfsvalidator.table")) {
+      Class<?> clazz = classInfo.load();
+      if (!(clazz.isAnnotationPresent(GtfsLoader.class)
+          && GtfsTableLoader.class.isAssignableFrom(clazz))) {
+        continue;
+      }
+      GtfsTableLoader loader;
+      try {
+        loader = clazz.asSubclass(GtfsTableLoader.class).getConstructor().newInstance();
+      } catch (ReflectiveOperationException e) {
+        logger.atSevere().withCause(e).log(
+            "Possible bug in GTFS annotation processor: expected a constructor without parameters for %s",
+            clazz.getName());
+        continue;
+      }
+      tableLoaders.put(loader.gtfsFilename(), loader);
     }
+  }
 
-    public String listTableLoaders() {
-        return String.join(" ", tableLoaders.keySet());
+  private static Reader createFileReader(InputStream stream) {
+    return new BufferedReader(new InputStreamReader(stream));
+  }
+
+  public String listTableLoaders() {
+    return String.join(" ", tableLoaders.keySet());
+  }
+
+  public void setNumThreads(int numThreads) {
+    this.numThreads = numThreads;
+  }
+
+  public GtfsFeedContainer loadAndValidate(
+      GtfsInput gtfsInput,
+      GtfsFeedName feedName,
+      ValidatorLoader validatorLoader,
+      NoticeContainer noticeContainer) {
+    logger.atInfo().log("Loading in %d threads", numThreads);
+    ExecutorService exec = Executors.newFixedThreadPool(numThreads);
+
+    List<Callable<TableAndNoticeContainers>> loaderCallables = new ArrayList<>();
+    Map<String, GtfsTableLoader> remainingLoaders =
+        (Map<String, GtfsTableLoader>) tableLoaders.clone();
+    for (String filename : gtfsInput.getFilenames()) {
+      GtfsTableLoader loader = remainingLoaders.remove(filename.toLowerCase());
+      if (loader == null) {
+        noticeContainer.addNotice(new UnknownFileNotice(filename));
+      } else {
+        loaderCallables.add(
+            () -> {
+              Reader reader = createFileReader(gtfsInput.getFile(filename));
+              NoticeContainer loaderNotices = new NoticeContainer();
+              GtfsTableContainer tableContainer;
+              try {
+                tableContainer = loader.load(reader, feedName, validatorLoader, loaderNotices);
+              } finally {
+                reader.close();
+              }
+              return new TableAndNoticeContainers(tableContainer, loaderNotices);
+            });
+      }
     }
-
-    public void setNumThreads(int numThreads) {
-        this.numThreads = numThreads;
+    ArrayList<GtfsTableContainer> tableContainers = new ArrayList<>();
+    tableContainers.ensureCapacity(tableLoaders.size());
+    for (GtfsTableLoader loader : remainingLoaders.values()) {
+      tableContainers.add(loader.loadMissingFile(validatorLoader, noticeContainer));
     }
-
-    public GtfsFeedContainer loadAndValidate(GtfsInput gtfsInput, GtfsFeedName feedName, ValidatorLoader validatorLoader,
-                                             NoticeContainer noticeContainer) {
-        logger.atInfo().log("Loading in %d threads", numThreads);
-        ExecutorService exec = Executors.newFixedThreadPool(numThreads);
-
-        List<Callable<TableAndNoticeContainers>> loaderCallables = new ArrayList<>();
-        Map<String, GtfsTableLoader> remainingLoaders = (Map<String, GtfsTableLoader>) tableLoaders.clone();
-        for (String filename : gtfsInput.getFilenames()) {
-            GtfsTableLoader loader = remainingLoaders.remove(filename.toLowerCase());
-            if (loader == null) {
-                noticeContainer.addNotice(new UnknownFileNotice(filename));
-            } else {
-                loaderCallables.add(() -> {
-                    Reader reader = createFileReader(gtfsInput.getFile(filename));
-                    NoticeContainer loaderNotices = new NoticeContainer();
-                    GtfsTableContainer tableContainer;
-                    try {
-                        tableContainer = loader.load(reader, feedName, validatorLoader, loaderNotices);
-                    } finally {
-                        reader.close();
-                    }
-                    return new TableAndNoticeContainers(tableContainer, loaderNotices);
+    try {
+      try {
+        exec.invokeAll(loaderCallables)
+            .forEach(
+                f -> {
+                  try {
+                    TableAndNoticeContainers containers = f.get();
+                    tableContainers.add(containers.tableContainer);
+                    noticeContainer.addAll(containers.noticeContainer);
+                  } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                  }
                 });
-            }
-        }
-        ArrayList<GtfsTableContainer> tableContainers = new ArrayList<>();
-        tableContainers.ensureCapacity(tableLoaders.size());
-        for (GtfsTableLoader loader : remainingLoaders.values()) {
-            tableContainers.add(loader.loadMissingFile(validatorLoader, noticeContainer));
-        }
-        try {
-            try {
-                exec.invokeAll(loaderCallables).forEach(f -> {
-                    try {
-                        TableAndNoticeContainers containers = f.get();
-                        tableContainers.add(containers.tableContainer);
-                        noticeContainer.addAll(containers.noticeContainer);
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      GtfsFeedContainer feed = new GtfsFeedContainer(tableContainers);
+      List<Callable<NoticeContainer>> validatorCallables = new ArrayList<>();
+      for (FileValidator validator : validatorLoader.createMultiFileValidators(feed)) {
+        validatorCallables.add(
+            () -> {
+              NoticeContainer validatorNotices = new NoticeContainer();
+              validator.validate(validatorNotices);
+              return validatorNotices;
+            });
+      }
+      try {
+        exec.invokeAll(validatorCallables)
+            .forEach(
+                container -> {
+                  try {
+                    noticeContainer.addAll(container.get());
+                  } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                  }
                 });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            GtfsFeedContainer feed = new GtfsFeedContainer(tableContainers);
-            List<Callable<NoticeContainer>> validatorCallables = new ArrayList<>();
-            for (FileValidator validator : validatorLoader.createMultiFileValidators(feed)) {
-                validatorCallables.add(() -> {
-                    NoticeContainer validatorNotices = new NoticeContainer();
-                    validator.validate(validatorNotices);
-                    return validatorNotices;
-                });
-            }
-            try {
-                exec.invokeAll(validatorCallables).forEach(container -> {
-                    try {
-                        noticeContainer.addAll(container.get());
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return feed;
-        } finally {
-            exec.shutdown();
-        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      return feed;
+    } finally {
+      exec.shutdown();
     }
+  }
 
-    static class TableAndNoticeContainers {
-        final GtfsTableContainer tableContainer;
-        final NoticeContainer noticeContainer;
+  static class TableAndNoticeContainers {
+    final GtfsTableContainer tableContainer;
+    final NoticeContainer noticeContainer;
 
-        public TableAndNoticeContainers(GtfsTableContainer tableContainer, NoticeContainer noticeContainer) {
-            this.tableContainer = tableContainer;
-            this.noticeContainer = noticeContainer;
-        }
+    public TableAndNoticeContainers(
+        GtfsTableContainer tableContainer, NoticeContainer noticeContainer) {
+      this.tableContainer = tableContainer;
+      this.noticeContainer = noticeContainer;
     }
+  }
 }
