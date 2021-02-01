@@ -31,6 +31,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
 
 @RunWith(JUnit4.class)
 public class RouteUniqueNamesValidatorTest {
+  private RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
   private final GtfsRoute routeOnlyLongName_abcd =
       new GtfsRoute.Builder()
           .setCsvRowNumber(1)
@@ -74,8 +75,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeOnlyLongNameEqualsAnotherRouteOnlyShortName() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(Arrays.asList(routeOnlyLongName_abcd, routeOnlyShortName_abcd));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -95,8 +94,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeOnlyLongNameDifferentFromAnotherRouteOnlyShortName() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(Arrays.asList(routeOnlyLongName_alpha, routeOnlyShortName_abcd));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -108,8 +105,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeOnlyLongNameDifferentFromAnotherRouteOnlyLongName() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(Arrays.asList(routeOnlyLongName_abcd, routeOnlyLongName_alpha));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -121,8 +116,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeOnlyLongNameEqualsAnotherRouteBothLongShortNames() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(Arrays.asList(routeOnlyLongName_abcd, routeLongName_ab_ShortName_cd));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -142,8 +135,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeOnlyShortNameEqualsAnotherRouteBothLongShortNames() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(Arrays.asList(routeOnlyShortName_abcd, routeLongName_ab_ShortName_cd));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -163,8 +154,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeOnlyShortNameDifferentFromAnotherRouteBothLongShortNames() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(Arrays.asList(routeOnlyShortName_abcd, routeLongName_cd_ShortName_ab));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -176,8 +165,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeBothLongShortNamesEqualsAnotherRouteBothLongShortNames() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(
             Arrays.asList(routeLongName_ab_ShortName_cd, routeLongName_abc_ShortName_d));
@@ -198,8 +185,6 @@ public class RouteUniqueNamesValidatorTest {
   @Test
   public void routeBothLongShortNamesDifferentFromAnotherRouteBothLongShortNames() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-
     List<GtfsRoute> routes =
         new ArrayList<>(
             Arrays.asList(routeLongName_ab_ShortName_cd, routeLongName_cd_ShortName_ab));
