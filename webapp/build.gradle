@@ -57,6 +57,7 @@ appengine {  // App Engine tasks configuration
     version = '1'
   }
 }
+buildSoy.source = "src/main/webapp/resources"
 
 test {
   useJUnit()
