@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// var exports = module.exports{}
 function unknownColumnWarning() {
   // TODO: change from hardcoded to parameters
   const params = {
@@ -27,5 +26,4 @@ function unknownColumnWarning() {
   }
   const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
   document.getElementById("warning").appendChild(template);
-  return template;
 }
