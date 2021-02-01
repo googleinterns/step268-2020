@@ -84,7 +84,12 @@ public class RouteUniqueNamesValidatorTest {
     assertThat(noticeContainer.getNotices())
         .containsExactly(
             new DuplicateRouteLongNameShortNameCombinationNotice(
-                "routeOnlyLongName_abcd", "abcd", "", "routeOnlyShortName_abcd", "", "abcd"));
+                /* comparedRouteId= */ "routeOnlyLongName_abcd",
+                /* comparedRouteLongName= */ "abcd",
+                /* comparedRouteShortName= */ "",
+                /* routeId= */ "routeOnlyShortName_abcd",
+                /* routeLongName= */ "",
+                /* routeShortName= */ "abcd"));
   }
 
   @Test
@@ -126,7 +131,12 @@ public class RouteUniqueNamesValidatorTest {
     assertThat(noticeContainer.getNotices())
         .containsExactly(
             new DuplicateRouteLongNameShortNameCombinationNotice(
-                "routeOnlyLongName_abcd", "abcd", "", "routeLongName_ab_ShortName_cd", "ab", "cd"));
+                /* comparedRouteId= */ "routeOnlyLongName_abcd",
+                /* comparedRouteLongName= */ "abcd",
+                /* comparedRouteShortName= */ "",
+                /* routeId= */ "routeLongName_ab_ShortName_cd",
+                /* routeLongName= */ "ab",
+                /* routeShortName= */ "cd"));
   }
 
   @Test
@@ -142,12 +152,12 @@ public class RouteUniqueNamesValidatorTest {
     assertThat(noticeContainer.getNotices())
         .containsExactly(
             new DuplicateRouteLongNameShortNameCombinationNotice(
-                "routeOnlyShortName_abcd",
-                "",
-                "abcd",
-                "routeLongName_ab_ShortName_cd",
-                "ab",
-                "cd"));
+                /* comparedRouteId= */ "routeOnlyShortName_abcd",
+                /* comparedRouteLongName= */ "",
+                /* comparedRouteShortName= */ "abcd",
+                /* routeId= */ "routeLongName_ab_ShortName_cd",
+                /* routeLongName= */ "ab",
+                /* routeShortName= */ "cd"));
   }
 
   @Test
@@ -177,12 +187,12 @@ public class RouteUniqueNamesValidatorTest {
     assertThat(noticeContainer.getNotices())
         .containsExactly(
             new DuplicateRouteLongNameShortNameCombinationNotice(
-                "routeLongName_ab_ShortName_cd",
-                "ab",
-                "cd",
-                "routeLongName_abc_ShortName_d",
-                "abc",
-                "d"));
+                /* comparedRouteId= */ "routeLongName_ab_ShortName_cd",
+                /* comparedRouteLongName= */ "ab",
+                /* comparedRouteShortName= */ "cd",
+                /* routeId= */ "routeLongName_abc_ShortName_d",
+                /* routeLongName= */ "abc",
+                /* routeShortName= */ "d"));
   }
 
   @Test
