@@ -132,7 +132,6 @@ public class RouteHasNoDuplicateStopsValidatorTest {
         GtfsStopTableContainer.forEntities(Arrays.asList(stopId1001, stopId1002), noticeContainer);
     
     validator.validate(noticeContainer);
-    System.out.println(noticeContainer.getNotices());
     assertThat(noticeContainer.getNotices())
         .containsExactly(new RouteWithDuplicateStopNotice(/* stopName = */ "stop1",
             /* prevStopId  = */ "1001", /* prevCsvRowNumber = */ 3, /* stopId  = */ "1002",
@@ -178,8 +177,6 @@ public class RouteHasNoDuplicateStopsValidatorTest {
         GtfsStopTableContainer.forEntities(Arrays.asList(stopId1001, stopId1002), noticeContainer);
     
     validator.validate(noticeContainer);
-    System.out.println(noticeContainer.getNotices().size());
-    System.out.println(noticeContainer.getNotices());
     assertThat(noticeContainer.getNotices())
         .containsExactly(new RouteWithDuplicateStopNotice(/* stopName = */ "stop1",
             /* prevStopId  = */ "1001", /* prevCsvRowNumber = */ 3, /* stopId  = */ "1002",
