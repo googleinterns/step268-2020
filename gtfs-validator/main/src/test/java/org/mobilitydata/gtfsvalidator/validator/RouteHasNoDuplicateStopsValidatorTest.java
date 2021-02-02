@@ -32,12 +32,6 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTimeTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsTrip;
 import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
-/** 
- * Duplicate
- * Repeated duplicate
- * No duplicate
- * 
- */
 @RunWith(JUnit4.class)
 public class RouteHasNoDuplicateStopsValidatorTest {
   private final GtfsTrip trip1_route1 =
