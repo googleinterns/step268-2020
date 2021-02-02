@@ -56,6 +56,7 @@ dependencies {
 // Always run unit tests
 appengineDeploy.dependsOn test
 appengineStage.dependsOn test
+appengineRun.dependsOn buildSoy
 
 appengine {  // App Engine tasks configuration
   deploy {   // deploy configuration
