@@ -34,7 +34,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 
 /**
  * Validates that for each route, that consecutive stop times do not have the same stop name.
- * It checks
+ * It checks this for all trips.
  * [Warning]
  *
  * <p>Generated notice: {@link DecreasingStopTimeDistanceNotice}.
