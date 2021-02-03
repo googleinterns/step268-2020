@@ -16,26 +16,25 @@
 
 package org.mobilitydata.gtfsvalidator.validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
-import org.mobilitydata.gtfsvalidator.notice.DuplicateRouteLongNameShortNameCombinationNotice;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.notice.RouteUniqueNamesNotice;
 import org.mobilitydata.gtfsvalidator.table.GtfsRoute;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
+import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 
 /**
- * Validates short or long names for a route are unique.
+ * Validates whether the combination of names, type and agency ID for a route is unique.
  *
- * <p>Generated notices:
- *
- * <ul>
- *   <li>{@link DuplicateRouteLongNameNotice}
- *   <li>{@link DuplicateRouteShortNameNotice}
- *   <li>{@link DuplicateRouteLongNameShortNameCombinationNotice}
- * </ul>
+ * <p>Generated notices: {@link RouteUniqueNamesNotice}.
  */
 @GtfsValidator
 public class RouteUniqueNamesValidator extends FileValidator {
@@ -43,29 +42,42 @@ public class RouteUniqueNamesValidator extends FileValidator {
 
   @Override
   public void validate(NoticeContainer noticeContainer) {
-    final Map<String, GtfsRoute> routesByLongNameShortName = new HashMap<>();
+    final Map<Integer, List<Object>> testedRoutes = new HashMap<>();
     for (GtfsRoute route : routeTable.getEntities()) {
-      String routeLongName = Optional.ofNullable(route.routeLongName()).orElse("");
-      String routeShortName = Optional.ofNullable(route.routeShortName()).orElse("");
-      if (routeLongName != "") {
-        // TODO: For DuplicateRouteLongNameNotice
-      }
-      if (routeShortName != "") {
-        // TODO: For DuplicateRouteShortNameNotice
-      }
-      // Checks uniqueness of combination of fields `route_long_name` and `route_short_name`
-      if (routesByLongNameShortName.containsKey(routeLongName + routeShortName)) {
-        GtfsRoute comparedRoute = routesByLongNameShortName.get(routeLongName + routeShortName);
-        noticeContainer.addNotice(
-            new DuplicateRouteLongNameShortNameCombinationNotice(
-                comparedRoute.routeId(),
-                Optional.ofNullable(comparedRoute.routeLongName()).orElse(""),
-                Optional.ofNullable(comparedRoute.routeShortName()).orElse(""),
-                route.routeId(),
-                routeLongName,
-                routeShortName));
+      // Grab necessary route information and transfer null to empty String to make later comparison
+      // and notice genration easier
+      final String routeLongName = Optional.ofNullable(route.routeLongName()).orElse("");
+      final String routeShortName = Optional.ofNullable(route.routeShortName()).orElse("");
+      final GtfsRouteType routeType = route.routeType();
+      final String agencyId = Optional.ofNullable(route.agencyId()).orElse("");
+
+      final int hashCode = Objects.hash(routeLongName, routeShortName, routeType, agencyId);
+      if (testedRoutes.containsKey(hashCode)) {
+        List<Object> storedRouteInfo = testedRoutes.get(hashCode);
+        // Ensure routes with the same hashcode do have the same route names, types and agency IDs
+        if (routeLongName.equals(storedRouteInfo.get(1))
+            && routeShortName.equals(storedRouteInfo.get(2))
+            && routeType.getNumber() == (int) (storedRouteInfo.get(3))
+            && agencyId.equals(storedRouteInfo.get(4))) {
+          noticeContainer.addNotice(
+              new RouteUniqueNamesNotice(
+                  route.routeId(),
+                  /* comparedRouteId= */ storedRouteInfo.get(0).toString(),
+                  routeLongName,
+                  routeShortName,
+                  routeType,
+                  agencyId));
+        }
       } else {
-        routesByLongNameShortName.put(routeLongName + routeShortName, route);
+        List<Object> routeInfo =
+            new ArrayList<>(
+                Arrays.asList(
+                    route.routeId(),
+                    routeLongName,
+                    routeShortName,
+                    routeType.getNumber(),
+                    agencyId));
+        testedRoutes.put(hashCode, routeInfo);
       }
     }
   }
