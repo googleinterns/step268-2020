@@ -24,173 +24,172 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mobilitydata.gtfsvalidator.notice.DuplicateRouteLongNameShortNameCombinationNotice;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.notice.RouteUniqueNamesNotice;
 import org.mobilitydata.gtfsvalidator.table.GtfsRoute;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
+import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 
 @RunWith(JUnit4.class)
 public class RouteUniqueNamesValidatorTest {
   private RouteUniqueNamesValidator validator = new RouteUniqueNamesValidator();
-  private final GtfsRoute routeOnlyLongName_abcd =
+  private final GtfsRoute routeA =
       new GtfsRoute.Builder()
           .setCsvRowNumber(1)
-          .setRouteId("routeOnlyLongName_abcd")
+          .setRouteId("routeA")
           .setRouteLongName("abcd")
+          .setRouteType(GtfsRouteType.BUS.getNumber())
           .build();
-  private final GtfsRoute routeOnlyLongName_alpha =
+  private final GtfsRoute routeB =
       new GtfsRoute.Builder()
           .setCsvRowNumber(2)
-          .setRouteId("routeOnlyLongName_alpha")
-          .setRouteLongName("alpha")
+          .setRouteId("routeB")
+          .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.BUS.getNumber())
           .build();
-  private final GtfsRoute routeOnlyShortName_abcd =
+  private final GtfsRoute routeC =
       new GtfsRoute.Builder()
           .setCsvRowNumber(3)
-          .setRouteId("routeOnlyShortName_abcd")
+          .setRouteId("routeC")
+          .setRouteLongName("abcd-long-name")
           .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.BUS.getNumber())
           .build();
-  private final GtfsRoute routeLongName_ab_ShortName_cd =
+  private final GtfsRoute routeD =
       new GtfsRoute.Builder()
           .setCsvRowNumber(4)
-          .setRouteId("routeLongName_ab_ShortName_cd")
-          .setRouteLongName("ab")
-          .setRouteShortName("cd")
+          .setRouteId("routeD")
+          .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.LIGHT_RAIL.getNumber())
           .build();
-  private final GtfsRoute routeLongName_cd_ShortName_ab =
+  private final GtfsRoute routeE =
       new GtfsRoute.Builder()
           .setCsvRowNumber(5)
-          .setRouteId("routeLongName_cd_ShortName_ab")
-          .setRouteLongName("cd")
-          .setRouteShortName("ab")
+          .setRouteId("routeE")
+          .setRouteLongName("abcd-long-name")
+          .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.SUBWAY.getNumber())
+          .setAgencyId("agency1")
           .build();
-  private final GtfsRoute routeLongName_abc_ShortName_d =
+  private final GtfsRoute routeF =
       new GtfsRoute.Builder()
           .setCsvRowNumber(6)
-          .setRouteId("routeLongName_abc_ShortName_d")
-          .setRouteLongName("abc")
-          .setRouteShortName("d")
+          .setRouteId("routeF")
+          .setRouteLongName("abcd-long-name")
+          .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.SUBWAY.getNumber())
+          .setAgencyId("agency2")
+          .build();
+  private final GtfsRoute routeG =
+      new GtfsRoute.Builder()
+          .setCsvRowNumber(7)
+          .setRouteId("routeG")
+          .setRouteLongName("abcd-long-name")
+          .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.SUBWAY.getNumber())
+          .setAgencyId("agency1")
+          .build();
+  private final GtfsRoute routeH =
+      new GtfsRoute.Builder()
+          .setCsvRowNumber(8)
+          .setRouteId("routeH")
+          .setRouteShortName("abcd")
+          .setRouteType(GtfsRouteType.BUS.getNumber())
           .build();
 
   @Test
-  public void routeOnlyLongNameEqualsAnotherRouteOnlyShortName() {
+  public void routeLongNameEqualsAnotherRouteShortName() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(Arrays.asList(routeOnlyLongName_abcd, routeOnlyShortName_abcd));
+    List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(routeA, routeB));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices()).isEmpty();
+  }
 
+  @Test
+  public void routeWithExtraFieldComparedToAnother() {
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(routeB, routeC));
+    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices()).isEmpty();
+  }
+
+  @Test
+  public void routesWithDifferentRouteTypes() {
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(routeB, routeD));
+    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices()).isEmpty();
+  }
+
+  @Test
+  public void routesWithDifferentAgencyIds() {
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(routeE, routeF));
+    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices()).isEmpty();
+  }
+
+  @Test
+  public void routesWithSameNamesTypeAndAgencyShouldGenerateNoticeWithAllFields() {
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(routeE, routeG));
+    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
         .containsExactly(
-            new DuplicateRouteLongNameShortNameCombinationNotice(
-                /* comparedRouteId= */ "routeOnlyLongName_abcd",
-                /* comparedRouteLongName= */ "abcd",
-                /* comparedRouteShortName= */ "",
-                /* routeId= */ "routeOnlyShortName_abcd",
+            new RouteUniqueNamesNotice(
+                /* routeId= */ "routeG",
+                /* comparedRouteId= */ "routeE",
+                /* routeLongName= */ "abcd-long-name",
+                /* routeShortName= */ "abcd",
+                /* routeType= */ GtfsRouteType.SUBWAY,
+                /* agencyId= */ "agency1"));
+  }
+
+  @Test
+  public void routesWithSameShortNameAndTypeShouldGenerateNoticeWithMissingFields() {
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(routeB, routeH));
+    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices())
+        .containsExactly(
+            new RouteUniqueNamesNotice(
+                /* routeId= */ "routeH",
+                /* comparedRouteId= */ "routeB",
                 /* routeLongName= */ "",
-                /* routeShortName= */ "abcd"));
+                /* routeShortName= */ "abcd",
+                /* routeType= */ GtfsRouteType.BUS,
+                /* agencyId= */ ""));
   }
 
   @Test
-  public void routeOnlyLongNameDifferentFromAnotherRouteOnlyShortName() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(Arrays.asList(routeOnlyLongName_alpha, routeOnlyShortName_abcd));
-    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
-    validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices()).isEmpty();
-  }
-
-  @Test
-  public void routeOnlyLongNameDifferentFromAnotherRouteOnlyLongName() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(Arrays.asList(routeOnlyLongName_abcd, routeOnlyLongName_alpha));
-    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
-    validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices()).isEmpty();
-  }
-
-  @Test
-  public void routeOnlyLongNameEqualsAnotherRouteBothLongShortNames() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(Arrays.asList(routeOnlyLongName_abcd, routeLongName_ab_ShortName_cd));
-    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
-    validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices())
-        .containsExactly(
-            new DuplicateRouteLongNameShortNameCombinationNotice(
-                /* comparedRouteId= */ "routeOnlyLongName_abcd",
-                /* comparedRouteLongName= */ "abcd",
-                /* comparedRouteShortName= */ "",
-                /* routeId= */ "routeLongName_ab_ShortName_cd",
-                /* routeLongName= */ "ab",
-                /* routeShortName= */ "cd"));
-  }
-
-  @Test
-  public void routeOnlyShortNameEqualsAnotherRouteBothLongShortNames() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(Arrays.asList(routeOnlyShortName_abcd, routeLongName_ab_ShortName_cd));
-    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
-    validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices())
-        .containsExactly(
-            new DuplicateRouteLongNameShortNameCombinationNotice(
-                /* comparedRouteId= */ "routeOnlyShortName_abcd",
-                /* comparedRouteLongName= */ "",
-                /* comparedRouteShortName= */ "abcd",
-                /* routeId= */ "routeLongName_ab_ShortName_cd",
-                /* routeLongName= */ "ab",
-                /* routeShortName= */ "cd"));
-  }
-
-  @Test
-  public void routeOnlyShortNameDifferentFromAnotherRouteBothLongShortNames() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(Arrays.asList(routeOnlyShortName_abcd, routeLongName_cd_ShortName_ab));
-    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
-    validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices()).isEmpty();
-  }
-
-  @Test
-  public void routeBothLongShortNamesEqualsAnotherRouteBothLongShortNames() {
+  public void routesCombinationGenerateNotices() {
     final NoticeContainer noticeContainer = new NoticeContainer();
     List<GtfsRoute> routes =
         new ArrayList<>(
-            Arrays.asList(routeLongName_ab_ShortName_cd, routeLongName_abc_ShortName_d));
+            Arrays.asList(routeA, routeB, routeC, routeD, routeE, routeF, routeG, routeH));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
         .containsExactly(
-            new DuplicateRouteLongNameShortNameCombinationNotice(
-                /* comparedRouteId= */ "routeLongName_ab_ShortName_cd",
-                /* comparedRouteLongName= */ "ab",
-                /* comparedRouteShortName= */ "cd",
-                /* routeId= */ "routeLongName_abc_ShortName_d",
-                /* routeLongName= */ "abc",
-                /* routeShortName= */ "d"));
-  }
-
-  @Test
-  public void routeBothLongShortNamesDifferentFromAnotherRouteBothLongShortNames() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsRoute> routes =
-        new ArrayList<>(
-            Arrays.asList(routeLongName_ab_ShortName_cd, routeLongName_cd_ShortName_ab));
-    validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
-
-    validator.validate(noticeContainer);
-    assertThat(noticeContainer.getNotices()).isEmpty();
+            new RouteUniqueNamesNotice(
+                /* routeId= */ "routeG",
+                /* comparedRouteId= */ "routeE",
+                /* routeLongName= */ "abcd-long-name",
+                /* routeShortName= */ "abcd",
+                /* routeType= */ GtfsRouteType.SUBWAY,
+                /* agencyId= */ "agency1"),
+            new RouteUniqueNamesNotice(
+                /* routeId= */ "routeH",
+                /* comparedRouteId= */ "routeB",
+                /* routeLongName= */ "",
+                /* routeShortName= */ "abcd",
+                /* routeType= */ GtfsRouteType.BUS,
+                /* agencyId= */ ""));
   }
 }
