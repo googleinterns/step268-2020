@@ -22,7 +22,9 @@ import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 public class RouteUniqueNamesNotice extends Notice {
   public RouteUniqueNamesNotice(
       String routeId,
+      long routeCsvRowNumber,
       String comparedRouteId,
+      long comparedRouteCsvRowNumber,
       String routeLongName,
       String routeShortName,
       GtfsRouteType routeType,
@@ -30,7 +32,9 @@ public class RouteUniqueNamesNotice extends Notice {
     super(
         new ImmutableMap.Builder<String, Object>()
             .put("routeId", routeId)
+            .put("routeCsvRowNumber", routeCsvRowNumber)
             .put("comparedRouteId", comparedRouteId)
+            .put("comparedRouteCsvRowNumber", comparedRouteCsvRowNumber)
             .put("routeLongName", routeLongName)
             .put("routeShortName", routeShortName)
             .put("routeType", routeType)

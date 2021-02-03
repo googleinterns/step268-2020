@@ -62,7 +62,9 @@ public class RouteUniqueNamesValidator extends FileValidator {
           noticeContainer.addNotice(
               new RouteUniqueNamesNotice(
                   route.routeId(),
+                  route.csvRowNumber(),
                   /* comparedRouteId= */ storedRouteInfo.get(0).toString(),
+                  /* comparedRouteCsvRowNumber= */ (long) (storedRouteInfo.get(5)),
                   routeLongName,
                   routeShortName,
                   routeType,
@@ -76,7 +78,8 @@ public class RouteUniqueNamesValidator extends FileValidator {
                     routeLongName,
                     routeShortName,
                     routeType.getNumber(),
-                    agencyId));
+                    agencyId,
+                    route.csvRowNumber()));
         testedRoutes.put(hashCode, routeInfo);
       }
     }

@@ -143,7 +143,9 @@ public class RouteUniqueNamesValidatorTest {
         .containsExactly(
             new RouteUniqueNamesNotice(
                 /* routeId= */ "routeG",
+                /* routeCsvRowNumber= */ 7,
                 /* comparedRouteId= */ "routeE",
+                /* comparedRouteCsvRowNumber= */ 5,
                 /* routeLongName= */ "abcd-long-name",
                 /* routeShortName= */ "abcd",
                 /* routeType= */ GtfsRouteType.SUBWAY,
@@ -160,7 +162,9 @@ public class RouteUniqueNamesValidatorTest {
         .containsExactly(
             new RouteUniqueNamesNotice(
                 /* routeId= */ "routeH",
+                /* routeCsvRowNumber= */ 8,
                 /* comparedRouteId= */ "routeB",
+                /* comparedRouteCsvRowNumber= */ 2,
                 /* routeLongName= */ "",
                 /* routeShortName= */ "abcd",
                 /* routeType= */ GtfsRouteType.BUS,
@@ -179,14 +183,18 @@ public class RouteUniqueNamesValidatorTest {
         .containsExactly(
             new RouteUniqueNamesNotice(
                 /* routeId= */ "routeG",
+                /* routeCsvRowNumber= */ 7,
                 /* comparedRouteId= */ "routeE",
+                /* comparedRouteCsvRowNumber= */ 5,
                 /* routeLongName= */ "abcd-long-name",
                 /* routeShortName= */ "abcd",
                 /* routeType= */ GtfsRouteType.SUBWAY,
                 /* agencyId= */ "agency1"),
             new RouteUniqueNamesNotice(
                 /* routeId= */ "routeH",
+                /* routeCsvRowNumber= */ 8,
                 /* comparedRouteId= */ "routeB",
+                /* comparedRouteCsvRowNumber= */ 2,
                 /* routeLongName= */ "",
                 /* routeShortName= */ "abcd",
                 /* routeType= */ GtfsRouteType.BUS,
