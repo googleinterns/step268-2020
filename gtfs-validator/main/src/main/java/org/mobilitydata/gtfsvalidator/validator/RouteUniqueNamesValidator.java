@@ -22,7 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Optional; 
+import org.javatuples.Triplet;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
@@ -30,56 +31,54 @@ import org.mobilitydata.gtfsvalidator.notice.RouteUniqueNamesNotice;
 import org.mobilitydata.gtfsvalidator.table.GtfsRoute;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
+import com.google.auto.value.AutoValue;
 
 /**
  * Validates whether the combination of names, type and agency ID for a route is unique.
  *
  * <p>Generated notices: {@link RouteUniqueNamesNotice}.
  */
+@AutoValue
+abstract class RouteIdentifier {
+  static RouteIdentifier create(String longName,String shortName, GtfsRouteType routeType, String agencyId) {
+    return new AutoValue_RouteIdentifier(longName, shortName,routeType,agencyId);
+  }
+
+  abstract String longName();
+  abstract String shortName();
+  abstract GtfsRouteType routeType();
+  abstract String agencyId();
+}
+
 @GtfsValidator
 public class RouteUniqueNamesValidator extends FileValidator {
   @Inject GtfsRouteTableContainer routeTable;
 
   @Override
   public void validate(NoticeContainer noticeContainer) {
-    final Map<Integer, List<Object>> testedRoutes = new HashMap<>();
+    final Map<Integer, Triplet<RouteIdentifier, String, Long>> testedRoutes = new HashMap<>();
     for (GtfsRoute route : routeTable.getEntities()) {
       // Grab necessary route information and transfer null to empty String to make later comparison
-      // and notice genration easier
-      final String routeLongName = Optional.ofNullable(route.routeLongName()).orElse("");
-      final String routeShortName = Optional.ofNullable(route.routeShortName()).orElse("");
-      final GtfsRouteType routeType = route.routeType();
-      final String agencyId = Optional.ofNullable(route.agencyId()).orElse("");
-
-      final int hashCode = Objects.hash(routeLongName, routeShortName, routeType, agencyId);
+      // and notice generation easier
+      final RouteIdentifier routeIdentifier = RouteIdentifier.create(Optional.ofNullable(route.routeLongName()).orElse(""), Optional.ofNullable(route.routeShortName()).orElse(""), route.routeType(), Optional.ofNullable(route.agencyId()).orElse(""));
+      final int hashCode = routeIdentifier.hashCode();
       if (testedRoutes.containsKey(hashCode)) {
-        List<Object> storedRouteInfo = testedRoutes.get(hashCode);
-        // Ensure routes with the same hashcode do have the same route names, types and agency IDs
-        if (routeLongName.equals(storedRouteInfo.get(1))
-            && routeShortName.equals(storedRouteInfo.get(2))
-            && routeType.getNumber() == (int) (storedRouteInfo.get(3))
-            && agencyId.equals(storedRouteInfo.get(4))) {
+        Triplet<RouteIdentifier, String, Long> storedRouteInfo = testedRoutes.get(hashCode);
+        // Ensure routes with the same hashcode do have the same route names, type and agency ID combinations
+        if (routeIdentifier.equals(storedRouteInfo.getValue0())) {
           noticeContainer.addNotice(
               new RouteUniqueNamesNotice(
                   route.routeId(),
                   route.csvRowNumber(),
-                  /* comparedRouteId= */ storedRouteInfo.get(0).toString(),
-                  /* comparedRouteCsvRowNumber= */ (long) (storedRouteInfo.get(5)),
-                  routeLongName,
-                  routeShortName,
-                  routeType,
-                  agencyId));
+                  /* comparedRouteId= */ storedRouteInfo.getValue1(),
+                  /* comparedRouteCsvRowNumber= */ storedRouteInfo.getValue2(),
+                  routeIdentifier.longName(),
+                  routeIdentifier.shortName(),
+                  routeIdentifier.routeType(),
+                  routeIdentifier.agencyId()));
         }
       } else {
-        List<Object> routeInfo =
-            new ArrayList<>(
-                Arrays.asList(
-                    route.routeId(),
-                    routeLongName,
-                    routeShortName,
-                    routeType.getNumber(),
-                    agencyId,
-                    route.csvRowNumber()));
+        Triplet<RouteIdentifier, String, Long> routeInfo = Triplet.with(routeIdentifier, route.routeId(), route.csvRowNumber());
         testedRoutes.put(hashCode, routeInfo);
       }
     }
