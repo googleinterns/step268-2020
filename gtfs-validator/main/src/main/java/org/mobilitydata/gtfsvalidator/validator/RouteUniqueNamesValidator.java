@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.javatuples.Triplet;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
@@ -32,7 +31,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsRoute;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 
-/** Uses AutoValue to create hash code and compare easier. */
+/** Uses AutoValue to compare easier. */
 @AutoValue
 abstract class RouteIdentifier {
   static RouteIdentifier create(
@@ -60,7 +59,7 @@ public class RouteUniqueNamesValidator extends FileValidator {
 
   @Override
   public void validate(NoticeContainer noticeContainer) {
-    final Map<Integer, List<Triplet<RouteIdentifier, String, Long>>> testedRoutes = new HashMap<>();
+    final Map<RouteIdentifier, List<Object>> testedRoutes = new HashMap<>();
     for (GtfsRoute route : routeTable.getEntities()) {
       // Grab necessary route information and transfer null to empty String to make later comparison
       // and notice generation easier
@@ -70,42 +69,24 @@ public class RouteUniqueNamesValidator extends FileValidator {
               Optional.ofNullable(route.routeShortName()).orElse(""),
               route.routeType(),
               Optional.ofNullable(route.agencyId()).orElse(""));
-      final int hashCode = routeIdentifier.hashCode();
 
-      if (testedRoutes.containsKey(hashCode)) {
-        List<Triplet<RouteIdentifier, String, Long>> storedRouteInfoList =
-            testedRoutes.get(hashCode);
-        // Go through all recorded routes with the same hash code (though most of the time when the
-        // data size is not extremely large, there is only one route recorded in the list)
-        for (int i = 0; i < storedRouteInfoList.size(); i++) {
-          // Ensure routes with the same hash code do have the same route names, type and agency ID
-          // combinations to generate a notice
-          if (routeIdentifier.equals(storedRouteInfoList.get(i).getValue0())) {
-            noticeContainer.addNotice(
-                new RouteUniqueNamesNotice(
-                    route.routeId(),
-                    route.csvRowNumber(),
-                    /* comparedRouteId= */ storedRouteInfoList.get(i).getValue1(),
-                    /* comparedRouteCsvRowNumber= */ storedRouteInfoList.get(i).getValue2(),
-                    routeIdentifier.longName(),
-                    routeIdentifier.shortName(),
-                    routeIdentifier.routeType(),
-                    routeIdentifier.agencyId()));
-            // Stop checking the left routes in the list if we already found a same-information pair
-            break;
-            // After checking the last recorded route in the list, the current route needs to be
-            // added into the record with the same hash code key
-          } else if (i == storedRouteInfoList.size() - 1) {
-            storedRouteInfoList.add(
-                Triplet.with(routeIdentifier, route.routeId(), route.csvRowNumber()));
-            testedRoutes.put(hashCode, storedRouteInfoList);
-          }
-        }
+      // If the combination of names, type and agency ID for a route appeared before, a notice is
+      // generated
+      if (testedRoutes.containsKey(routeIdentifier)) {
+        noticeContainer.addNotice(
+            new RouteUniqueNamesNotice(
+                route.routeId(),
+                route.csvRowNumber(),
+                /* comparedRouteId= */ testedRoutes.get(routeIdentifier).get(0).toString(),
+                /* comparedRouteCsvRowNumber= */ (long) testedRoutes.get(routeIdentifier).get(1),
+                routeIdentifier.longName(),
+                routeIdentifier.shortName(),
+                routeIdentifier.routeType(),
+                routeIdentifier.agencyId()));
       } else {
-        // Add the new route information to the record with the hash code as the key
-        Triplet<RouteIdentifier, String, Long> routeInfo =
-            Triplet.with(routeIdentifier, route.routeId(), route.csvRowNumber());
-        testedRoutes.put(hashCode, new ArrayList<>(Arrays.asList(routeInfo)));
+        // Add the new route information to the record with the routeIdentifier as the key
+        testedRoutes.put(
+            routeIdentifier, new ArrayList<>(Arrays.asList(route.routeId(), route.csvRowNumber())));
       }
     }
   }
