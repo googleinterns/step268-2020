@@ -42,7 +42,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTableContainer;
  */
 @GtfsValidator
 public class StopsTooCloseValidator extends FileValidator {
-  static final int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
+  private static final int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
   /**
   * At equator 1 degree = 110.567 kilometers.
   * 0.00005 degrees = (110.567km * 1000) * 0.00005 = 5.52835 m
