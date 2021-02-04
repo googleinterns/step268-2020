@@ -32,11 +32,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsRoute;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 
-/**
- * Validates whether the combination of names, type and agency ID for a route is unique.
- *
- * <p>Generated notices: {@link RouteUniqueNamesNotice}.
- */
+/** Uses AutoValue to create hash code and compare easier. */
 @AutoValue
 abstract class RouteIdentifier {
   static RouteIdentifier create(
@@ -53,6 +49,11 @@ abstract class RouteIdentifier {
   abstract String agencyId();
 }
 
+/**
+ * Validates whether the combination of names, type and agency ID for a route is unique.
+ *
+ * <p>Generated notices: {@link RouteUniqueNamesNotice}.
+ */
 @GtfsValidator
 public class RouteUniqueNamesValidator extends FileValidator {
   @Inject GtfsRouteTableContainer routeTable;
@@ -70,12 +71,15 @@ public class RouteUniqueNamesValidator extends FileValidator {
               route.routeType(),
               Optional.ofNullable(route.agencyId()).orElse(""));
       final int hashCode = routeIdentifier.hashCode();
+
       if (testedRoutes.containsKey(hashCode)) {
         List<Triplet<RouteIdentifier, String, Long>> storedRouteInfoList =
             testedRoutes.get(hashCode);
+        // Go through all recorded routes with the same hash code (though most of the time when the
+        // data size is not extremely large, there is only one route recorded in the list)
         for (int i = 0; i < storedRouteInfoList.size(); i++) {
-          // Ensure routes with the same hashcode do have the same route names, type and agency ID
-          // combinations
+          // Ensure routes with the same hash code do have the same route names, type and agency ID
+          // combinations to generate a notice
           if (routeIdentifier.equals(storedRouteInfoList.get(i).getValue0())) {
             noticeContainer.addNotice(
                 new RouteUniqueNamesNotice(
@@ -87,7 +91,10 @@ public class RouteUniqueNamesValidator extends FileValidator {
                     routeIdentifier.shortName(),
                     routeIdentifier.routeType(),
                     routeIdentifier.agencyId()));
+            // Stop checking the left routes in the list if we already found a same-information pair
             break;
+            // After checking the last recorded route in the list, the current route needs to be
+            // added into the record with the same hash code key
           } else if (i == storedRouteInfoList.size() - 1) {
             storedRouteInfoList.add(
                 Triplet.with(routeIdentifier, route.routeId(), route.csvRowNumber()));
@@ -95,6 +102,7 @@ public class RouteUniqueNamesValidator extends FileValidator {
           }
         }
       } else {
+        // Add the new route information to the record with the hash code as the key
         Triplet<RouteIdentifier, String, Long> routeInfo =
             Triplet.with(routeIdentifier, route.routeId(), route.csvRowNumber());
         testedRoutes.put(hashCode, new ArrayList<>(Arrays.asList(routeInfo)));
