@@ -17,10 +17,7 @@
 package org.mobilitydata.gtfsvalidator.validator;
 
 import com.google.auto.value.AutoValue;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
@@ -31,7 +28,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsRoute;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 
-/** Uses AutoValue to compare easier. */
+/** Uses AutoValue to compare necessary route information easier. */
 @AutoValue
 abstract class RouteIdentifier {
   static RouteIdentifier create(
@@ -48,6 +45,18 @@ abstract class RouteIdentifier {
   abstract String agencyId();
 }
 
+/** Uses AutoValue to record route information which is needed for notice generation. */
+@AutoValue
+abstract class RouteNoticeInfo {
+  static RouteNoticeInfo create(String routeId, long csvRowNumber) {
+    return new AutoValue_RouteNoticeInfo(routeId, csvRowNumber);
+  }
+
+  abstract String routeId();
+
+  abstract long csvRowNumber();
+}
+
 /**
  * Validates whether the combination of names, type and agency ID for a route is unique.
  *
@@ -59,7 +68,7 @@ public class RouteUniqueNamesValidator extends FileValidator {
 
   @Override
   public void validate(NoticeContainer noticeContainer) {
-    final Map<RouteIdentifier, List<Object>> testedRoutes = new HashMap<>();
+    final Map<RouteIdentifier, RouteNoticeInfo> testedRoutes = new HashMap<>();
     for (GtfsRoute route : routeTable.getEntities()) {
       // Grab necessary route information and transfer null to empty String to make later comparison
       // and notice generation easier
@@ -69,7 +78,6 @@ public class RouteUniqueNamesValidator extends FileValidator {
               Optional.ofNullable(route.routeShortName()).orElse(""),
               route.routeType(),
               Optional.ofNullable(route.agencyId()).orElse(""));
-
       // If the combination of names, type and agency ID for a route appeared before, a notice is
       // generated
       if (testedRoutes.containsKey(routeIdentifier)) {
@@ -77,16 +85,16 @@ public class RouteUniqueNamesValidator extends FileValidator {
             new RouteUniqueNamesNotice(
                 route.routeId(),
                 route.csvRowNumber(),
-                /* comparedRouteId= */ testedRoutes.get(routeIdentifier).get(0).toString(),
-                /* comparedRouteCsvRowNumber= */ (long) testedRoutes.get(routeIdentifier).get(1),
+                /* comparedRouteId= */ testedRoutes.get(routeIdentifier).routeId(),
+                /* comparedRouteCsvRowNumber= */ testedRoutes.get(routeIdentifier).csvRowNumber(),
                 routeIdentifier.longName(),
                 routeIdentifier.shortName(),
                 routeIdentifier.routeType(),
                 routeIdentifier.agencyId()));
       } else {
-        // Add the new route information to the record with the routeIdentifier as the key
+        // Add necessary route information for notice to the storage with the routeIdentifier as key
         testedRoutes.put(
-            routeIdentifier, new ArrayList<>(Arrays.asList(route.routeId(), route.csvRowNumber())));
+            routeIdentifier, RouteNoticeInfo.create(route.routeId(), route.csvRowNumber()));
       }
     }
   }
