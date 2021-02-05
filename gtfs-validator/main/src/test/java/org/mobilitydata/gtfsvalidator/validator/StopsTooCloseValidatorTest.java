@@ -48,31 +48,26 @@ public class StopsTooCloseValidatorTest {
                                      .setStopLon(-82.416d)
                                      .build();
 
+  private final NoticeContainer noticeContainer = new NoticeContainer();
+  private final StopsTooCloseValidator validator = new StopsTooCloseValidator();
+
   @Test
   public void stopsSpacedOutShouldNotGenerateNotice() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    StopsTooCloseValidator validator = new StopsTooCloseValidator();
-
     // Create stopTable:
     validator.stopTable =
         GtfsStopTableContainer.forEntities(Arrays.asList(stop1, stop2), noticeContainer);
 
     validator.validate(noticeContainer);
-    System.out.println(noticeContainer.exportJson());
     assertThat(noticeContainer.getNotices()).isEmpty();
   }
 
   @Test
   public void stopsTooCloseGenerateNotice() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    StopsTooCloseValidator validator = new StopsTooCloseValidator();
-
     // Create stopTable:
     validator.stopTable = GtfsStopTableContainer.forEntities(
         Arrays.asList(stop1, stop2, stop3), noticeContainer);
 
     validator.validate(noticeContainer);
-    System.out.println(noticeContainer.exportJson());
     assertThat(noticeContainer.getNotices())
         .containsExactly(
             new StopsTooCloseNotice(/** stopId1 = */ "1001", /** csvRowNumberStop1 = */ 1,
