@@ -64,8 +64,8 @@ public class StopsTooCloseValidatorTest {
   @Test
   public void stopsTooCloseGenerateNotice() {
     // Create stopTable:
-    validator.stopTable = GtfsStopTableContainer.forEntities(
-        Arrays.asList(stop1, stop2, stop3), noticeContainer);
+    validator.stopTable =
+        GtfsStopTableContainer.forEntities(Arrays.asList(stop1, stop2, stop3), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
