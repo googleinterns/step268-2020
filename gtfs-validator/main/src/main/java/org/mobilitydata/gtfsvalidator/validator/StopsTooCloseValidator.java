@@ -18,9 +18,7 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import static org.locationtech.spatial4j.context.SpatialContext.GEO;
 
-import com.google.common.collect.Multimaps;
 import java.lang.Double;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.locationtech.spatial4j.distance.DistanceCalculator;
@@ -31,7 +29,6 @@ import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
 import org.mobilitydata.gtfsvalidator.notice.StopsTooCloseNotice;
-import org.mobilitydata.gtfsvalidator.table.GtfsLocationType;
 import org.mobilitydata.gtfsvalidator.table.GtfsStop;
 import org.mobilitydata.gtfsvalidator.table.GtfsStopTableContainer;
 
@@ -44,13 +41,13 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTableContainer;
 public class StopsTooCloseValidator extends FileValidator {
   private static final int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
   /**
-  * At equator 1 degree = 110.567 kilometers.
-  * 0.00005 degrees = (110.567km * 1000) * 0.00005 = 5.52835 m
-  * At poles 1 degree = 111.699 kilometers.
-  * 0.00005 degrees = (111.699km * 1000) * 0.00005 = 5.58495 m
-  *
-  * So the latitude buffer is 0.00005 degrees to check stops within at least 5.52835 m 
-  */
+   * At equator 1 degree = 110.567 kilometers.
+   * 0.00005 degrees = (110.567km * 1000) * 0.00005 = 5.52835 m
+   * At poles 1 degree = 111.699 kilometers.
+   * 0.00005 degrees = (111.699km * 1000) * 0.00005 = 5.58495 m
+   *
+   * So the latitude buffer is 0.00005 degrees to check stops within at least 5.52835 m
+   */
   private static final double LAT_BUFFER = 0.00005;
 
   // If stops are closer than 5m based on distance calculated, generate a notice
@@ -82,12 +79,12 @@ public class StopsTooCloseValidator extends FileValidator {
 
       for (int j = i + 1; j < allStops.size(); j++) {
         GtfsStop stop2 = allStops.get(j);
-        if (stop1.stopLat() - stop2.stopLat() < LAT_BUFFER) {
+        if (stop2.stopLat() - stop1.stopLat() < LAT_BUFFER) {
           Point pointStop2 = shapeFactory.pointXY(stop2.stopLon(), stop2.stopLat());
 
-          int distBetweenStopsMeters =
-              (int) (DistanceUtils.DEG_TO_KM * distanceCalculator.distance(pointStop1, pointStop2)
-                  * KILOMETER_TO_METER_CONVERSION_FACTOR);
+          double distBetweenStopsMeters = DistanceUtils.DEG_TO_KM
+              * distanceCalculator.distance(pointStop1, pointStop2)
+              * KILOMETER_TO_METER_CONVERSION_FACTOR;
 
           if (distBetweenStopsMeters < DIST_BUFFER_METERS) {
             noticeContainer.addNotice(new StopsTooCloseNotice(stop1.stopId(), stop1.csvRowNumber(),
