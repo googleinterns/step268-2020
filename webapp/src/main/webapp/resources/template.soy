@@ -2,15 +2,65 @@
 
 /**
  * Renders a basic explanation of the validation notice.
- * @param notices
+ * @param notices : List<[filename : string, fieldName : string, index : number]>
  */
 {template .unknownColumnNotice}
 {let $numNotices: length($notices)/}
   <p class="warning">Warning - Unknown Column(s) found!</p>
+  <p>Description: A column name is unknown.</p>
   <p><b>{$numNotices}</b> unknown column(s) found in:</p>
-  {foreach $notice in $notices}
-    <p>Filename: <i>{$notice.filename}</i></p>
-    <p>Column name: <i>{$notice.fieldName}</i> at position <i>{$notice.index}</i></p>
-  {/foreach}
+  <table>
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>Field name</th>
+        <th>Index</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.fieldName}</td>
+          <td>{$notice.index}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
   <p>Please delete or rename column!</p>
+  <br><br>
+{/template}
+
+
+/**
+ * Renders a basic explanation of the validation notice.
+ * @param notices : List<[filename : string, csvRowNumber : number, rowLength : number, headerCount : number]>
+ */
+{template .invalidRowLength}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Invalid csv row length!</p>
+  <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>
+  <p><b>{$numNotices}</b> Invalid row length found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Filename</th>
+        <th>CSV Row Number</th>
+        <th>Row length</th>
+        <th>Header count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.rowLength}</td>
+          <td>{$notice.headerCount}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please set the row length as specified by the CSV header!</p>
+  <br><br>
 {/template}
