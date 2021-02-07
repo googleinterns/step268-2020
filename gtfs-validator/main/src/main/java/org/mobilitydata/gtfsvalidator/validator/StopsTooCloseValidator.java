@@ -40,18 +40,16 @@ import org.mobilitydata.gtfsvalidator.table.GtfsStopTableContainer;
 @GtfsValidator
 public class StopsTooCloseValidator extends FileValidator {
   private static final int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
-  /**
-   * At equator 1 degree = 110.567 kilometers.
-   * 0.00005 degrees = (110.567km * 1000) * 0.00005 = 5.52835 m
-   * At poles 1 degree = 111.699 kilometers.
-   * 0.00005 degrees = (111.699km * 1000) * 0.00005 = 5.58495 m
-   *
-   * So the latitude buffer is 0.00005 degrees to check stops within at least 5.52835 m
-   */
-  private static final double LAT_BUFFER = 0.00005;
 
   // If stops are closer than 5m based on distance calculated, generate a notice
   static final int DIST_BUFFER_METERS = 5;
+
+  /**
+   * Convert DIST_BUFFER_METERS to degrees of latitude. Converts a distance in the units of the
+   * radius to degrees (360 degrees are in a circle). Assumming spherical earth model
+   */
+  private static final double LAT_BUFFER = DistanceUtils.dist2Degrees(DIST_BUFFER_METERS,
+      DistanceUtils.EARTH_EQUATORIAL_RADIUS_KM* KILOMETER_TO_METER_CONVERSION_FACTOR);
 
   @Inject GtfsStopTableContainer stopTable;
 
