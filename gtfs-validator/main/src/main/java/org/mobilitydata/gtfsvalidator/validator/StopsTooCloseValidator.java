@@ -49,7 +49,7 @@ public class StopsTooCloseValidator extends FileValidator {
    * radius to degrees (360 degrees are in a circle). Assumming spherical earth model
    */
   private static final double LAT_BUFFER = DistanceUtils.dist2Degrees(DIST_BUFFER_METERS,
-      DistanceUtils.EARTH_EQUATORIAL_RADIUS_KM* KILOMETER_TO_METER_CONVERSION_FACTOR);
+      DistanceUtils.EARTH_EQUATORIAL_RADIUS_KM * KILOMETER_TO_METER_CONVERSION_FACTOR);
 
   @Inject GtfsStopTableContainer stopTable;
 
