@@ -66,5 +66,66 @@ describe('Output', function() {
 <td>17</td><td>5</td><td>9</td></tr><tr><td>stop_times.txt</td><td>18</td><td>5</td>\
 <td>9</td></tr></tbody></table><p>Please set the row length as specified by the CSV header!</p><br><br></div>"
     expect(document.getElementById('noticeContainer').innerHTML).toContain(output);
+  });
+  
+  it('should call the correct functions', function() {
+    const params = JSON.stringify({
+      notices: [
+        {
+          code: "invalid_row_length",
+          totalNotices: 13,
+          notices: [
+            {
+              filename: "stop_times.txt",
+              csvRowNumber: 17,
+              rowLength: 5,
+              headerCount: 9
+            }
+          ]
+        },
+        {
+          code: "unknown_column",
+          totalNotices: 1,
+          notices: [
+            {
+              filename: "stop_times.txt",
+              fieldName: "drop_off_time",
+              index: 8
+            }
+          ]
+        }
+      ]
+    });
+    callCorrespondingFunction(params);
+    const output = "<div><p class=\"error\">Error - Invalid csv row length!</p>\
+<p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
+<p><b>1</b> Invalid row length found in:</p><table><thead><tr><th>Filename</th><th>CSV Row Number</th>\
+<th>Row length</th><th>Header count</th></tr></thead><tbody><tr><td>stop_times.txt</td>\
+<td>17</td><td>5</td><td>9</td></tr></tbody></table><p>Please set the row length as specified by the CSV header!</p>\
+<br><br></div><div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
+<p>Description: A column name is unknown.</p>\<p><b>1</b> unknown column(s) found in:</p>\
+<table><thead><tr><th>Filename</th><th>Field name</th><th>Index</th></tr></thead><tbody>\
+<tr><td>stop_times.txt</td><td>drop_off_time</td><td>8</td></tr>\
+</tbody></table><p>Please delete or rename column!</p><br><br></div>"
+    expect(document.getElementById('noticeContainer').innerHTML).toContain(output);
+  });
+
+  it('should output raw json if notice has not been implemented', function() {
+    const params = {
+      notices: [
+        {
+          code: "missing_required_column",
+          totalNotices: 1,
+          notices: [
+            {
+              filename: "stop_times.txt",
+              fieldName: "stop_name"
+            }
+          ]
+        }
+      ]
+    };
+    callCorrespondingFunction(JSON.stringify(params));
+    expect(document.getElementById('noticeContainer').innerHTML).toContain('<p>NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(params.notices[0]) + '</p>');
   })
 });

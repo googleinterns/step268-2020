@@ -34,18 +34,3 @@ window.onload=function(){
     });
   });
 }
-
-function callCorrespondingFunction(noticesJSON) {
-  const noticeContainer = JSON.parse(noticesJSON);
-  for (var i = 0; i < noticeContainer.notices.length; i++) {
-    const notice = noticeContainer.notices[i];
-    runFunction(notice.code, notice);
-  }
-}
-
-function runFunction(name, arguments) {
-  const fn = window[name];
-  // check if fn is a function
-  if (typeof fn !== 'function') return;
-  fn.apply(window, [arguments]);
-}
