@@ -47,6 +47,7 @@ public class TripTravelSpeedValidator extends FileValidator {
   private final static float METER_PER_SECOND_TO_KMH_CONVERSION_FACTOR = 3.6f;
   private final static int FAST_SPEED_METERS_PER_SECOND = 42; // approx 150 km/h
   private final static int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
+  // TODO consider all timezones and world timings
   private final static int SECONDS_IN_DAY = 24 * 60 * 60;
 
   @Inject GtfsStopTimeTableContainer stopTimeTable;
