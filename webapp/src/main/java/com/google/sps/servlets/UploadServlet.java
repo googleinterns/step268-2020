@@ -35,7 +35,6 @@ import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsFeedContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsFeedLoader;
 import org.mobilitydata.gtfsvalidator.validator.ValidatorLoader;
-import java.util.Enumeration;
 
 @WebServlet("/fileupload")
 public class UploadServlet extends HttpServlet {
@@ -139,7 +138,6 @@ public class UploadServlet extends HttpServlet {
         }
       }
     } catch (Exception e) {
-      System.out.println("Exception");
       response.getWriter().println("There was an error: " + e.getMessage());
     }
   }
