@@ -37,14 +37,14 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 import org.mobilitydata.gtfsvalidator.type.GtfsTime;
 
 /**
- * Validates for each trip that the travel speed between each stops is not too fast.
+ * Validates for each trip that the travel speed between each stop is not too fast.
  *
  * <p>Generated notice: {@link FastTravelBetweenStopsNotice}.
  */
 @GtfsValidator
 public class TripTravelSpeedValidator extends FileValidator {
   private final static float METER_PER_SECOND_TO_KMH_CONVERSION_FACTOR = 3.6f;
-  private final static int FAST_SPEED_METERS_PER_SECOND = 42; // approx 150 km/h'
+  private final static int FAST_SPEED_METERS_PER_SECOND = 42; // approx 150 km/h
   private static final int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
 
   @Inject GtfsStopTimeTableContainer stopTimeTable;
