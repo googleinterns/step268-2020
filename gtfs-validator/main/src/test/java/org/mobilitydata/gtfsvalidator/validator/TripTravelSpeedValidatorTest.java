@@ -35,6 +35,7 @@ import org.mobilitydata.gtfsvalidator.type.GtfsTime;
 
 @RunWith(JUnit4.class)
 public class TripTravelSpeedValidatorTest {
+  private static final double EPSILON = 1.0e-10;
   private final GtfsTrip trip1 =
       new GtfsTrip.Builder().setCsvRowNumber(1).setTripId("trip1").build();
 
@@ -91,7 +92,7 @@ public class TripTravelSpeedValidatorTest {
     Map<String, Object> noticeInfo = noticeContainer.getNotices().get(0).getContext();
     assertThat(noticeInfo.get("tripId")).isEqualTo("trip1");
     // To compare doubles need to consider precision
-    assertThat((double)noticeInfo.get("speedkmh")).isWithin(1.0e-10).of(8006.045528786268);
+    assertThat((double)noticeInfo.get("speedkmh")).isWithin(EPSILON).of(8006.045528786268);
     assertThat(noticeInfo.get("stopSequenceList")).isEqualTo(Arrays.asList(1,2));
   }
 
