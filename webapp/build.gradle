@@ -11,9 +11,17 @@ buildscript {    // Configuration for building
     classpath group: "com.liferay", name: "com.liferay.gradle.plugins.soy", version: "3.1.8"
   }
 }
+
 plugins {
   id "com.liferay.soy" version "3.1.10"
+  id 'com.craigburke.karma' version '1.4.4'
 }
+
+node {
+  download = false
+  version = "4.9.1"
+}
+
 repositories {   // repositories for Jar's you access in your code
   maven {
     url 'https://oss.sonatype.org/content/repositories/snapshots' // SNAPSHOT repository (if needed)
@@ -56,6 +64,7 @@ dependencies {
 // Always run unit tests
 appengineDeploy.dependsOn test
 appengineStage.dependsOn test
+appengineRun.dependsOn buildSoy
 
 appengine {  // App Engine tasks configuration
   deploy {   // deploy configuration
@@ -64,6 +73,21 @@ appengine {  // App Engine tasks configuration
   }
 }
 buildSoy.source = "src/main/webapp/resources"
+
+
+karma {
+  browsers = ['PhantomJS']
+  colors = false
+  profile('default')  {
+    libraryBases = ['webapp/src/main/webapp/resources/']
+    libraryFiles = ['**.js']
+    testBases = ['webapp/src/main/webapp/test']
+    testFiles = ['**/*test.js']
+  }
+}
+
+karmaRun.dependsOn buildSoy
+test.dependsOn karmaRun
 
 test {
   useJUnit()
