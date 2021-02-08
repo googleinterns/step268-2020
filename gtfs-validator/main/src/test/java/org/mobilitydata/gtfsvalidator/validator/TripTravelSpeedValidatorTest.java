@@ -39,34 +39,44 @@ public class TripTravelSpeedValidatorTest {
   private final GtfsTrip trip1 =
       new GtfsTrip.Builder().setCsvRowNumber(1).setTripId("trip1").build();
 
-  private final GtfsStopTime stopTime1 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(3)
-                                             .setTripId("trip1")
-                                             .setStopId("stopA")
-                                             .setStopSequence(1)
-                                             .setDepartureTime(GtfsTime.fromString("12:20:30"))
-                                             .build();
-  private final GtfsStopTime stopTime2 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(6)
-                                             .setTripId("trip1")
-                                             .setStopId("stopB")
-                                             .setStopSequence(2)
-                                             .setArrivalTime(GtfsTime.fromString("12:20:31"))
-                                             .build();
-  private final GtfsStopTime stopTime3 = new GtfsStopTime.Builder()
-                                             .setCsvRowNumber(6)
-                                             .setTripId("trip1")
-                                             .setStopId("stopB")
-                                             .setStopSequence(2)
-                                             .setArrivalTime(GtfsTime.fromString("23:20:31"))
-                                             .build();
-  private final GtfsStop stop1 = new GtfsStop.Builder()
+  private final GtfsStopTime stopTime1_StopA =
+      new GtfsStopTime.Builder()
+          .setCsvRowNumber(3)
+          .setTripId("trip1")
+          .setStopId("stopA")
+          .setStopSequence(1)
+          .setDepartureTime(GtfsTime.fromString("12:20:30"))
+          .build();
+  private final GtfsStopTime stopTime2_StopB = new GtfsStopTime.Builder()
+                                                   .setCsvRowNumber(6)
+                                                   .setTripId("trip1")
+                                                   .setStopId("stopB")
+                                                   .setStopSequence(2)
+                                                   .setArrivalTime(GtfsTime.fromString("12:20:31"))
+                                                   .build();
+  private final GtfsStopTime stopTime2_StopB_Late =
+      new GtfsStopTime.Builder()
+          .setCsvRowNumber(6)
+          .setTripId("trip1")
+          .setStopId("stopB")
+          .setStopSequence(2)
+          .setArrivalTime(GtfsTime.fromString("23:59:11"))
+          .setDepartureTime(GtfsTime.fromString("23:59:59"))
+          .build();
+  private final GtfsStopTime stopTime3_StopA = new GtfsStopTime.Builder()
+                                                   .setCsvRowNumber(18)
+                                                   .setTripId("trip1")
+                                                   .setStopId("stopA")
+                                                   .setStopSequence(3)
+                                                   .setArrivalTime(GtfsTime.fromString("00:00:01"))
+                                                   .build();
+  private final GtfsStop stopA = new GtfsStop.Builder()
                                      .setCsvRowNumber(1)
                                      .setStopId("stopA")
                                      .setStopLat(28.06d)
                                      .setStopLon(-82.416d)
                                      .build();
-  private final GtfsStop stop2 = new GtfsStop.Builder()
+  private final GtfsStop stopB = new GtfsStop.Builder()
                                      .setCsvRowNumber(2)
                                      .setStopId("stopB")
                                      .setStopLat(28.08d)
@@ -74,26 +84,26 @@ public class TripTravelSpeedValidatorTest {
                                      .build();
 
   private final NoticeContainer noticeContainer = new NoticeContainer();
-  private final TripTravelSpeedValidator validator = new TripTravelSpeedValidator();                                   
-  
+  private final TripTravelSpeedValidator validator = new TripTravelSpeedValidator();
+
   @Test
   public void fastTravelGenerateNotice() {
     validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
 
     validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
-        Arrays.asList(stopTime1, stopTime2), noticeContainer);
+        Arrays.asList(stopTime1_StopA, stopTime2_StopB), noticeContainer);
 
     validator.stopTable =
-        GtfsStopTableContainer.forEntities(Arrays.asList(stop1, stop2), noticeContainer);
+        GtfsStopTableContainer.forEntities(Arrays.asList(stopA, stopB), noticeContainer);
 
     validator.validate(noticeContainer);
-    
+
     assertThat(noticeContainer.getNotices().size()).isEqualTo(1);
     Map<String, Object> noticeInfo = noticeContainer.getNotices().get(0).getContext();
     assertThat(noticeInfo.get("tripId")).isEqualTo("trip1");
     // To compare doubles need to consider precision
-    assertThat((double)noticeInfo.get("speedkmh")).isWithin(EPSILON).of(8006.045528786268);
-    assertThat(noticeInfo.get("stopSequenceList")).isEqualTo(Arrays.asList(1,2));
+    assertThat((double) noticeInfo.get("speedkmh")).isWithin(EPSILON).of(8006.045528786268);
+    assertThat(noticeInfo.get("stopSequenceList")).isEqualTo(Arrays.asList(1, 2));
   }
 
   @Test
@@ -101,12 +111,30 @@ public class TripTravelSpeedValidatorTest {
     validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
 
     validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
-        Arrays.asList(stopTime1, stopTime3), noticeContainer);
+        Arrays.asList(stopTime1_StopA, stopTime2_StopB_Late), noticeContainer);
 
     validator.stopTable =
-        GtfsStopTableContainer.forEntities(Arrays.asList(stop1, stop2), noticeContainer);
+        GtfsStopTableContainer.forEntities(Arrays.asList(stopA, stopB), noticeContainer);
 
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
+  }
+  @Test
+  public void fastTravelOverMidnightGeneratesNotice() {
+    validator.tripTable = GtfsTripTableContainer.forEntities(Arrays.asList(trip1), noticeContainer);
+
+    validator.stopTimeTable = GtfsStopTimeTableContainer.forEntities(
+        Arrays.asList(stopTime2_StopB_Late, stopTime3_StopA), noticeContainer);
+
+    validator.stopTable =
+        GtfsStopTableContainer.forEntities(Arrays.asList(stopA, stopB), noticeContainer);
+
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices().size()).isEqualTo(1);
+    Map<String, Object> noticeInfo = noticeContainer.getNotices().get(0).getContext();
+    assertThat(noticeInfo.get("tripId")).isEqualTo("trip1");
+    // To compare doubles need to consider precision
+    assertThat((double) noticeInfo.get("speedkmh")).isWithin(EPSILON).of(4003.022764393134);
+    assertThat(noticeInfo.get("stopSequenceList")).isEqualTo(Arrays.asList(2, 3));
   }
 }

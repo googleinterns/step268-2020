@@ -18,6 +18,7 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import static org.locationtech.spatial4j.context.SpatialContext.GEO;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.List;
 import org.locationtech.spatial4j.distance.DistanceCalculator;
@@ -45,7 +46,8 @@ import org.mobilitydata.gtfsvalidator.type.GtfsTime;
 public class TripTravelSpeedValidator extends FileValidator {
   private final static float METER_PER_SECOND_TO_KMH_CONVERSION_FACTOR = 3.6f;
   private final static int FAST_SPEED_METERS_PER_SECOND = 42; // approx 150 km/h
-  private static final int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
+  private final static int KILOMETER_TO_METER_CONVERSION_FACTOR = 1000;
+  private final static int SECONDS_IN_DAY = 24 * 60 * 60;
 
   @Inject GtfsStopTimeTableContainer stopTimeTable;
 
@@ -95,13 +97,19 @@ public class TripTravelSpeedValidator extends FileValidator {
         double distanceFromPreviousStopMeter = 0;
 
         boolean sameArrivalAndDeparture = false;
-
         if (prevStopDepartureTime != null && currentArrivalTime != null) {
           sameArrivalAndDeparture = currentArrivalTime.equals(prevStopDepartureTime);
-
           if (!sameArrivalAndDeparture) {
             int durationSecond = currentArrivalTime.getSecondsSinceMidnight()
                 - prevStopDepartureTime.getSecondsSinceMidnight();
+
+            // Deal with the case stops go over midnight
+            if (currentArrivalTime.isBefore(prevStopDepartureTime)) {
+              durationSecond = SECONDS_IN_DAY
+                  - (prevStopDepartureTime.getSecondsSinceMidnight()
+                      - currentArrivalTime.getSecondsSinceMidnight());
+            }
+
             distanceFromPreviousStopMeter = distanceBetweenMeter(
                 prevStopLatitude, prevStopLongitude, currentStopLat, currentStopLon);
             double distanceMeter = distanceFromPreviousStopMeter + prevStopAccumulatedDistanceMeter;
