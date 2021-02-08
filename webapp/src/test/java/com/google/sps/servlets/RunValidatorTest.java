@@ -87,8 +87,6 @@ public class RunValidatorTest {
 
     new UploadServlet().doPost(request, response);
 
-    String validUploadMsg = "Upload has been done successfully!";
-    assertThat(response.getContentAsString()).contains(validUploadMsg);
     assertThat(response.getContentAsString()).contains("invalid_row_length");
   }
 
@@ -116,8 +114,6 @@ public class RunValidatorTest {
 
     new UploadServlet().doPost(request, response);
 
-    String validUploadMsg = "Upload has been done successfully!";
-    assertThat(response.getContentAsString()).contains(validUploadMsg);
     assertThat(response.getContentAsString())
         .contains("The validator was unable to process this file.");
   }

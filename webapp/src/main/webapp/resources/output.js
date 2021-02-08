@@ -13,17 +13,11 @@
 // limitations under the License.
 
 function unknown_column(params) {
-  console.log("output.js reached");
-  console.log("params: " + JSON.stringify(params));
-  console.log("params length: " + JSON.stringify(params.notices.length));
   const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
   document.getElementById("noticeContainer").appendChild(template);
 }
 
 function invalid_row_length(params) {
-  console.log("invalid_row_length reached");
-  console.log("params: " + JSON.stringify(params));
-  console.log("params length: " + JSON.stringify(params.notices.length));
   const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
   document.getElementById("noticeContainer").appendChild(template);
 }

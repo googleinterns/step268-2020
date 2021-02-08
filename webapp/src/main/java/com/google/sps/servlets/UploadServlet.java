@@ -128,7 +128,6 @@ public class UploadServlet extends HttpServlet {
             
             final NoticeContainer validatorNotices = runValidator(filePath);
             
-            // response.getWriter().println("Upload has been done successfully!");
             // Print the json output to the user
             if (validatorNotices != null) {
               response.setContentType("application/json");
