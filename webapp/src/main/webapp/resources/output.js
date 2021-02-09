@@ -13,17 +13,20 @@
 // limitations under the License.
 
 function callCorrespondingFunction(noticesJSON) {
+  const unimplementedNoticesArray = [];
   const noticeContainer = JSON.parse(noticesJSON);
   for (var i = 0; i < noticeContainer.notices.length; i++) {
     const notice = noticeContainer.notices[i];
     // Notice has not been implemented, output raw json
     if (!runFunctionName(notice.code, notice)) {
-      const unknownNotice = document.createElement('p');
-      unknownNotice.innerHTML = 'NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(notice);
-      document.getElementById("unimplementedNotices").appendChild(unknownNotice);
+      unimplementedNoticesArray.push(JSON.stringify(notice));
     } else {
       console.log("Notice has been handled!");
-    };
+    }
+  }
+  // Print all unimplemented notices as raw JSON in the unimplemented notices container
+  if (unimplementedNoticesArray.length !== 0) {
+    document.getElementById("unimplementedNotices").innerHTML = unimplementedNoticesArray; 
   }
 }
 

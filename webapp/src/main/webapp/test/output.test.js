@@ -154,6 +154,6 @@ describe('Output', function() {
       ]
     };
     callCorrespondingFunction(JSON.stringify(params));
-    expect(document.getElementById('unimplementedNotices').innerHTML).toContain('<p>NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(params.notices[0]) + '</p>');
+    expect(document.getElementById('unimplementedNotices').innerHTML).toContain(JSON.stringify(params.notices[0]));
   })
 });
