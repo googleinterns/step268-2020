@@ -47,3 +47,9 @@ function invalid_row_length(params) {
   const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
   document.getElementById("error").appendChild(template);
 }
+
+function decreasing_stop_time_distance(params) {
+  const template = goog.soy.renderAsElement(validator.templates.decreasingStopTimeDistance, params);
+  document.getElementById("error").appendChild(template);
+} 
+x
