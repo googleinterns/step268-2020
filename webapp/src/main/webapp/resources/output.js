@@ -20,8 +20,6 @@ function callCorrespondingFunction(noticesJSON) {
     // Notice has not been implemented, output raw json
     if (!runFunctionName(notice.code, notice)) {
       unimplementedNoticesArray.push(JSON.stringify(notice));
-    } else {
-      console.log("Notice has been handled!");
     }
   }
   // Print all unimplemented notices as raw JSON in the unimplemented notices container
