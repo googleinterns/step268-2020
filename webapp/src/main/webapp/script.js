@@ -29,7 +29,7 @@ window.onload=function(){
         });
       } else {
         // Upload Error
-        this.alert(resp.text());
+        document.getElementById("errorOutput").append(resp.text());
       }
     });
   });
