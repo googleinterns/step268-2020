@@ -17,27 +17,32 @@ function callCorrespondingFunction(noticesJSON) {
   for (var i = 0; i < noticeContainer.notices.length; i++) {
     const notice = noticeContainer.notices[i];
     // Notice has not been implemented, output raw json
-    if (runFunction(notice.code, notice) === -1) {
+    if (runFunctionName(notice.code, notice) === -1) {
       const unknownNotice = document.createElement('p');
       unknownNotice.innerHTML = 'NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(notice);
       document.getElementById("noticeContainer").appendChild(unknownNotice);
+    } else {
+      console.log("Notice has been handled!");
     };
   }
 }
 
-function runFunction(name, arguments) {
+function runFunctionName(name, arguments) {
   const fn = window[name];
   // check if fn is a function
   if (typeof fn !== 'function') return -1;
-  fn.apply(window, [arguments]);
+  else {
+    fn.apply(window, [arguments]);
+    return 1;
+  }
 }
 
 function unknown_column(params) {
   const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
-  document.getElementById("noticeContainer").appendChild(template);
+  document.getElementById("warning").appendChild(template);
 }
 
 function invalid_row_length(params) {
   const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
-  document.getElementById("noticeContainer").appendChild(template);
+  document.getElementById("error").appendChild(template);
 }
