@@ -12,18 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function unknownColumnWarning() {
-  // TODO: change from hardcoded to parameters
-  const params = {
-    numNotices: 1,
-    notices: [
-      {
-        filename: "hello.txt",
-        fieldName: "column name",
-        index: 5
-      }
-    ]
+function callCorrespondingFunction(noticesJSON) {
+  const unimplementedNoticesArray = [];
+  const noticeContainer = JSON.parse(noticesJSON);
+  for (var i = 0; i < noticeContainer.notices.length; i++) {
+    const notice = noticeContainer.notices[i];
+    // Notice has not been implemented, output raw json
+    if (!runFunctionName(notice.code, notice)) {
+      unimplementedNoticesArray.push(JSON.stringify(notice));
+    }
   }
+  // Print all unimplemented notices as raw JSON in the unimplemented notices container
+  if (unimplementedNoticesArray.length !== 0) {
+    document.getElementById("unimplementedNotices").innerHTML = unimplementedNoticesArray; 
+  }
+}
+
+function runFunctionName(name, arguments) {
+  const fn = window[name];
+  // check if fn is a function
+  if (typeof fn !== 'function') return false;
+  else {
+    fn.apply(window, [arguments]);
+    return true;
+  }
+}
+
+function unknown_column(params) {
   const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
   document.getElementById("warning").appendChild(template);
+}
+
+function invalid_row_length(params) {
+  const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
+  document.getElementById("error").appendChild(template);
 }
