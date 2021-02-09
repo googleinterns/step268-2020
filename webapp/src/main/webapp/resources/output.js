@@ -20,7 +20,7 @@ function callCorrespondingFunction(noticesJSON) {
     if (runFunctionName(notice.code, notice) === -1) {
       const unknownNotice = document.createElement('p');
       unknownNotice.innerHTML = 'NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(notice);
-      document.getElementById("noticeContainer").appendChild(unknownNotice);
+      document.getElementById("unimplementedNotices").appendChild(unknownNotice);
     } else {
       console.log("Notice has been handled!");
     };
@@ -30,10 +30,10 @@ function callCorrespondingFunction(noticesJSON) {
 function runFunctionName(name, arguments) {
   const fn = window[name];
   // check if fn is a function
-  if (typeof fn !== 'function') return -1;
+  if (typeof fn !== 'function') return false;
   else {
     fn.apply(window, [arguments]);
-    return 1;
+    return true;
   }
 }
 
