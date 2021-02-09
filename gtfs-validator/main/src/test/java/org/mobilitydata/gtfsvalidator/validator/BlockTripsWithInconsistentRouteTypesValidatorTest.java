@@ -36,35 +36,35 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTripTableContainer;
 public class BlockTripsWithInconsistentRouteTypesValidatorTest {
   private BlockTripsWithInconsistentRouteTypesValidator validator =
       new BlockTripsWithInconsistentRouteTypesValidator();
-  private final GtfsTrip trip11 =
+  private final GtfsTrip trip_bus_block_apple_1 =
       new GtfsTrip.Builder()
           .setCsvRowNumber(1)
           .setTripId("trip11")
           .setRouteId("R1")
           .setBlockId("BlockApple")
           .build();
-  private final GtfsTrip trip111 =
+  private final GtfsTrip trip_rail_block_apple =
       new GtfsTrip.Builder()
           .setCsvRowNumber(2)
           .setTripId("trip111")
           .setRouteId("R2")
           .setBlockId("BlockApple")
           .build();
-  private final GtfsTrip trip1111 =
+  private final GtfsTrip trip_ferry_block_banana =
       new GtfsTrip.Builder()
           .setCsvRowNumber(3)
           .setTripId("trip1111")
           .setRouteId("R3")
           .setBlockId("BlockBanana")
           .build();
-  private final GtfsTrip trip22 =
+  private final GtfsTrip trip_bus_block_apple_2 =
       new GtfsTrip.Builder()
           .setCsvRowNumber(4)
           .setTripId("trip22")
           .setRouteId("R4")
           .setBlockId("BlockApple")
           .build();
-  private final GtfsTrip trip222 =
+  private final GtfsTrip trip_bus_block_banana =
       new GtfsTrip.Builder()
           .setCsvRowNumber(5)
           .setTripId("trip222")
@@ -105,7 +105,8 @@ public class BlockTripsWithInconsistentRouteTypesValidatorTest {
   @Test
   public void sameBlockTripsWithDifferentRouteTypesShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTrip> trips = new ArrayList<>(Arrays.asList(trip11, trip111));
+    List<GtfsTrip> trips =
+        new ArrayList<>(Arrays.asList(trip_bus_block_apple_1, trip_rail_block_apple));
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
     List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(route1, route2));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -127,7 +128,8 @@ public class BlockTripsWithInconsistentRouteTypesValidatorTest {
   @Test
   public void differentBlockTripsWithDifferentRouteTypesShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTrip> trips = new ArrayList<>(Arrays.asList(trip11, trip1111));
+    List<GtfsTrip> trips =
+        new ArrayList<>(Arrays.asList(trip_bus_block_apple_1, trip_ferry_block_banana));
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
     List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(route1, route3));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -138,7 +140,8 @@ public class BlockTripsWithInconsistentRouteTypesValidatorTest {
   @Test
   public void differentBlockTripsWithSameRouteTypesShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTrip> trips = new ArrayList<>(Arrays.asList(trip11, trip222));
+    List<GtfsTrip> trips =
+        new ArrayList<>(Arrays.asList(trip_bus_block_apple_1, trip_bus_block_banana));
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
     List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(route1, route5));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -149,7 +152,8 @@ public class BlockTripsWithInconsistentRouteTypesValidatorTest {
   @Test
   public void sameBlockTripsWithSameRouteTypesShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTrip> trips = new ArrayList<>(Arrays.asList(trip11, trip22));
+    List<GtfsTrip> trips =
+        new ArrayList<>(Arrays.asList(trip_bus_block_apple_1, trip_bus_block_apple_2));
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
     List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(route1, route4));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
@@ -161,7 +165,13 @@ public class BlockTripsWithInconsistentRouteTypesValidatorTest {
   public void blockTripsCombination() {
     final NoticeContainer noticeContainer = new NoticeContainer();
     List<GtfsTrip> trips =
-        new ArrayList<>(Arrays.asList(trip11, trip111, trip1111, trip22, trip222));
+        new ArrayList<>(
+            Arrays.asList(
+                trip_bus_block_apple_1,
+                trip_rail_block_apple,
+                trip_ferry_block_banana,
+                trip_bus_block_apple_2,
+                trip_bus_block_banana));
     validator.tripTable = GtfsTripTableContainer.forEntities(trips, noticeContainer);
     List<GtfsRoute> routes = new ArrayList<>(Arrays.asList(route1, route2, route3, route4, route5));
     validator.routeTable = GtfsRouteTableContainer.forEntities(routes, noticeContainer);
