@@ -112,6 +112,7 @@ public class UploadServlet extends HttpServlet {
     if (!uploadDir.exists()) {
       uploadDir.mkdir();
     }
+
     try {
       final List<FileItem> formItems = upload.parseRequest(request);
       if (formItems != null && formItems.size() > 0) {
@@ -121,15 +122,15 @@ public class UploadServlet extends HttpServlet {
             final String fileName = new File(item.getName()).getName();
             final String filePath = uploadPath + File.separator + fileName;
             final File storeFile = new File(filePath);
-            
+
             // Save the file on disk
             item.write(storeFile);
-            
+
             final NoticeContainer validatorNotices = runValidator(filePath);
-            
+
+            response.getWriter().println("Upload has been done successfully!");
             // Print the json output to the user
             if (validatorNotices != null) {
-              response.setContentType("application/json");
               response.getWriter().println(validatorNotices.exportJson());
             } else {
               response.getWriter().println("The validator was unable to process this file.");
