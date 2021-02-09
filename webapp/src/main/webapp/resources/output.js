@@ -47,3 +47,8 @@ function invalid_row_length(params) {
   const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
   document.getElementById("error").appendChild(template);
 }
+
+function inconsistent_agency_field(params) {
+  const template = goog.soy.renderAsElement(validator.templates.inconsistentAgencyField, params);
+  document.getElementById("error").appendChild(template);
+} 

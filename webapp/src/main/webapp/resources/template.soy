@@ -64,3 +64,36 @@
   <p>Please set the row length as specified by the CSV header!</p>
   <br><br>
 {/template}
+
+/**
+ * Table for feed info language and agency language mismatch 
+ * @param notices : List<[csvRowNumber : long, fieldName : string, expected : string, actual : string]>
+ */
+{template .inconsistentAgencyField}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Inconsistent Agency Field(s) found!</p>
+  <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>
+  <p><b>{$numNotices}</b> Inconsistencies found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>CSV Row Number</th>
+        <th>Field Name</th>
+        <th>Expected</th>
+        <th>Actual</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.fieldName}</td>
+          <td>{$notice.expected}</td>
+          <td>{$notice.actual}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check timezones/languages!</p>
+  <br><br>
+{/template}
