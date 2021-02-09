@@ -5,8 +5,8 @@ describe('Output', function() {
 
   // inject the HTML fixture for the tests
   beforeEach(function() {
-    var fixture = '<div id="fixture"><div id="errorOutput"></div><div id="error"></div>\
-                  <div id="warning></div><div</div>';
+    var fixture = '<div id="fixture"><div id="errorOutput"></div><div id="error"></div><div id="warning">\
+                  </div><div id="unimplementedNotices"></div></div>';
 
     document.body.insertAdjacentHTML(
       'afterbegin', 
@@ -31,12 +31,18 @@ describe('Output', function() {
       ]
     };
     unknown_column(params);    // Unknown column output
-    const output = "<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
+    const output ='<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
 <p>Description: A column name is unknown.</p>\
 <p><b>1</b> unknown column(s) found in:</p>\
-<table><thead><tr><th>Filename</th><th>Field name</th><th>Index</th></tr></thead><tbody>\
+<table>\
+<thead>\
+<tr><th>Filename</th><th>Field name</th><th>Index</th></tr>\
+</thead>\
+<tbody>\
 <tr><td>stop_times.txt</td><td>drop_off_time</td><td>8</td></tr>\
-</tbody></table><p>Please delete or rename column!</p><br><br></div>"
+</tbody>\
+</table>\
+<p>Please delete or rename column!</p><br><br></div>'
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
   
@@ -62,10 +68,17 @@ describe('Output', function() {
     invalid_row_length(params);
     const output = "<div><p class=\"error\">Error - Invalid csv row length!</p>\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
-<p><b>2</b> Invalid row length found in:</p><table><thead><tr><th>Filename</th><th>CSV Row Number</th>\
-<th>Row length</th><th>Header count</th></tr></thead><tbody><tr><td>stop_times.txt</td>\
-<td>17</td><td>5</td><td>9</td></tr><tr><td>stop_times.txt</td><td>18</td><td>5</td>\
-<td>9</td></tr></tbody></table><p>Please set the row length as specified by the CSV header!</p><br><br></div>"
+<p><b>2</b> Invalid row length found in:</p>\
+<table>\
+<thead>\
+<tr><th>Filename</th><th>CSV Row Number</th><th>Row length</th><th>Header count</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop_times.txt</td><td>17</td><td>5</td><td>9</td></tr>\
+<tr><td>stop_times.txt</td><td>18</td><td>5</td><td>9</td></tr>\
+</tbody>\
+</table>\
+<p>Please set the row length as specified by the CSV header!</p><br><br></div>"
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
   
@@ -100,15 +113,27 @@ describe('Output', function() {
     callCorrespondingFunction(params);
     const errorOutput = "<div><p class=\"error\">Error - Invalid csv row length!</p>\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
-<p><b>1</b> Invalid row length found in:</p><table><thead><tr><th>Filename</th><th>CSV Row Number</th>\
-<th>Row length</th><th>Header count</th></tr></thead><tbody><tr><td>stop_times.txt</td>\
-<td>17</td><td>5</td><td>9</td></tr></tbody></table><p>Please set the row length as specified by the CSV header!</p>\
-<br><br></div>";
+<p><b>1</b> Invalid row length found in:</p>\
+<table>\
+<thead>\
+<tr><th>Filename</th><th>CSV Row Number</th><th>Row length</th><th>Header count</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop_times.txt</td><td>17</td><td>5</td><td>9</td></tr>\
+</tbody>\
+</table>\
+<p>Please set the row length as specified by the CSV header!</p><br><br></div>";
     const warningOutput = "<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
 <p>Description: A column name is unknown.</p>\<p><b>1</b> unknown column(s) found in:</p>\
-<table><thead><tr><th>Filename</th><th>Field name</th><th>Index</th></tr></thead><tbody>\
+<table>\
+<thead>\
+<tr><th>Filename</th><th>Field name</th><th>Index</th></tr>\
+</thead>\
+<tbody>\
 <tr><td>stop_times.txt</td><td>drop_off_time</td><td>8</td></tr>\
-</tbody></table><p>Please delete or rename column!</p><br><br></div>";
+</tbody>\
+</table>\
+<p>Please delete or rename column!</p><br><br></div>";
     expect(document.getElementById('error').innerHTML).toContain(errorOutput);
     expect(document.getElementById('warning').innerHTML).toContain(warningOutput);
   });
@@ -129,6 +154,6 @@ describe('Output', function() {
       ]
     };
     callCorrespondingFunction(JSON.stringify(params));
-    expect(document.getElementById('noticeContainer').innerHTML).toContain('<p>NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(params.notices[0]) + '</p>');
+    expect(document.getElementById('unimplementedNotices').innerHTML).toContain('<p>NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(params.notices[0]) + '</p>');
   })
 });

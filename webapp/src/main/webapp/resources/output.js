@@ -17,7 +17,7 @@ function callCorrespondingFunction(noticesJSON) {
   for (var i = 0; i < noticeContainer.notices.length; i++) {
     const notice = noticeContainer.notices[i];
     // Notice has not been implemented, output raw json
-    if (runFunctionName(notice.code, notice) === -1) {
+    if (!runFunctionName(notice.code, notice)) {
       const unknownNotice = document.createElement('p');
       unknownNotice.innerHTML = 'NOTICE CONTAINER NOT IMPLEMENTED - RAW JSON DATA: <br><br>' + JSON.stringify(notice);
       document.getElementById("unimplementedNotices").appendChild(unknownNotice);
