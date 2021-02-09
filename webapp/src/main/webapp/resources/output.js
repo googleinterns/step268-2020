@@ -47,3 +47,8 @@ function invalid_row_length(params) {
   const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
   document.getElementById("error").appendChild(template);
 }
+
+function feed_info_lang_and_agency_lang_mismatch(params) {
+  const template = goog.soy.renderAsElement(validator.templates.feedInfoLangAndAgencyLangMismatch, params);
+  document.getElementById("error").appendChild(template);
+} 

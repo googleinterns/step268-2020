@@ -64,3 +64,32 @@
   <p>Please set the row length as specified by the CSV header!</p>
   <br><br>
 {/template}
+
+/**
+ * Table for feed info language and agency language mismatch 
+ * @param notices : List<[feedInfoLang : string, agencyLangCollection : Set<String>]>
+ */
+{template .feedInfoLangAndAgencyLangMismatch}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Fast Travel Between Stops found!</p>
+  <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` and `feed_info.feed_lang`. The default language may be multilingual for datasets with the original text in multiple languages. In such cases, the feed_lang field should contain the language code mul defined by the norm ISO 639-2. If `feed_lang` is not `mul` and does not match with `agency_lang`, that's an error If there is more than one `agency_lang` and `feed_lang` isn't `mul`, that's an error If `feed_lang` is `mul` and there isn't more than one `agency_lang`, that's an error</p>
+  <p><b>{$numNotices}</b> Mismatch found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Feed Info Language</th>
+        <th>Agency Language Collection</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.feedInfoLang}</td>
+          <td>{$notice.agencyLangCollection}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check travel speed for the above trip(s)!</p>
+  <br><br>
+{/template}
