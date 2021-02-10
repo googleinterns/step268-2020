@@ -66,6 +66,77 @@
 {/template}
 
 /**
+ * Table for fast travel between stops notice. 
+ * @param notices : List<[tripId : string, speedkmh : double, stopSequenceList : List<Integer>]>
+ */
+{template .fastTravelBetweenStops}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Fast Travel Between Stops found!</p>
+  <p>Description: Travel speed between stops is very fast!.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>Travel Speed km/h</th>
+        <th>Stop Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.speedkmh}</td>
+          <td>{$notice.stopSequenceList}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check travel speed for the above trip(s)!</p>
+  <br><br>
+{/template}
+
+/**
+ * Table for decreasing shape distance notice. 
+ * @param notices : List<[shapeId : string, csvRowNumber : long, shapeDistTraveled : double, shapePtSequence : int, 
+ * prevCsvRowNumber : long, prevShapeDistTraveled : double, prevShapePtSequence : int ]>
+ */
+{template .decreasingShapeDistance}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Decreasing Shape Distance(s) found!</p>
+  <p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Shape ID</th>
+        <th>CSV Row Number</th>
+        <th>Shape Distance Traveled</th>
+        <th>Shape Pt Sequence</th>
+        <th>Previous CSV Row Number</th>
+        <th>Previous Shape Distance Traveled</th>
+        <th>Previous Shape Pt Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.shapeId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.shapeDistTraveled}</td>
+          <td>{$notice.shapePtSequence}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevShapeDistTraveled}</td>
+          <td>{$notice.prevShapePtSequence}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>
+  <br><br>
+{/template}
+
+/**
  * Table for decreasing stop time distance notice. 
  * @param notices : List<[tripId : string, csvRowNumber : long, stopSequence : int, shapeDistTraveled : double, 
  * prevCsvRowNumber : long, prevStopSequence : int, prevShapeDistTraveled : double]>

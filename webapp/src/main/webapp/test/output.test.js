@@ -117,7 +117,78 @@ describe('Output', function() {
 <br><br><";
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
+
+    
+  /** Decreasing shape distance notice template test */
+  it('should issue decreasing shape distance error', function() {
+    const params = {
+      code: "decreasing_shape_distance",
+      totalNotices: 1,
+      notices: [
+        {
+          shapeId: "shape1",
+          csvRowNumber: 17,
+          shapeDistTraveled: 5.1,
+          shapePtSequence: 5,
+          prevCsvRowNumber: 16,
+          prevShapeDistTraveled: 5.5,
+          prevShapePtSequence: 4
+        }
+      ]
+    };
+    decreasing_shape_distance(params);
+    const output = "<p class=\"error\">Error - Decreasing Shape Distance(s) found!</p>\
+<p>Description: shape_dist_traveled along a shape in \"shapes.txt\" are not all increasing.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Shape ID</th><th>CSV Row Number</th><th>Shape Distance Traveled</th><th>Shape Pt Sequence</th><th>Previous CSV Row Number</th><th>Previous Shape Distance Traveled</th><th>Previous Shape Pt Sequence</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>shape1</td><td>17</td><td>5.1</td><td>5</td><td>16</td><td>5.5</td><td>4</td></tr>\
+</tbody>\
+</table>\
+<p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>\
+<br><br>"
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
   
+  /** Test for fast_travel_between_stops */
+ it('should issue fast travel between stops warning', function() {
+    const params = {
+      code: "fast_travel_between_stops",
+      totalNotices: 2,
+      notices: [
+        {
+          tripId: "trip1",
+          speedkmh: 4000,
+          stopSequenceList: [6,7]
+        },
+        {
+          tripId: "trip89",
+          speedkmh: 5000,
+          stopSequenceList: [1,2]
+        }
+      ]
+    };
+    fast_travel_between_stops(params);
+    const output = "<div><p class=\"warning\">Warning - Fast Travel Between Stops found!</p>\
+<p>Description: Travel speed between stops is very fast!.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Trip ID</th><th>Travel Speed km/h</th><th>Stop Sequence</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>trip1</td><td>4000</td><td>6,7</td></tr>\
+<tr><td>trip89</td><td>5000</td><td>1,2</td></tr>\
+</tbody>\
+</table>\
+<p>Please check travel speed for the above trip(s)!</p>\
+<br><br></div>";
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+ });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
