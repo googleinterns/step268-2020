@@ -111,16 +111,17 @@ describe('Output', function() {
     const params = {
       code: 'route_with_duplicate_stop_notice',
       totalNotices: 2,
-      notices: [{
-        stopName: 'AppleStop',
-        stopId1: 'stop101',
+      notices: [
+        {
+          stopName: 'AppleStop',
+          stopId1: 'stop101',
           csvRowNumberStop1: 2,
           stopId2: 'stop103',
           csvRowNumberStop2: 3,
           routeId: 'routeA',
           exampleTripId: 'trip1'
-      },
-      {
+        },
+        {
           stopName: 'OrangeStop',
           stopId1: 'stop305',
           csvRowNumberStop1: 7,
@@ -128,10 +129,12 @@ describe('Output', function() {
           csvRowNumberStop2: 8,
           routeId: 'routeC',
           exampleTripId: 'trip3'
-        }] 
+        }
+      ]
     };
     trip_with_duplicate_stops(params);
-    const output='<div><p class=\"warning"\>Warning - Trip with duplicate stops!</p>\
+    const output =
+        '<div><p class=\"warning"\>Warning - Trip with duplicate stops!</p>\
 <p>Description: For a trip, consecutive stop times have the same stop name.</p>\
 <p><b>2</b> Trip(s) with duplicate stops found in:</p>\
 <table>\
