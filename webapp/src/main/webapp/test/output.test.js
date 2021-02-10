@@ -108,7 +108,7 @@ describe('Output', function() {
       ]
     };
     decreasing_stop_time_distance(params);
-    const output = "<p class=\"warning\">Warning - Decreasing Stop Time Distance(s) found!</p>\
+    const output = "<p class=\"error\">Error - Decreasing Stop Time Distance(s) found!</p>\
 <p>Description: for some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
 <p><b>1</b> decreasing stopTimeDistTraveled found in:</p>\
 <table>\
@@ -137,7 +137,7 @@ describe('Output', function() {
 </table>\
 <p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>\
 <br><br><";
-    expect(document.getElementById('warning').innerHTML).toContain(output);
+    expect(document.getElementById('error').innerHTML).toContain(output);
   });
   
   it('should call the correct functions', function() {
