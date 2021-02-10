@@ -81,10 +81,7 @@ describe('Output', function() {
 <p>Please set the row length as specified by the CSV header!</p><br><br></div>"
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-  /** Decreasing shape distance notice template test
-   * List<[shapeId : string, csvRowNumber : long, shapeDistTraveled : double, shapePtSequence : int, 
- * prevCsvRowNumber : long, prevShapeDistTraveled : double, prevShapePtSequence : int ]>
-   */
+  /** Decreasing shape distance notice template test */
   it('should issue decreasing shape distance error', function() {
     const params = {
       code: "decreasing_shape_distance",
@@ -104,7 +101,7 @@ describe('Output', function() {
     decreasing_shape_distance(params);
     const output = "<p class=\"error\">Error - Decreasing Shape Distance(s) found!</p>\
 <p>Description: shape_dist_traveled along a shape in \"shapes.txt\" are not all increasing.</p>\
-<p><b>1</b> decreasing shapeDistTraveled found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr>\
