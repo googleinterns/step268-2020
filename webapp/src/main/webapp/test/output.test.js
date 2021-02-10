@@ -103,7 +103,7 @@ describe('Output', function() {
 <tr><td>stop101</td><td>4</td><td>0</td><td>station1001</td><td>7</td><td>2</td><td>1</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the parent location type corresponding to the stop location type!</p><br><br></div>'
+<p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p><br><br></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
