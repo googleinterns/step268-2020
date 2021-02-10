@@ -107,6 +107,37 @@ describe('Output', function() {
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  it('should issue trip with duplicate stop warning', function() {
+    const params = {
+      code: 'wrong_parent_location_type',
+      totalNotices: 1,
+      notices: [{
+        stopId: 'stop101',
+        csvRowNumber: 4,
+        locationType: 0,
+        parentStation: 'station1001',
+        parentCsvRowNumber: 7,
+        parentLocationType: 2,
+        expectedLocationType: 1
+      }]
+    };
+    wrong_parent_location_type(params);
+    const output =
+        '<div><p class=\"error"\>Error - Wrong parent location type!</p>\
+<p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>\
+<p><b>1</b> Wrong parent location type found in:</p>\
+<table>\
+<thead>\
+<tr><th>Stop Id</th><th>CSV Row Number</th><th>Location Type</th><th>Parent Station</th><th>Parent CSV Row Number</th><th>Parent Location Type</th><th>Expected Location Type</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop101</td><td>4</td><td>0</td><td>station1001</td><td>7</td><td>2</td><td>1</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p><br><br></div>'
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [

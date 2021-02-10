@@ -58,3 +58,9 @@ function wrong_parent_location_type(params) {
       validator.templates.wrongParentLocationType, params);
   document.getElementById('error').appendChild(template);
 }
+
+function trip_with_duplicate_stops(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.tripWithDuplicateStops, params);
+  document.getElementById('warning').appendChild(template);
+}

@@ -104,3 +104,45 @@
   <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
   <br><br>
 {/template}
+
+
+/**
+ * Renders a basic explanation of the validation notice.
+ * @param notices : List<[stopName : string, stopId1 : string, csvRowNumberStop1 : number, stopId2 : string, csvRowNumberStop2 : number, routeId : string, exampleTripId : string]>
+ */
+{template .tripWithDuplicateStops}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Trip with duplicate stops!</p>
+  <p>Description: For a trip, consecutive stop times have the same stop name.</p>
+  <p><b>{$numNotices}</b> Trip with duplicate stops found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop Name</th>
+        <th>Stop Id 1</th>
+        <th>CSV Row Number Stop 1</th>
+        <th>Stop Id 2</th>
+        <th>CSV Row Number Stop 2</th>
+        <th>Route Id</th>
+        <th>Parent CSV Row Number</th>
+        <th>Parent Location Type</th>
+        <th>Expected Location Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.locationType}</td>
+          <td>{$notice.parentStation}</td>
+          <td>{$notice.parentCsvRowNumber}</td>
+          <td>{$notice.parentLocationType}</td>
+          <td>{$notice.expectedLocationType}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
+  <br><br>
+{/template}
