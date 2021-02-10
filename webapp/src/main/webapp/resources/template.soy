@@ -64,3 +64,35 @@
   <p>Please set the row length as specified by the CSV header!</p>
   <br><br>
 {/template}
+
+/**
+ * Table for fast travel between stops notice. 
+ * @param notices : List<[tripId : string, speedkmh : double, stopSequenceList : List<Integer>]>
+ */
+{template .fastTravelBetweenStops}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Fast Travel Between Stops found!</p>
+  <p>Description: Travel speed between stops is very fast!.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>Travel Speed km/h</th>
+        <th>Stop Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.speedkmh}</td>
+          <td>{$notice.stopSequenceList}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check travel speed for the above trip(s)!</p>
+  <br><br>
+{/template}
+
