@@ -113,26 +113,10 @@ describe('Output', function() {
 <p><b>1</b> decreasing stopTimeDistTraveled found in:</p>\
 <table>\
 <thead>\
-<tr>\
-<th>Trip ID</th>\
-<th>CSV Row Number</th>\
-<th>Stop Sequence</th>\
-<th>Shape Distance Traveled</th>\
-<th>Previous CSV Row Number</th>\
-<th>Previous Stop Sequence</th>\
-<th>Previous Shape Distance Traveled</th>\
-</tr>\
+<tr><th>Trip ID</th><th>CSV Row Number</th><th>Stop Sequence</th><th>Shape Distance Traveled</th><th>Previous CSV Row Number</th><th>Previous Stop Sequence</th><th>Previous Shape Distance Traveled</th></tr>\
 </thead>\
 <tbody>\
-<tr>\
-<td>trip1</td>\
-<td>11</td>\
-<td>3</td>\
-<td>5.1</td>\
-<td>10</td>\
-<td>2</td>\
-<td>5.5</td>\
-</tr>\
+<tr><td>trip1</td><td>11</td><td>3</td><td>5.1</td><td>10</td><td>2</td><td>5.5</td></tr>\
 </tbody>\
 </table>\
 <p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>\
