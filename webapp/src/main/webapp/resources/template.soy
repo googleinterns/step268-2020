@@ -209,3 +209,36 @@
   <p>Please check languages!</p>
   <br><br>
 {/template}
+
+/**
+ * Table for inconsistent agency field
+ * @param notices : List<[csvRowNumber : long, fieldName : string, expected : string, actual : string]>
+ */
+{template .inconsistentAgencyField}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Inconsistent Agency Field(s) found!</p>
+  <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>CSV Row Number</th>
+        <th>Field Name</th>
+        <th>Expected</th>
+        <th>Actual</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.fieldName}</td>
+          <td>{$notice.expected}</td>
+          <td>{$notice.actual}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check timezones/languages!</p>
+  <br><br>
+{/template}

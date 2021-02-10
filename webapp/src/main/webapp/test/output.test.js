@@ -117,8 +117,7 @@ describe('Output', function() {
 <br><br><";
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-
-    
+ 
   /** Decreasing shape distance notice template test */
   it('should issue decreasing shape distance error', function() {
     const params = {
@@ -185,6 +184,37 @@ than one `agency_lang`, that's an error</p>\
 </table>\
 <p>Please check languages!</p>\
 <br><br>"
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+    
+  /** Test for inconsistent agency field template */
+  it('should issue inconsistent agency field error', function() {
+    const params = {
+      code: "inconsistent_agency_field",
+      totalNotices: 1,
+      notices: [
+        {
+          csvRowNumber: 15,
+          fieldName: "Language",
+          expected: "English",
+          actual: "French"
+        }
+      ]
+    };
+    inconsistent_agency_field(params);
+    const output = "<div><p class=\"error\">Error - Inconsistent Agency Field(s) found!</p>\
+<p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Field Name</th><th>Expected</th><th>Actual</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>15</td><td>Language</td><td>English</td><td>French</td></tr>\
+</tbody>\
+</table>\
+<p>Please check timezones/languages!</p>\
+<br><br></div>"
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
   
