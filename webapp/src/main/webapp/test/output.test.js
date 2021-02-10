@@ -81,6 +81,64 @@ describe('Output', function() {
 <p>Please set the row length as specified by the CSV header!</p><br><br></div>"
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
+
+/**       <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.stopSequence}</td>
+          <td>{$notice.shapeDistTraveled}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevStopSequence}</td>
+          <td>{$notice.prevShapeDistTraveled}</td>
+ * Test for decreasing shape distance notice 
+ * */ 
+  it('should issue decreasing shape distance warning', function() {
+    const params = {
+      code: "decreasing_shape_distance",
+      totalNotices: 1,
+      notices: [
+        {
+          tripId: "trip1",
+          csvRowNumber: 11,
+          stopSequence: 3,
+          shapeDistTraveled: 5.1,
+          prevCsvRowNumber: 10,
+          prevStopSequence: 2,
+          prevShapeDistTraveled: 5.5,
+        }
+      ]
+    };
+    decreasing_stop_time_distance(params);
+    const output = "<p class=\"warning\">Warning - Decreasing Stop Time Distance(s) found!</p>\
+<p>Description: for some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
+<p><b>1</b> decreasing stopTimeDistTraveled found in:</p>\
+<table>\
+<thead>\
+<tr>\
+<th>Trip ID</th>\
+<th>CSV Row Number</th>\
+<th>Stop Sequence</th>\
+<th>Shape Distance Traveled</th>\
+<th>Previous CSV Row Number</th>\
+<th>Previous Stop Sequence</th>\
+<th>Previous Shape Distance Traveled</th>\
+</tr>\
+</thead>\
+<tbody>\
+<tr>\
+<td>trip1</td>\
+<td>11</td>\
+<td>3</td>\
+<td>5.1</td>\
+<td>10</td>\
+<td>2</td>\
+<td>5.5</td>\
+</tr>\
+</tbody>\
+</table>\
+<p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>\
+<br><br><";
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
   
   it('should call the correct functions', function() {
     const params = JSON.stringify({
@@ -157,3 +215,5 @@ describe('Output', function() {
     expect(document.getElementById('unimplementedNotices').innerHTML).toContain(JSON.stringify(params.notices[0]));
   })
 });
+
+ 
