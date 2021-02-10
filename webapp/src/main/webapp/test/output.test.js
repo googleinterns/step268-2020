@@ -157,3 +157,52 @@ describe('Output', function() {
     expect(document.getElementById('unimplementedNotices').innerHTML).toContain(JSON.stringify(params.notices[0]));
   })
 });
+
+
+/** Test for fast_travel_between_stops */
+ it('should issue fast travel between stops warning', function() {
+    const params = {
+      code: "fast_travel_between_stops",
+      totalNotices: 2,
+      notices: [
+        {
+          tripId: "trip1",
+          speedkmh: 4000,
+          stopSequenceList: [6,7]
+        },
+        {
+          filename: "trip89",
+          speedkmh: 5000,
+          stopSequenceList: [1,2]
+        }
+      ]
+    };
+    invalid_row_length(params);
+    const output = `<div><p class="warning">Warning - Fast Travel Between Stops found!</p>
+  <p>Description: Travel speed between stops is very fast!.</p>
+  <p><b>{$numNotices}</b> Fast travel found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>Travel Speed km/h</th>
+        <th>Stop Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>trip1</td>
+	        <td>4000</td> 
+	        <td>[6,7]</td> 
+        </tr>
+	      <tr>
+          <td>trip89</td>
+          <td>5000</td> 
+          <td>[1,2]</td> 
+        </tr>
+    </tbody>
+  </table>
+  <p>Please check travel speed for the above trip(s)!</p>
+  <br><br></div>`;
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
