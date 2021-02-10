@@ -104,14 +104,10 @@ describe('Output', function() {
 <p><b>1</b> found:</p>\
 <table>\
 <thead>\
-<tr>\
-<th>Shape ID</th><th>CSV Row Number</th><th>Shape Distance Traveled</th><th>Shape Pt Sequence</th><th>Previous CSV Row Number</th><th>Previous Shape Distance Traveled</th><th>Previous Shape Pt Sequence</th>\
-</tr>\
+<tr><th>Shape ID</th><th>CSV Row Number</th><th>Shape Distance Traveled</th><th>Shape Pt Sequence</th><th>Previous CSV Row Number</th><th>Previous Shape Distance Traveled</th><th>Previous Shape Pt Sequence</th></tr>\
 </thead>\
 <tbody>\
-<tr>\
-<td>shape1</td><td>17</td><td>5.1</td><td>5</td><td>16</td><td>5.5</td><td>4</td>\
-</tr>\
+<tr><td>shape1</td><td>17</td><td>5.1</td><td>5</td><td>16</td><td>5.5</td><td>4</td></tr>\
 </tbody>\
 </table>\
 <p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>\
