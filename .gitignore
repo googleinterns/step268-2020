@@ -6,3 +6,6 @@ webapp/build/
 .idea/
 gradle/
 gradlew
+node_modules/
+package-lock.json
+src/main/webapp/resources/template.soy.js
