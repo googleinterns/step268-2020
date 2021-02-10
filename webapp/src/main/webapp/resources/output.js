@@ -58,3 +58,9 @@ function wrong_parent_location_type(params) {
       validator.templates.wrongParentLocationType, params);
   document.getElementById('error').appendChild(template);
 }
+
+function unused_shape(params) {
+  const template =
+      goog.soy.renderAsElement(validator.templates.unusedShape, params);
+  document.getElementById('error').appendChild(template);
+}

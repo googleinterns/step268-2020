@@ -107,6 +107,28 @@ describe('Output', function() {
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  it('should issue unused shape error', function() {
+    const params = {
+      code: 'unused_shape',
+      totalNotices: 1,
+      notices: [{shapeId: 'star2', csvRowNumber: 13}]
+    };
+    unused_shape(params);
+    const output = '<div><p class=\"error"\>Error - Unused shape!</p>\
+<p>Description: Every shape in shapes.txt is used by some trip from trips.txt.</p>\
+<p><b>1</b> Unused shape found in:</p>\
+<table>\
+<thead>\
+<tr><th>Shape Id</th><th>CSV Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>star2</td><td>13</td></tr>\
+</tbody>\
+</table>\
+<p>Please delete the unused shape(s)!</p><br><br></div>'
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
