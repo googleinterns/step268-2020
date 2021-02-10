@@ -107,16 +107,10 @@ than one `agency_lang`, that's an error</p>\
 <p><b>1</b> found:</p>\
 <table>\
 <thead>\
-<tr>\
-<th>Feed Info Language</th>\
-<th>Agency Language Collection</th>\
-</tr>\
+<tr><th>Feed Info Language</th><th>Agency Language Collection</th></tr>\
 </thead>\
 <tbody>\
-<tr>\
-<td>English</td>\
-<td>Spanish,French</td>\
-</tr>\
+<tr><td>English</td><td>Spanish,French</td></tr>\
 </tbody>\
 </table>\
 <p>Please check languages!</p>\
