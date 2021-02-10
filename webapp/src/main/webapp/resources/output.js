@@ -47,3 +47,8 @@ function invalid_row_length(params) {
   const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
   document.getElementById("error").appendChild(template);
 }
+
+function wrong_parent_location_type(params) {
+  const template = goog.soy.renderAsElement(validator.templates.wrongParentLocationType, params);
+  document.getElementById("error").appendChild(template);
+}

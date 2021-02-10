@@ -64,3 +64,43 @@
   <p>Please set the row length as specified by the CSV header!</p>
   <br><br>
 {/template}
+
+
+/**
+ * Renders a basic explanation of the validation notice.
+ * @param notices : List<[stopId : string, csvRowNumber : number, locationType: number, parentStation : string, parentCsvRowNumber: number, parentLocationType: number, expectedLocationType: number]>
+ */
+{template .wrongParentLocationType}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Wrong parent location type!</p>
+  <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
+  <p><b>{$numNotices}</b> Wrong parent location type found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop Id</th>
+        <th>CSV Row Number</th>
+        <th>Location Type</th>
+        <th>Parent Station</th>
+        <th>Parent CSV Row Number</th>
+        <th>Parent Location Type</th>
+        <th>Expected Location Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.locationType}</td>
+          <td>{$notice.parentStation}</td>
+          <td>{$notice.parentCsvRowNumber}</td>
+          <td>{$notice.parentLocationType}</td>
+          <td>{$notice.expectedLocationType}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fix the parent location type corresponding to the stop location type!</p>
+  <br><br>
+{/template}
