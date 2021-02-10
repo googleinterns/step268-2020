@@ -91,7 +91,7 @@ describe('Output', function() {
           <td>{$notice.prevShapeDistTraveled}</td>
  * Test for decreasing shape distance notice 
  * */ 
-  it('should issue decreasing shape distance warning', function() {
+  it('should issue decreasing shape distance error', function() {
     const params = {
       code: "decreasing_shape_distance",
       totalNotices: 1,
