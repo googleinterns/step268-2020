@@ -104,7 +104,7 @@ describe('Output', function() {
 <p><b>1</b> Wrong parent location type found in:</p>\
 <table>\
 <thead>\
-<tr><th>Stop Id</th><th>CSV Row Number</th><th>Location Type</th><th>Parent Station</th><th>Parent CSV Row Number</th><th>Parent Location Type</th><th>Expected Location Type</th></tr>\
+<tr><th>Stop ID</th><th>CSV Row Number</th><th>Location Type</th><th>Parent Station</th><th>Parent CSV Row Number</th><th>Parent Location Type</th><th>Expected Location Type</th></tr>\
 </thead>\
 <tbody>\
 <tr><td>stop101</td><td>4</td><td>0</td><td>station1001</td><td>7</td><td>2</td><td>1</td></tr>\
