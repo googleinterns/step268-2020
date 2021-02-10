@@ -50,5 +50,5 @@ function invalid_row_length(params) {
 
 function decreasing_stop_time_distance(params) {
   const template = goog.soy.renderAsElement(validator.templates.decreasingStopTimeDistance, params);
-  document.getElementById("warning").appendChild(template);
+  document.getElementById("error").appendChild(template);
 } 
