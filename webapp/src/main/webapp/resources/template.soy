@@ -135,3 +135,43 @@
   <p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>
   <br><br>
 {/template}
+
+/**
+ * Table for decreasing stop time distance notice. 
+ * @param notices : List<[tripId : string, csvRowNumber : long, stopSequence : int, shapeDistTraveled : double, 
+ * prevCsvRowNumber : long, prevStopSequence : int, prevShapeDistTraveled : double]>
+ */
+{template .decreasingStopTimeDistance}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Decreasing Stop Time Distance(s) found!</p>
+  <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>
+  <p><b>{$numNotices}</b> Found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>CSV Row Number</th>
+        <th>Stop Sequence</th>
+        <th>Shape Distance Traveled</th>
+        <th>Previous CSV Row Number</th>
+        <th>Previous Stop Sequence</th>
+        <th>Previous Shape Distance Traveled</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.stopSequence}</td>
+          <td>{$notice.shapeDistTraveled}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevStopSequence}</td>
+          <td>{$notice.prevShapeDistTraveled}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>
+  <br><br>
+{/template}
