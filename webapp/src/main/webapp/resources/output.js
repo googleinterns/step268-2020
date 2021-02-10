@@ -48,6 +48,11 @@ function invalid_row_length(params) {
   document.getElementById("error").appendChild(template);
 }
 
+function decreasing_shape_distance(params) {
+  const template = goog.soy.renderAsElement(validator.templates.decreasingShapeDistance, params);
+  document.getElementById("error").appendChild(template);
+} 
+
 function fast_travel_between_stops(params) {
   const template = goog.soy.renderAsElement(validator.templates.fastTravelBetweenStops, params);
   document.getElementById("warning").appendChild(template);

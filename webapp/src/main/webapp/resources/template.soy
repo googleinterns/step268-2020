@@ -96,3 +96,42 @@
   <br><br>
 {/template}
 
+/**
+ * Table for decreasing shape distance notice. 
+ * @param notices : List<[shapeId : string, csvRowNumber : long, shapeDistTraveled : double, shapePtSequence : int, 
+ * prevCsvRowNumber : long, prevShapeDistTraveled : double, prevShapePtSequence : int ]>
+ */
+{template .decreasingShapeDistance}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Decreasing Shape Distance(s) found!</p>
+  <p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Shape ID</th>
+        <th>CSV Row Number</th>
+        <th>Shape Distance Traveled</th>
+        <th>Shape Pt Sequence</th>
+        <th>Previous CSV Row Number</th>
+        <th>Previous Shape Distance Traveled</th>
+        <th>Previous Shape Pt Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.shapeId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.shapeDistTraveled}</td>
+          <td>{$notice.shapePtSequence}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevShapeDistTraveled}</td>
+          <td>{$notice.prevShapePtSequence}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>
+  <br><br>
+{/template}
