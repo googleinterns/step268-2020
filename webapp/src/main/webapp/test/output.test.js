@@ -81,6 +81,48 @@ describe('Output', function() {
 <p>Please set the row length as specified by the CSV header!</p><br><br></div>"
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
+
+
+  /** Test for feed info language and engency language mismatch template */
+  it('should issue feed info language and engency language mismatch error', function() {
+    const params = {
+      code: "feed_info_lang_and_agency_lang_mismatch",
+      totalNotices: 1,
+      notices: [
+        {
+          feedInfoLang: "English",
+          agencyLangCollection: ["Spanish", "French"]
+        }
+      ]
+    };
+    feed_info_lang_and_agency_lang_mismatch(params);
+    const output = "<p class=\"error\">Error - Language mismatch found!</p>\
+<p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` \
+and `feed_info.feed_lang`. The default language may be multilingual for datasets with \
+the original text in multiple languages. In such cases, the feed_lang field should contain \
+the language code mul defined by the norm ISO 639-2. If `feed_lang` is not `mul` and does not \
+match with `agency_lang`, that's an error If there is more than one `agency_lang` and \
+`feed_lang` isn't `mul`, that's an error If `feed_lang` is `mul` and there isn't more \
+than one `agency_lang`, that's an error</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr>\
+<th>Feed Info Language</th>\
+<th>Agency Language Collection</th>\
+</tr>\
+</thead>\
+<tbody>\
+<tr>\
+<td>English</td>\
+<td>Spanish,French</td>\
+</tr>\
+</tbody>\
+</table>\
+<p>Please check languages!</p>\
+<br><br>"
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
   
   it('should call the correct functions', function() {
     const params = JSON.stringify({
