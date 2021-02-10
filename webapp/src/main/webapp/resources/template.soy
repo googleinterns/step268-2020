@@ -72,7 +72,7 @@
  */
 {template .decreasingStopTimeDistance}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Decreasing Stop Time Distance(s) found!</p>
+  <p class="error">Error - Decreasing Stop Time Distance(s) found!</p>
   <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>
   <p><b>{$numNotices}</b> Found in:</p>
   <table>
