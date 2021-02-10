@@ -82,13 +82,7 @@ describe('Output', function() {
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-/**       <td>{$notice.tripId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.stopSequence}</td>
-          <td>{$notice.shapeDistTraveled}</td>
-          <td>{$notice.prevCsvRowNumber}</td>
-          <td>{$notice.prevStopSequence}</td>
-          <td>{$notice.prevShapeDistTraveled}</td>
+/**       
  * Test for decreasing shape distance notice 
  * */ 
   it('should issue decreasing shape distance error', function() {
