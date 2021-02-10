@@ -107,21 +107,15 @@ describe('Output', function() {
 <table>\
 <thead>\
 <tr>\
-<th>Trip ID</th>\
-<th>Travel Speed km/h</th>\
-<th>Stop Sequence</th>\
+<th>Trip ID</th><th>Travel Speed km/h</th><th>Stop Sequence</th>\
 </tr>\
 </thead>\
 <tbody>\
 <tr>\
-<td>trip1</td>\
-<td>4000</td>\
-<td>6,7</td>\
+<td>trip1</td><td>4000</td><td>6,7</td>\
 </tr>\
 <tr>\
-<td>trip89</td>\
-<td>5000</td>\
-<td>1,2</td>\
+<td>trip89</td><td>5000</td><td>1,2</td>\
 </tr>\
 </tbody>\
 </table>\
