@@ -51,4 +51,24 @@ function invalid_row_length(params) {
 function inconsistent_agency_field(params) {
   const template = goog.soy.renderAsElement(validator.templates.inconsistentAgencyField, params);
   document.getElementById("error").appendChild(template);
+}
+
+function feed_info_lang_and_agency_lang_mismatch(params) {
+  const template = goog.soy.renderAsElement(validator.templates.feedInfoLangAndAgencyLangMismatch, params);
+  document.getElementById("error").appendChild(template);
+}
+
+function decreasing_stop_time_distance(params) {
+  const template = goog.soy.renderAsElement(validator.templates.decreasingStopTimeDistance, params);
+  document.getElementById("error").appendChild(template);
+} 
+
+function decreasing_shape_distance(params) {
+  const template = goog.soy.renderAsElement(validator.templates.decreasingShapeDistance, params);
+  document.getElementById("error").appendChild(template);
+} 
+
+function fast_travel_between_stops(params) {
+  const template = goog.soy.renderAsElement(validator.templates.fastTravelBetweenStops, params);
+  document.getElementById("warning").appendChild(template);
 } 
