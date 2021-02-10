@@ -102,20 +102,10 @@ describe('Output', function() {
 <p><b>1</b> found:</p>\
 <table>\
 <thead>\
-<tr>\
-<th>CSV Row Number</th>\
-<th>Field Name</th>\
-<th>Expected</th>\
-<th>Actual</th>\
-</tr>\
+<tr><th>CSV Row Number</th><th>Field Name</th><th>Expected</th><th>Actual</th></tr>\
 </thead>\
 <tbody>\
-<tr>\
-<td>15</td>\
-<td>Language</td>\
-<td>English</td>\
-<td>French</td>\
-</tr>\
+<tr><td>15</td><td>Language</td><td>English</td><td>French</td></tr>\
 </tbody>\
 </table>\
 <p>Please check timezones/languages!</p>\
