@@ -83,11 +83,11 @@ describe('Output', function() {
   });
 
 /**       
- * Test for decreasing shape distance notice 
+ * Test for decreasing stop time distance notice 
  * */ 
-  it('should issue decreasing shape distance error', function() {
+  it('should issue decreasing stop time distance error', function() {
     const params = {
-      code: "decreasing_shape_distance",
+      code: "decreasing_stop_time_distance",
       totalNotices: 1,
       notices: [
         {
