@@ -71,7 +71,7 @@
  */
 {template .feedInfoLangAndAgencyLangMismatch}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Language mismatch found!</p>
+  <p class="error">Error - Language mismatch found!</p>
   <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` and 
     `feed_info.feed_lang`. The default language may be multilingual for datasets with the original text 
     in multiple languages. In such cases, the feed_lang field should contain the language code mul defined 
