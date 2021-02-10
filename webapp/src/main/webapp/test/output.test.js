@@ -105,24 +105,12 @@ describe('Output', function() {
 <table>\
 <thead>\
 <tr>\
-<th>Shape ID</th>\
-<th>CSV Row Number</th>\
-<th>Shape Distance Traveled</th>\
-<th>Shape Pt Sequence</th>\
-<th>Previous CSV Row Number</th>\
-<th>Previous Shape Distance Traveled</th>\
-<th>Previous Shape Pt Sequence</th>\
+<th>Shape ID</th><th>CSV Row Number</th><th>Shape Distance Traveled</th><th>Shape Pt Sequence</th><th>Previous CSV Row Number</th><th>Previous Shape Distance Traveled</th><th>Previous Shape Pt Sequence</th>\
 </tr>\
 </thead>\
 <tbody>\
 <tr>\
-<td>shape1</td>\
-<td>17</td>\
-<td>5.1</td>\
-<td>5</td>\
-<td>16</td>\
-<td>5.5</td>\
-<td>4</td>\
+<td>shape1</td><td>17</td><td>5.1</td><td>5</td><td>16</td><td>5.5</td><td>4</td>\
 </tr>\
 </tbody>\
 </table>\
