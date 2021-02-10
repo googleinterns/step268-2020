@@ -59,9 +59,9 @@ goog.inherits = function(childCtor, parentCtor) {
 // Just enough browser detection for this file.
 if (!goog.userAgent) {
   goog.userAgent = (function() {
-    var userAgent = "";
-    if ("undefined" !== typeof navigator && navigator
-        && "string" == typeof navigator.userAgent) {
+    var userAgent = '';
+    if ('undefined' !== typeof navigator && navigator &&
+        'string' == typeof navigator.userAgent) {
       userAgent = navigator.userAgent;
     }
     var isOpera = userAgent.indexOf('Opera') == 0;
@@ -93,15 +93,16 @@ if (!goog.asserts) {
     /**
      * @param {*} condition Condition to check.
      */
-    assert: function (condition) {
-      if (!condition) {
-        throw Error('Assertion error');
-      }
-    },
+    assert:
+        function(condition) {
+          if (!condition) {
+            throw Error('Assertion error');
+          }
+        },
     /**
      * @param {...*} var_args
      */
-    fail: function (var_args) {}
+    fail: function(var_args) {}
   };
 }
 
@@ -149,7 +150,7 @@ if (!goog.format) {
       var resultArrLen = 0;
 
       // These variables keep track of important state inside str.
-      var isInTag = false;  // whether we're inside an HTML tag
+      var isInTag = false;          // whether we're inside an HTML tag
       var isMaybeInEntity = false;  // whether we might be inside an HTML entity
       var numCharsWithoutBreak = 0;  // number of chars since last word break
       var flushIndex = 0;  // index of first char not yet flushed to resultArr
@@ -175,48 +176,48 @@ if (!goog.format) {
 
         } else if (isMaybeInEntity) {
           switch (charCode) {
-            // Inside an entity, a ';' is the end of the entity.
-            // The entity that just ended counts as one char, so increment
-            // numCharsWithoutBreak.
-          case 59:  // ';'
-            isMaybeInEntity = false;
-            ++numCharsWithoutBreak;
-            break;
-            // If maybe inside an entity and we see '<', we weren't actually in
-            // an entity. But now we're inside and HTML tag.
-          case 60:  // '<'
-            isMaybeInEntity = false;
-            isInTag = true;
-            break;
-            // If maybe inside an entity and we see ' ', we weren't actually in
-            // an entity. Just correct the state and reset the
-            // numCharsWithoutBreak since we just saw a space.
-          case 32:  // ' '
-            isMaybeInEntity = false;
-            numCharsWithoutBreak = 0;
-            break;
+              // Inside an entity, a ';' is the end of the entity.
+              // The entity that just ended counts as one char, so increment
+              // numCharsWithoutBreak.
+            case 59:  // ';'
+              isMaybeInEntity = false;
+              ++numCharsWithoutBreak;
+              break;
+              // If maybe inside an entity and we see '<', we weren't actually
+              // in an entity. But now we're inside and HTML tag.
+            case 60:  // '<'
+              isMaybeInEntity = false;
+              isInTag = true;
+              break;
+              // If maybe inside an entity and we see ' ', we weren't actually
+              // in an entity. Just correct the state and reset the
+              // numCharsWithoutBreak since we just saw a space.
+            case 32:  // ' '
+              isMaybeInEntity = false;
+              numCharsWithoutBreak = 0;
+              break;
           }
 
         } else {  // !isInTag && !isInEntity
           switch (charCode) {
-            // When not within a tag or an entity and we see '<', we're now
-            // inside an HTML tag.
-          case 60:  // '<'
-            isInTag = true;
-            break;
-            // When not within a tag or an entity and we see '&', we might be
-            // inside an entity.
-          case 38:  // '&'
-            isMaybeInEntity = true;
-            break;
-            // When we see a space, reset the numCharsWithoutBreak count.
-          case 32:  // ' '
-            numCharsWithoutBreak = 0;
-            break;
-            // When we see a non-space, increment the numCharsWithoutBreak.
-          default:
-            ++numCharsWithoutBreak;
-            break;
+              // When not within a tag or an entity and we see '<', we're now
+              // inside an HTML tag.
+            case 60:  // '<'
+              isInTag = true;
+              break;
+              // When not within a tag or an entity and we see '&', we might be
+              // inside an entity.
+            case 38:  // '&'
+              isMaybeInEntity = true;
+              break;
+              // When we see a space, reset the numCharsWithoutBreak count.
+            case 32:  // ' '
+              numCharsWithoutBreak = 0;
+              break;
+              // When we see a non-space, increment the numCharsWithoutBreak.
+            default:
+              ++numCharsWithoutBreak;
+              break;
           }
         }
       }
@@ -233,8 +234,8 @@ if (!goog.format) {
      * @type {string}
      * @private
      */
-    WORD_BREAK: goog.userAgent.WEBKIT
-        ? '<wbr></wbr>' : goog.userAgent.OPERA ? '&shy;' : '<wbr>'
+    WORD_BREAK: goog.userAgent.WEBKIT ? '<wbr></wbr>' :
+                                        goog.userAgent.OPERA ? '&shy;' : '<wbr>'
   };
 }
 
@@ -253,8 +254,8 @@ if (!goog.i18n) {
        */
       detectRtlDirectionality: function(text, opt_isHtml) {
         text = soyshim.$$bidiStripHtmlIfNecessary_(text, opt_isHtml);
-        return soyshim.$$bidiRtlWordRatio_(text)
-            > soyshim.$$bidiRtlDetectionThreshold_;
+        return soyshim.$$bidiRtlWordRatio_(text) >
+            soyshim.$$bidiRtlDetectionThreshold_;
       }
     }
   };
@@ -286,7 +287,8 @@ goog.i18n.bidi.Dir = {
  */
 goog.i18n.bidi.toDir = function(givenDir) {
   if (typeof givenDir == 'number') {
-    return givenDir > 0 ? goog.i18n.bidi.Dir.LTR :
+    return givenDir > 0 ?
+        goog.i18n.bidi.Dir.LTR :
         givenDir < 0 ? goog.i18n.bidi.Dir.RTL : goog.i18n.bidi.Dir.UNKNOWN;
   } else {
     return givenDir ? goog.i18n.bidi.Dir.RTL : goog.i18n.bidi.Dir.LTR;
@@ -320,7 +322,7 @@ goog.i18n.BidiFormatter = function(dir) {
  * @return {string} 'dir="rtl"' for RTL text in non-RTL context; 'dir="ltr"' for
  *     LTR text in non-LTR context; else, the empty string.
  */
-goog.i18n.BidiFormatter.prototype.dirAttr = function (text, opt_isHtml) {
+goog.i18n.BidiFormatter.prototype.dirAttr = function(text, opt_isHtml) {
   var dir = soy.$$bidiTextDir(text, opt_isHtml);
   return dir && dir != this.dir_ ? dir < 0 ? 'dir="rtl"' : 'dir="ltr"' : '';
 };
@@ -330,7 +332,7 @@ goog.i18n.BidiFormatter.prototype.dirAttr = function (text, opt_isHtml) {
  * the global bidi directionality.
  * @return {string} "left" for RTL context and "right" otherwise.
  */
-goog.i18n.BidiFormatter.prototype.endEdge = function () {
+goog.i18n.BidiFormatter.prototype.endEdge = function() {
   return this.dir_ < 0 ? 'left' : 'right';
 };
 
@@ -342,11 +344,10 @@ goog.i18n.BidiFormatter.prototype.endEdge = function () {
  * @return {string} LRM for LTR context directionality and RLM for RTL context
  *     directionality.
  */
-goog.i18n.BidiFormatter.prototype.mark = function () {
+goog.i18n.BidiFormatter.prototype.mark = function() {
   return (
       (this.dir_ > 0) ? '\u200E' /*LRM*/ :
-      (this.dir_ < 0) ? '\u200F' /*RLM*/ :
-      '');
+                        (this.dir_ < 0) ? '\u200F' /*RLM*/ : '');
 };
 
 /**
@@ -360,7 +361,7 @@ goog.i18n.BidiFormatter.prototype.mark = function () {
  * @return {string} A Unicode bidi mark matching the global directionality or
  *     the empty string.
  */
-goog.i18n.BidiFormatter.prototype.markAfter = function (text, opt_isHtml) {
+goog.i18n.BidiFormatter.prototype.markAfter = function(text, opt_isHtml) {
   var dir = soy.$$bidiTextDir(text, opt_isHtml);
   return soyshim.$$bidiMarkAfterKnownDir_(this.dir_, dir, text, opt_isHtml);
 };
@@ -392,7 +393,7 @@ goog.i18n.BidiFormatter.prototype.spanWrap = function(str, placeholder) {
  * the global bidi directionality.
  * @return {string} "right" for RTL context and "left" otherwise.
  */
-goog.i18n.BidiFormatter.prototype.startEdge = function () {
+goog.i18n.BidiFormatter.prototype.startEdge = function() {
   return this.dir_ < 0 ? 'right' : 'left';
 };
 
@@ -431,7 +432,6 @@ goog.string = {
    * @return {string} A copy of {@code str} with converted newlines.
    */
   newLineToBr: function(str, opt_xml) {
-
     str = String(str);
 
     // This quick test helps in the case when there are no chars to replace,
@@ -497,20 +497,18 @@ goog.string.StringBuffer.prototype.bufferLength_ = 0;
  * @return {goog.string.StringBuffer} This same StringBuilder object.
  */
 goog.string.StringBuffer.prototype.append = function(a1, opt_a2, var_args) {
-
   if (goog.userAgent.jscript.HAS_JSCRIPT) {
     if (opt_a2 == null) {  // no second argument (note: undefined == null)
       // Array assignment is 2x faster than Array push. Also, use a1
       // directly to avoid arguments instantiation, another 2x improvement.
       this.buffer_[this.bufferLength_++] = a1;
     } else {
-      var arr = /**@type {Array.<number|string|boolean>}*/(this.buffer_);
+      var arr = /**@type {Array.<number|string|boolean>}*/ (this.buffer_);
       arr.push.apply(arr, arguments);
       this.bufferLength_ = this.buffer_.length;
     }
 
   } else {
-
     // Use a1 directly to avoid arguments instantiation for single-arg case.
     this.buffer_ += a1;
     if (opt_a2 != null) {  // no second argument (note: undefined == null)
@@ -528,14 +526,13 @@ goog.string.StringBuffer.prototype.append = function(a1, opt_a2, var_args) {
  * Clears the string.
  */
 goog.string.StringBuffer.prototype.clear = function() {
-
   if (goog.userAgent.jscript.HAS_JSCRIPT) {
-     this.buffer_.length = 0;  // reuse array to avoid creating new object
-     this.bufferLength_ = 0;
+    this.buffer_.length = 0;  // reuse array to avoid creating new object
+    this.bufferLength_ = 0;
 
-   } else {
-     this.buffer_ = '';
-   }
+  } else {
+    this.buffer_ = '';
+  }
 };
 
 
@@ -545,7 +542,6 @@ goog.string.StringBuffer.prototype.clear = function() {
  * @return {string} The concatenated string.
  */
 goog.string.StringBuffer.prototype.toString = function() {
-
   if (goog.userAgent.jscript.HAS_JSCRIPT) {
     var str = this.buffer_.join('');
     // Given a string with the entire contents, simplify the StringBuilder by
@@ -562,65 +558,68 @@ goog.string.StringBuffer.prototype.toString = function() {
 };
 
 
-if (!goog.soy) goog.soy = {
-  /**
-   * Helper function to render a Soy template and then set the
-   * output string as the innerHTML of an element. It is recommended
-   * to use this helper function instead of directly setting
-   * innerHTML in your hand-written code, so that it will be easier
-   * to audit the code for cross-site scripting vulnerabilities.
-   *
-   * @param {Function} template The Soy template defining element's content.
-   * @param {Object=} opt_templateData The data for the template.
-   * @param {Object=} opt_injectedData The injected data for the template.
-   * @param {(goog.dom.DomHelper|Document)=} opt_dom The context in which DOM
-   *     nodes will be created.
-   */
-  renderAsElement: function(
-    template, opt_templateData, opt_injectedData, opt_dom) {
-    return /** @type {!Element} */ (soyshim.$$renderWithWrapper_(
-        template, opt_templateData, opt_dom, true /* asElement */,
-        opt_injectedData));
-  },
-  /**
-   * Helper function to render a Soy template into a single node or
-   * a document fragment. If the rendered HTML string represents a
-   * single node, then that node is returned (note that this is
-   * *not* a fragment, despite them name of the method). Otherwise a
-   * document fragment is returned containing the rendered nodes.
-   *
-   * @param {Function} template The Soy template defining element's content.
-   * @param {Object=} opt_templateData The data for the template.
-   * @param {Object=} opt_injectedData The injected data for the template.
-   * @param {(goog.dom.DomHelper|Document)=} opt_dom The context in which DOM
-   *     nodes will be created.
-   * @return {!Node} The resulting node or document fragment.
-   */
-  renderAsFragment: function(
-    template, opt_templateData, opt_injectedData, opt_dom) {
-    return soyshim.$$renderWithWrapper_(
-        template, opt_templateData, opt_dom, false /* asElement */,
-        opt_injectedData);
-  },
-  /**
-   * Helper function to render a Soy template and then set the output string as
-   * the innerHTML of an element. It is recommended to use this helper function
-   * instead of directly setting innerHTML in your hand-written code, so that it
-   * will be easier to audit the code for cross-site scripting vulnerabilities.
-   *
-   * NOTE: New code should consider using goog.soy.renderElement instead.
-   *
-   * @param {Element} element The element whose content we are rendering.
-   * @param {Function} template The Soy template defining the element's content.
-   * @param {Object=} opt_templateData The data for the template.
-   * @param {Object=} opt_injectedData The injected data for the template.
-   */
-  renderElement: function(
-      element, template, opt_templateData, opt_injectedData) {
-    element.innerHTML = template(opt_templateData, null, opt_injectedData);
-  },
-  data: {}
-};
+if (!goog.soy)
+  goog.soy = {
+    /**
+     * Helper function to render a Soy template and then set the
+     * output string as the innerHTML of an element. It is recommended
+     * to use this helper function instead of directly setting
+     * innerHTML in your hand-written code, so that it will be easier
+     * to audit the code for cross-site scripting vulnerabilities.
+     *
+     * @param {Function} template The Soy template defining element's content.
+     * @param {Object=} opt_templateData The data for the template.
+     * @param {Object=} opt_injectedData The injected data for the template.
+     * @param {(goog.dom.DomHelper|Document)=} opt_dom The context in which DOM
+     *     nodes will be created.
+     */
+    renderAsElement: function(
+        template, opt_templateData, opt_injectedData, opt_dom) {
+      return /** @type {!Element} */ (soyshim.$$renderWithWrapper_(
+          template, opt_templateData, opt_dom, true /* asElement */,
+          opt_injectedData));
+    },
+    /**
+     * Helper function to render a Soy template into a single node or
+     * a document fragment. If the rendered HTML string represents a
+     * single node, then that node is returned (note that this is
+     * *not* a fragment, despite them name of the method). Otherwise a
+     * document fragment is returned containing the rendered nodes.
+     *
+     * @param {Function} template The Soy template defining element's content.
+     * @param {Object=} opt_templateData The data for the template.
+     * @param {Object=} opt_injectedData The injected data for the template.
+     * @param {(goog.dom.DomHelper|Document)=} opt_dom The context in which DOM
+     *     nodes will be created.
+     * @return {!Node} The resulting node or document fragment.
+     */
+    renderAsFragment: function(
+        template, opt_templateData, opt_injectedData, opt_dom) {
+      return soyshim.$$renderWithWrapper_(
+          template, opt_templateData, opt_dom, false /* asElement */,
+          opt_injectedData);
+    },
+    /**
+     * Helper function to render a Soy template and then set the output string
+     * as the innerHTML of an element. It is recommended to use this helper
+     * function instead of directly setting innerHTML in your hand-written code,
+     * so that it will be easier to audit the code for cross-site scripting
+     * vulnerabilities.
+     *
+     * NOTE: New code should consider using goog.soy.renderElement instead.
+     *
+     * @param {Element} element The element whose content we are rendering.
+     * @param {Function} template The Soy template defining the element's
+     *     content.
+     * @param {Object=} opt_templateData The data for the template.
+     * @param {Object=} opt_injectedData The injected data for the template.
+     */
+    renderElement: function(
+        element, template, opt_templateData, opt_injectedData) {
+      element.innerHTML = template(opt_templateData, null, opt_injectedData);
+    },
+    data: {}
+  };
 
 
 /**
@@ -729,10 +728,10 @@ goog.soy.data.SanitizedContent.prototype.toString = function() {
 };
 
 
-var soy = { esc: {} };
+var soy = {esc: {}};
 var soydata = {};
 soydata.VERY_UNSAFE = {};
-var soyshim = { $$DEFAULT_TEMPLATE_DATA_: {} };
+var soyshim = {$$DEFAULT_TEMPLATE_DATA_: {}};
 /**
  * Helper function to render a Soy template into a single node or a document
  * fragment. If the rendered HTML string represents a single node, then that
@@ -752,12 +751,11 @@ var soyshim = { $$DEFAULT_TEMPLATE_DATA_: {} };
  */
 soyshim.$$renderWithWrapper_ = function(
     template, opt_templateData, opt_dom, opt_asElement, opt_injectedData) {
-
   var dom = opt_dom || document;
   var wrapper = dom.createElement('div');
   wrapper.innerHTML = template(
-    opt_templateData || soyshim.$$DEFAULT_TEMPLATE_DATA_, undefined,
-    opt_injectedData);
+      opt_templateData || soyshim.$$DEFAULT_TEMPLATE_DATA_, undefined,
+      opt_injectedData);
 
   // If the template renders as a single element, return it.
   if (wrapper.childNodes.length == 1) {
@@ -801,11 +799,13 @@ soyshim.$$renderWithWrapper_ = function(
 soyshim.$$bidiMarkAfterKnownDir_ = function(
     bidiGlobalDir, dir, text, opt_isHtml) {
   return (
-      bidiGlobalDir > 0 && (dir < 0 ||
-          soyshim.$$bidiIsRtlExitText_(text, opt_isHtml)) ? '\u200E' : // LRM
-      bidiGlobalDir < 0 && (dir > 0 ||
-          soyshim.$$bidiIsLtrExitText_(text, opt_isHtml)) ? '\u200F' : // RLM
-      '');
+      bidiGlobalDir > 0 &&
+              (dir < 0 || soyshim.$$bidiIsRtlExitText_(text, opt_isHtml)) ?
+          '\u200E' :  // LRM
+          bidiGlobalDir < 0 &&
+                  (dir > 0 || soyshim.$$bidiIsLtrExitText_(text, opt_isHtml)) ?
+          '\u200F' :  // RLM
+              '');
 };
 
 
@@ -883,8 +883,8 @@ soyshim.$$bidiRtlDirCheckRe_ = new RegExp(
  * @type {RegExp}
  * @private
  */
-soyshim.$$bidiNeutralDirCheckRe_ = new RegExp(
-    '^[' + soyshim.$$bidiNeutralChars_ + ']*$|^http://');
+soyshim.$$bidiNeutralDirCheckRe_ =
+    new RegExp('^[' + soyshim.$$bidiNeutralChars_ + ']*$|^http://');
 
 
 /**
@@ -1063,8 +1063,7 @@ soydata.SanitizedJs = function() {
 goog.inherits(soydata.SanitizedJs, goog.soy.data.SanitizedContent);
 
 /** @override */
-soydata.SanitizedJs.prototype.contentKind =
-    soydata.SanitizedContentKind.JS;
+soydata.SanitizedJs.prototype.contentKind = soydata.SanitizedContentKind.JS;
 
 
 /**
@@ -1137,8 +1136,7 @@ soydata.SanitizedCss = function() {
 goog.inherits(soydata.SanitizedCss, goog.soy.data.SanitizedContent);
 
 /** @override */
-soydata.SanitizedCss.prototype.contentKind =
-    soydata.SanitizedContentKind.CSS;
+soydata.SanitizedCss.prototype.contentKind = soydata.SanitizedContentKind.CSS;
 
 
 /**
@@ -1386,7 +1384,6 @@ soy.renderAsElement = function(
  *     additional mappings.
  */
 soy.$$augmentMap = function(baseMap, additionalMap) {
-
   // Create a new map whose '__proto__' field is set to baseMap.
   /** @constructor */
   function TempCtor() {}
@@ -1484,7 +1481,6 @@ soy.$$DELEGATE_REGISTRY_FUNCTIONS_ = {};
  */
 soy.$$registerDelegateFn = function(
     delTemplateId, delTemplateVariant, delPriority, delFn) {
-
   var mapKey = 'key_' + delTemplateId + ':' + delTemplateVariant;
   var currPriority = soy.$$DELEGATE_REGISTRY_PRIORITIES_[mapKey];
   if (currPriority === undefined || delPriority > currPriority) {
@@ -1495,7 +1491,7 @@ soy.$$registerDelegateFn = function(
     // Registering same-priority function: error.
     throw Error(
         'Encountered two active delegates with the same priority ("' +
-            delTemplateId + ':' + delTemplateVariant + '").');
+        delTemplateId + ':' + delTemplateVariant + '").');
   } else {
     // Registering lower-priority function: do nothing.
   }
@@ -1519,10 +1515,9 @@ soy.$$registerDelegateFn = function(
  */
 soy.$$getDelegateFn = function(
     delTemplateId, delTemplateVariant, allowsEmptyDefault) {
-
-  var delFn = soy.$$DELEGATE_REGISTRY_FUNCTIONS_[
-      'key_' + delTemplateId + ':' + delTemplateVariant];
-  if (! delFn && delTemplateVariant != '') {
+  var delFn =
+      soy.$$DELEGATE_REGISTRY_FUNCTIONS_['key_' + delTemplateId + ':' + delTemplateVariant];
+  if (!delFn && delTemplateVariant != '') {
     // Fallback to empty variant.
     delFn = soy.$$DELEGATE_REGISTRY_FUNCTIONS_['key_' + delTemplateId + ':'];
   }
@@ -1534,7 +1529,7 @@ soy.$$getDelegateFn = function(
   } else {
     throw Error(
         'Found no active impl for delegate call to "' + delTemplateId + ':' +
-            delTemplateVariant + '" (and not allowemptydefault="true").');
+        delTemplateVariant + '" (and not allowemptydefault="true").');
   }
 };
 
@@ -1573,8 +1568,7 @@ soy.$$escapeHtml = function(value) {
   // look only at the constructor.
   if (value && value.contentKind &&
       value.contentKind === goog.soy.data.SanitizedContentKind.HTML) {
-    goog.asserts.assert(
-        value.constructor === soydata.SanitizedHtml);
+    goog.asserts.assert(value.constructor === soydata.SanitizedHtml);
     return value.content;
   }
   return soy.esc.$$escapeHtmlHelper(value);
@@ -1592,8 +1586,7 @@ soy.$$escapeHtml = function(value) {
 soy.$$cleanHtml = function(value) {
   if (value && value.contentKind &&
       value.contentKind === goog.soy.data.SanitizedContentKind.HTML) {
-    goog.asserts.assert(
-        value.constructor === soydata.SanitizedHtml);
+    goog.asserts.assert(value.constructor === soydata.SanitizedHtml);
     return value.content;
   }
   return soy.$$stripHtmlTags(value, soy.esc.$$SAFE_TAG_WHITELIST_);
@@ -1621,8 +1614,7 @@ soy.$$cleanHtml = function(value) {
 soy.$$escapeHtmlRcdata = function(value) {
   if (value && value.contentKind &&
       value.contentKind === goog.soy.data.SanitizedContentKind.HTML) {
-    goog.asserts.assert(
-        value.constructor === soydata.SanitizedHtml);
+    goog.asserts.assert(value.constructor === soydata.SanitizedHtml);
     return soy.esc.$$normalizeHtmlHelper(value.content);
   }
   return soy.esc.$$escapeHtmlHelper(value);
@@ -1656,7 +1648,8 @@ soy.$$HTML5_VOID_ELEMENTS_ = new RegExp(
 soy.$$stripHtmlTags = function(value, opt_tagWhitelist) {
   if (!opt_tagWhitelist) {
     // If we have no white-list, then use a fast track which elides all tags.
-    return String(value).replace(soy.esc.$$HTML_TAG_REGEX_, '')
+    return String(value)
+        .replace(soy.esc.$$HTML_TAG_REGEX_, '')
         // This is just paranoia since callers should normalize the result
         // anyway, but if they didn't, it would be necessary to ensure that
         // after the first replace non-tag uses of < do not recombine into
@@ -1672,21 +1665,19 @@ soy.$$stripHtmlTags = function(value, opt_tagWhitelist) {
   // [1] which are indices into a list of approved tag names.
   // Replace all other uses of < and > with entities.
   var tags = [];
-  html = html.replace(
-    soy.esc.$$HTML_TAG_REGEX_,
-    function(tok, tagName) {
-      if (tagName) {
-        tagName = tagName.toLowerCase();
-        if (opt_tagWhitelist.hasOwnProperty(tagName) &&
-            opt_tagWhitelist[tagName]) {
-          var start = tok.charAt(1) === '/' ? '</' : '<';
-          var index = tags.length;
-          tags[index] = start + tagName + '>';
-          return '[' + index + ']';
-        }
+  html = html.replace(soy.esc.$$HTML_TAG_REGEX_, function(tok, tagName) {
+    if (tagName) {
+      tagName = tagName.toLowerCase();
+      if (opt_tagWhitelist.hasOwnProperty(tagName) &&
+          opt_tagWhitelist[tagName]) {
+        var start = tok.charAt(1) === '/' ? '</' : '<';
+        var index = tags.length;
+        tags[index] = start + tagName + '>';
+        return '[' + index + ']';
       }
-      return '';
-    });
+    }
+    return '';
+  });
 
   // Escape HTML special characters. Now there are no '<' in html that could
   // start a tag.
@@ -1698,8 +1689,9 @@ soy.$$stripHtmlTags = function(value, opt_tagWhitelist) {
   // part of a tag via a replacement operation and tags only contains
   // approved tags.
   // Reinsert the white-listed tags.
-  html = html.replace(
-       /\[(\d+)\]/g, function(_, index) { return tags[index]; });
+  html = html.replace(/\[(\d+)\]/g, function(_, index) {
+    return tags[index];
+  });
 
   // Close any still open tags.
   // This prevents unclosed formatting elements like <ol> and <table> from
@@ -1757,8 +1749,7 @@ soy.$$escapeHtmlAttribute = function(value) {
     if (value.contentKind === goog.soy.data.SanitizedContentKind.HTML) {
       // NOTE: After removing tags, we also escape quotes ("normalize") so that
       // the HTML can be embedded in attribute context.
-      goog.asserts.assert(
-          value.constructor === soydata.SanitizedHtml);
+      goog.asserts.assert(value.constructor === soydata.SanitizedHtml);
       return soy.esc.$$normalizeHtmlHelper(soy.$$stripHtmlTags(value.content));
     }
   }
@@ -1777,8 +1768,7 @@ soy.$$escapeHtmlAttribute = function(value) {
 soy.$$escapeHtmlAttributeNospace = function(value) {
   if (value && value.contentKind) {
     if (value.contentKind === goog.soy.data.SanitizedContentKind.HTML) {
-      goog.asserts.assert(value.constructor ===
-          soydata.SanitizedHtml);
+      goog.asserts.assert(value.constructor === soydata.SanitizedHtml);
       return soy.esc.$$normalizeHtmlNospaceHelper(
           soy.$$stripHtmlTags(value.content));
     }
@@ -1802,8 +1792,7 @@ soy.$$filterHtmlAttributes = function(value) {
   // meaningless in this context, which is generally *between* html attributes.
   if (value &&
       value.contentKind === goog.soy.data.SanitizedContentKind.ATTRIBUTES) {
-    goog.asserts.assert(value.constructor ===
-        soydata.SanitizedHtmlAttribute);
+    goog.asserts.assert(value.constructor === soydata.SanitizedHtmlAttribute);
     // Add a space at the end to ensure this won't get merged into following
     // attributes, unless the interpretation is unambiguous (ending with quotes
     // or a space).
@@ -1863,8 +1852,7 @@ soy.$$escapeJsString = function(value) {
       value.contentKind === goog.soy.data.SanitizedContentKind.JS_STR_CHARS) {
     // TODO: It might still be worthwhile to normalize it to remove
     // unescaped quotes, null, etc: replace(/(?:^|[^\])['"]/g, '\\$
-    goog.asserts.assert(value.constructor ===
-        soydata.SanitizedJsStrChars);
+    goog.asserts.assert(value.constructor === soydata.SanitizedJsStrChars);
     return value.content;
   }
   return soy.esc.$$escapeJsStringHelper(value);
@@ -1890,15 +1878,15 @@ soy.$$escapeJsValue = function(value) {
     return ' null ';
   }
   if (value.contentKind == goog.soy.data.SanitizedContentKind.JS) {
-    goog.asserts.assert(value.constructor ===
-        soydata.SanitizedJs);
+    goog.asserts.assert(value.constructor === soydata.SanitizedJs);
     return value.content;
   }
   switch (typeof value) {
-    case 'boolean': case 'number':
+    case 'boolean':
+    case 'number':
       return ' ' + value + ' ';
     default:
-      return "'" + soy.esc.$$escapeJsStringHelper(String(value)) + "'";
+      return '\'' + soy.esc.$$escapeJsStringHelper(String(value)) + '\'';
   }
 };
 
@@ -1947,8 +1935,7 @@ soy.$$pctEncode_ = function(ch) {
  */
 soy.$$escapeUri = function(value) {
   if (value && value.contentKind === goog.soy.data.SanitizedContentKind.URI) {
-    goog.asserts.assert(value.constructor ===
-        soydata.SanitizedUri);
+    goog.asserts.assert(value.constructor === soydata.SanitizedUri);
     return soy.$$normalizeUri(value);
   }
   // Apostophes and parentheses are not matched by encodeURIComponent.
@@ -1986,8 +1973,7 @@ soy.$$normalizeUri = function(value) {
  */
 soy.$$filterNormalizeUri = function(value) {
   if (value && value.contentKind == goog.soy.data.SanitizedContentKind.URI) {
-    goog.asserts.assert(value.constructor ===
-        soydata.SanitizedUri);
+    goog.asserts.assert(value.constructor === soydata.SanitizedUri);
     return soy.$$normalizeUri(value);
   }
   return soy.esc.$$filterNormalizeUriHelper(value);
@@ -2015,8 +2001,7 @@ soy.$$escapeCssString = function(value) {
  */
 soy.$$filterCssValue = function(value) {
   if (value && value.contentKind === goog.soy.data.SanitizedContentKind.CSS) {
-    goog.asserts.assert(value.constructor ===
-        soydata.SanitizedCss);
+    goog.asserts.assert(value.constructor === soydata.SanitizedCss);
     return value.content;
   }
   // Uses == to intentionally match null and undefined for Java compatibility.
@@ -2093,7 +2078,6 @@ soy.$$insertWordBreaks = function(str, maxCharsBetweenWordBreaks) {
  * @return {string} The string after truncation.
  */
 soy.$$truncate = function(str, maxLen, doAddEllipsis) {
-
   str = String(str);
   if (str.length <= maxLen) {
     return str;  // no need to truncate
@@ -2169,8 +2153,8 @@ soy.$$bidiFormatterCache_ = {};
  */
 soy.$$getBidiFormatterInstance_ = function(bidiGlobalDir) {
   return soy.$$bidiFormatterCache_[bidiGlobalDir] ||
-         (soy.$$bidiFormatterCache_[bidiGlobalDir] =
-             new goog.i18n.BidiFormatter(bidiGlobalDir));
+      (soy.$$bidiFormatterCache_[bidiGlobalDir] =
+           new goog.i18n.BidiFormatter(bidiGlobalDir));
 };
 
 
@@ -2275,7 +2259,6 @@ soy.$$bidiUnicodeWrap = function(bidiGlobalDir, str) {
 
 
 
-
 // START GENERATED CODE FOR ESCAPERS.
 
 /**
@@ -2290,28 +2273,30 @@ soy.esc.$$escapeUriHelper = function(v) {
  * @type {Object.<string, string>}
  * @private
  */
-soy.esc.$$ESCAPE_MAP_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_ = {
-  '\x00': '\x26#0;',
-  '\x22': '\x26quot;',
-  '\x26': '\x26amp;',
-  '\x27': '\x26#39;',
-  '\x3c': '\x26lt;',
-  '\x3e': '\x26gt;',
-  '\x09': '\x26#9;',
-  '\x0a': '\x26#10;',
-  '\x0b': '\x26#11;',
-  '\x0c': '\x26#12;',
-  '\x0d': '\x26#13;',
-  ' ': '\x26#32;',
-  '-': '\x26#45;',
-  '\/': '\x26#47;',
-  '\x3d': '\x26#61;',
-  '`': '\x26#96;',
-  '\x85': '\x26#133;',
-  '\xa0': '\x26#160;',
-  '\u2028': '\x26#8232;',
-  '\u2029': '\x26#8233;'
-};
+soy.esc
+    .$$ESCAPE_MAP_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_ =
+    {
+      '\x00': '\x26#0;',
+      '\x22': '\x26quot;',
+      '\x26': '\x26amp;',
+      '\x27': '\x26#39;',
+      '\x3c': '\x26lt;',
+      '\x3e': '\x26gt;',
+      '\x09': '\x26#9;',
+      '\x0a': '\x26#10;',
+      '\x0b': '\x26#11;',
+      '\x0c': '\x26#12;',
+      '\x0d': '\x26#13;',
+      ' ': '\x26#32;',
+      '-': '\x26#45;',
+      '\/': '\x26#47;',
+      '\x3d': '\x26#61;',
+      '`': '\x26#96;',
+      '\x85': '\x26#133;',
+      '\xa0': '\x26#160;',
+      '\u2028': '\x26#8232;',
+      '\u2029': '\x26#8233;'
+    };
 
 /**
  * A function that can be used with String.replace..
@@ -2319,8 +2304,11 @@ soy.esc.$$ESCAPE_MAP_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSP
  * @return {string} A token in the output language.
  * @private
  */
-soy.esc.$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_ = function(ch) {
-  return soy.esc.$$ESCAPE_MAP_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_[ch];
+soy.esc
+    .$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_ =
+    function(ch) {
+  return soy.esc
+      .$$ESCAPE_MAP_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_[ch];
 };
 
 /**
@@ -2499,7 +2487,8 @@ soy.esc.$$ESCAPE_MAP_FOR_NORMALIZE_URI__AND__FILTER_NORMALIZE_URI_ = {
  * @return {string} A token in the output language.
  * @private
  */
-soy.esc.$$REPLACER_FOR_NORMALIZE_URI__AND__FILTER_NORMALIZE_URI_ = function(ch) {
+soy.esc.$$REPLACER_FOR_NORMALIZE_URI__AND__FILTER_NORMALIZE_URI_ = function(
+    ch) {
   return soy.esc.$$ESCAPE_MAP_FOR_NORMALIZE_URI__AND__FILTER_NORMALIZE_URI_[ch];
 };
 
@@ -2522,70 +2511,80 @@ soy.esc.$$MATCHER_FOR_NORMALIZE_HTML_ = /[\x00\x22\x27\x3c\x3e]/g;
  * @type RegExp
  * @private
  */
-soy.esc.$$MATCHER_FOR_ESCAPE_HTML_NOSPACE_ = /[\x00\x09-\x0d \x22\x26\x27\x2d\/\x3c-\x3e`\x85\xa0\u2028\u2029]/g;
+soy.esc.$$MATCHER_FOR_ESCAPE_HTML_NOSPACE_ =
+    /[\x00\x09-\x0d \x22\x26\x27\x2d\/\x3c-\x3e`\x85\xa0\u2028\u2029]/g;
 
 /**
  * Matches characters that need to be escaped for the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$MATCHER_FOR_NORMALIZE_HTML_NOSPACE_ = /[\x00\x09-\x0d \x22\x27\x2d\/\x3c-\x3e`\x85\xa0\u2028\u2029]/g;
+soy.esc.$$MATCHER_FOR_NORMALIZE_HTML_NOSPACE_ =
+    /[\x00\x09-\x0d \x22\x27\x2d\/\x3c-\x3e`\x85\xa0\u2028\u2029]/g;
 
 /**
  * Matches characters that need to be escaped for the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$MATCHER_FOR_ESCAPE_JS_STRING_ = /[\x00\x08-\x0d\x22\x26\x27\/\x3c-\x3e\\\x85\u2028\u2029]/g;
+soy.esc.$$MATCHER_FOR_ESCAPE_JS_STRING_ =
+    /[\x00\x08-\x0d\x22\x26\x27\/\x3c-\x3e\\\x85\u2028\u2029]/g;
 
 /**
  * Matches characters that need to be escaped for the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$MATCHER_FOR_ESCAPE_JS_REGEX_ = /[\x00\x08-\x0d\x22\x24\x26-\/\x3a\x3c-\x3f\x5b-\x5e\x7b-\x7d\x85\u2028\u2029]/g;
+soy.esc.$$MATCHER_FOR_ESCAPE_JS_REGEX_ =
+    /[\x00\x08-\x0d\x22\x24\x26-\/\x3a\x3c-\x3f\x5b-\x5e\x7b-\x7d\x85\u2028\u2029]/g;
 
 /**
  * Matches characters that need to be escaped for the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$MATCHER_FOR_ESCAPE_CSS_STRING_ = /[\x00\x08-\x0d\x22\x26-\x2a\/\x3a-\x3e@\\\x7b\x7d\x85\xa0\u2028\u2029]/g;
+soy.esc.$$MATCHER_FOR_ESCAPE_CSS_STRING_ =
+    /[\x00\x08-\x0d\x22\x26-\x2a\/\x3a-\x3e@\\\x7b\x7d\x85\xa0\u2028\u2029]/g;
 
 /**
  * Matches characters that need to be escaped for the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$MATCHER_FOR_NORMALIZE_URI__AND__FILTER_NORMALIZE_URI_ = /[\x00- \x22\x27-\x29\x3c\x3e\\\x7b\x7d\x7f\x85\xa0\u2028\u2029\uff01\uff03\uff04\uff06-\uff0c\uff0f\uff1a\uff1b\uff1d\uff1f\uff20\uff3b\uff3d]/g;
+soy.esc.$$MATCHER_FOR_NORMALIZE_URI__AND__FILTER_NORMALIZE_URI_ =
+    /[\x00- \x22\x27-\x29\x3c\x3e\\\x7b\x7d\x7f\x85\xa0\u2028\u2029\uff01\uff03\uff04\uff06-\uff0c\uff0f\uff1a\uff1b\uff1d\uff1f\uff20\uff3b\uff3d]/g;
 
 /**
  * A pattern that vets values produced by the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$FILTER_FOR_FILTER_CSS_VALUE_ = /^(?!-*(?:expression|(?:moz-)?binding))(?:[.#]?-?(?:[_a-z0-9-]+)(?:-[_a-z0-9-]+)*-?|-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[a-z]{1,2}|%)?|!important|)$/i;
+soy.esc.$$FILTER_FOR_FILTER_CSS_VALUE_ =
+    /^(?!-*(?:expression|(?:moz-)?binding))(?:[.#]?-?(?:[_a-z0-9-]+)(?:-[_a-z0-9-]+)*-?|-?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[a-z]{1,2}|%)?|!important|)$/i;
 
 /**
  * A pattern that vets values produced by the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$FILTER_FOR_FILTER_NORMALIZE_URI_ = /^(?:(?:https?|mailto):|[^&:\/?#]*(?:[\/?#]|$))/i;
+soy.esc.$$FILTER_FOR_FILTER_NORMALIZE_URI_ =
+    /^(?:(?:https?|mailto):|[^&:\/?#]*(?:[\/?#]|$))/i;
 
 /**
  * A pattern that vets values produced by the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$FILTER_FOR_FILTER_HTML_ATTRIBUTES_ = /^(?!style|on|action|archive|background|cite|classid|codebase|data|dsync|href|longdesc|src|usemap)(?:[a-z0-9_$:-]*)$/i;
+soy.esc.$$FILTER_FOR_FILTER_HTML_ATTRIBUTES_ =
+    /^(?!style|on|action|archive|background|cite|classid|codebase|data|dsync|href|longdesc|src|usemap)(?:[a-z0-9_$:-]*)$/i;
 
 /**
  * A pattern that vets values produced by the named directives.
  * @type RegExp
  * @private
  */
-soy.esc.$$FILTER_FOR_FILTER_HTML_ELEMENT_NAME_ = /^(?!script|style|title|textarea|xmp|no)[a-z0-9_$:-]*$/i;
+soy.esc.$$FILTER_FOR_FILTER_HTML_ELEMENT_NAME_ =
+    /^(?!script|style|title|textarea|xmp|no)[a-z0-9_$:-]*$/i;
 
 /**
  * A helper for the Soy directive |escapeHtml
@@ -2596,7 +2595,8 @@ soy.esc.$$escapeHtmlHelper = function(value) {
   var str = String(value);
   return str.replace(
       soy.esc.$$MATCHER_FOR_ESCAPE_HTML_,
-      soy.esc.$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
+      soy.esc
+          .$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
 };
 
 /**
@@ -2608,7 +2608,8 @@ soy.esc.$$normalizeHtmlHelper = function(value) {
   var str = String(value);
   return str.replace(
       soy.esc.$$MATCHER_FOR_NORMALIZE_HTML_,
-      soy.esc.$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
+      soy.esc
+          .$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
 };
 
 /**
@@ -2620,7 +2621,8 @@ soy.esc.$$escapeHtmlNospaceHelper = function(value) {
   var str = String(value);
   return str.replace(
       soy.esc.$$MATCHER_FOR_ESCAPE_HTML_NOSPACE_,
-      soy.esc.$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
+      soy.esc
+          .$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
 };
 
 /**
@@ -2632,7 +2634,8 @@ soy.esc.$$normalizeHtmlNospaceHelper = function(value) {
   var str = String(value);
   return str.replace(
       soy.esc.$$MATCHER_FOR_NORMALIZE_HTML_NOSPACE_,
-      soy.esc.$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
+      soy.esc
+          .$$REPLACER_FOR_ESCAPE_HTML__AND__NORMALIZE_HTML__AND__ESCAPE_HTML_NOSPACE__AND__NORMALIZE_HTML_NOSPACE_);
 };
 
 /**
@@ -2746,7 +2749,8 @@ soy.esc.$$filterHtmlElementNameHelper = function(value) {
  * @type {RegExp}
  * @private
  */
-soy.esc.$$HTML_TAG_REGEX_ = /<(?:!|\/?([a-zA-Z][a-zA-Z0-9:\-]*))(?:[^>'"]|"[^"]*"|'[^']*')*>/g;
+soy.esc.$$HTML_TAG_REGEX_ =
+    /<(?:!|\/?([a-zA-Z][a-zA-Z0-9:\-]*))(?:[^>'"]|"[^"]*"|'[^']*')*>/g;
 
 /**
  * Matches all occurrences of '<'.
@@ -2762,6 +2766,15 @@ soy.esc.$$LT_REGEX_ = /</g;
  * @type {Object.<string,number>}
  * @private
  */
-soy.esc.$$SAFE_TAG_WHITELIST_ = {'b': 1, 'br': 1, 'em': 1, 'i': 1, 's': 1, 'sub': 1, 'sup': 1, 'u': 1};
+soy.esc.$$SAFE_TAG_WHITELIST_ = {
+  'b': 1,
+  'br': 1,
+  'em': 1,
+  'i': 1,
+  's': 1,
+  'sub': 1,
+  'sup': 1,
+  'u': 1
+};
 
 // END GENERATED CODE
