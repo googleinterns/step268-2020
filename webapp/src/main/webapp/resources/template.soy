@@ -340,3 +340,33 @@
   <p>Please check the parent locations for the above stops!</p>
   <br><br>
 {/template}
+
+
+/**
+ * Table for meaningless trip with no more than one stop
+ * @param notices : List<[String tripId, long csvRowNumber]>
+ */
+{template .meaninglessTripWithNoMoreThanOneStop}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Meaningless trip(s) found!</p>
+  <p>Description: A trip must have at least 2 stops.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>CSV Row Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please above trip(s)!</p>
+  <br><br>
+{/template}

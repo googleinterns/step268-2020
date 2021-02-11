@@ -289,6 +289,35 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** 
+   * Test for meaningless trip notice 
+   * */
+  it('should issue meaingless trip error', function() {
+    const params = {
+      code: 'meaningless_trip_with_no_more_than_one_stop',
+      totalNotices: 1,
+      notices: [{
+        tripId: "trip1",
+        csvRowNumber: 15,
+      }]
+    };
+    meaningless_trip_with_no_more_than_one_stop(params);
+    const output = '<p class="error">Error - Meaningless trip(s) found!</p>\
+  <p>Description: A trip must have at least 2 stops.</p>\
+  <p><b>1</b> found:</p>\
+  <table>\
+    <thead>\
+      <tr><th>Trip ID</th><th>CSV Row Number</th></tr>\
+    </thead>\
+    <tbody>\
+        <tr><td>trip1</td><td>15</td></tr>\
+    </tbody>\
+  </table>\
+  <p>Please above trip(s)!</p>\
+  <br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for fast_travel_between_stops */
   it('should issue fast travel between stops warning', function() {
     const params = {

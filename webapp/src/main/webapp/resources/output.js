@@ -100,3 +100,9 @@ function location_without_parent_station(params) {
       validator.templates.locationWithoutParentStation, params);
   document.getElementById('error').appendChild(template);
 }
+
+function meaningless_trip_with_no_more_than_one_stop(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.meaninglessTripWithNoMoreThanOneStop, params);
+  document.getElementById('error').appendChild(template);
+}
