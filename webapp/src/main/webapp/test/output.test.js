@@ -365,11 +365,11 @@ than one `agency_lang`, that\'s an error</p>\
     };
     stops_too_close(params);
     const output = '<div><p class=\"warning"\>Warning - Stops too close!</p>\
-<p>Description: Two stops are too close with each other.</p>\
-<p><b>3</b> Stops too close found in:</p>\
+<p>Description: Two stops are too close to each other.</p>\
+<p><b>3</b> found in:</p>\
 <table>\
 <thead>\
-<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer Meters</th></tr>\
+<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer in Meters</th></tr>\
 </thead>\
 <tbody>\
 <tr><td>stop101</td><td>2</td><td>stop103</td><td>4</td><td>5</td></tr>\
