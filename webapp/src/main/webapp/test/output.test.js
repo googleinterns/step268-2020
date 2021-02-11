@@ -130,9 +130,7 @@ describe('Output', function() {
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  /**
-   * Test for decreasing stop time distance notice
-   * */
+  /** Test for decreasing stop time distance notice */
   it('should issue decreasing stop time distance error', function() {
     const params = {
       code: 'decreasing_stop_time_distance',
