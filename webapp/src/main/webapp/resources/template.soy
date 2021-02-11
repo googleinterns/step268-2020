@@ -454,7 +454,7 @@
 
 /**
  * Renders a basic explanation of the stop time with departure before arrival time notice.
- * @param notices : List<[csvRowNumber : number, tripId : string, stopSequence : number, departureTime : GtfsTime, arrivalTime: GtfsTime]>
+ * @param notices : List<[csvRowNumber : number, tripId : string, stopSequence : number, departureTime : string, arrivalTime: string]>
  */
 {template .stopTimeWithDepartureBeforeArrivalTime}
 {let $numNotices: length($notices)/}
@@ -485,4 +485,4 @@
   </table>
   <p>Please fix the departure time or the arrival time!</p>
   <br><br>
-{/template} 
+{/template}
