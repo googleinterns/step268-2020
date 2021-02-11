@@ -381,6 +381,36 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
+  /** Test for stop too far from trip shape template */
+  it('should issue stop too far from trip shape error', function() {
+    const params = {
+      code: 'stop_too_far_from_trip_shape',
+      totalNotices: 1,
+      notices: [{
+        stopId: 'stop101',
+        stopSequence: 3,
+        tripId: 'tripC',
+        shapeId: 'circle3',
+        tripBufferMeters: 100
+      }]
+    };
+    stop_too_far_from_trip_shape(params);
+    const output =
+        '<div><p class=\"error"\>Error - Stop too far from trip shape!</p>\
+<p>Description: Stop is too far away from the trip shape.</p>\
+<p><b>1</b> Stop(s) too far from trip shape found in:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID</th><th>Stop Sequence</th><th>Trip ID</th><th>Shape ID</th><th>Trip Buffer Meters</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop101</td><td>3</td><td>tripC</td><td>circle3</td><td>100</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the stop position to make it closer than the trip buffer meters from the trip shape!</p><br><br></div>'
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [

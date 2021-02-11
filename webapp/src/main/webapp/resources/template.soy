@@ -383,3 +383,38 @@
   <p>Please fix the stops positions to make their distance further than the trip buffer meters!</p>
   <br><br>
 {/template} 
+
+/**
+ * Renders a basic explanation of the stop too far from trip shape notice.
+ * @param notices : List<[stopId : string, stopSequence : number, tripId : string, shapeId : string, tripBufferMeters : number]>
+ */
+{template .stopTooFarFromTripShape}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Stop too far from trip shape!</p>
+  <p>Description: Stop is too far away from the trip shape.</p>
+  <p><b>{$numNotices}</b> Stop(s) too far from trip shape found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop ID</th>
+        <th>Stop Sequence</th>
+        <th>Trip ID</th>
+        <th>Shape ID</th>
+        <th>Trip Buffer Meters</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId}</td>
+          <td>{$notice.stopSequence}</td>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.shapeId}</td>
+          <td>{$notice.tripBufferMeters}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fix the stop position to make it closer than the trip buffer meters from the trip shape!</p>
+  <br><br>
+{/template} 
