@@ -27,7 +27,7 @@ describe('Output', function() {
     const output =
         '<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
 <p>Description: A column name is unknown.</p>\
-<p><b>1</b> unknown column(s) found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>Field name</th><th>Index</th></tr>\
@@ -62,7 +62,7 @@ describe('Output', function() {
     invalid_row_length(params);
     const output = '<div><p class="error">Error - Invalid csv row length!</p>\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
-<p><b>2</b> Invalid row length found in:</p>\
+<p><b>2</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>CSV Row Number</th><th>Row length</th><th>Header count</th></tr>\
@@ -94,7 +94,7 @@ describe('Output', function() {
     const output =
         '<div><p class=\"error"\>Error - Wrong parent location type!</p>\
 <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>\
-<p><b>1</b> Wrong parent location type found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Stop ID</th><th>CSV Row Number</th><th>Location Type</th><th>Parent Station</th><th>Parent CSV Row Number</th><th>Parent Location Type</th><th>Expected Location Type</th></tr>\
@@ -117,7 +117,7 @@ describe('Output', function() {
     unused_shape(params);
     const output = '<div><p class=\"error"\>Error - Unused shape!</p>\
 <p>Description: The shape in shapes.txt is never used by any trip from trips.txt.</p>\
-<p><b>1</b> Unused shape found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Shape ID</th><th>CSV Row Number</th></tr>\
@@ -149,7 +149,7 @@ describe('Output', function() {
     const output =
         '<div><p class="error">Error - Decreasing Stop Time Distance(s) found!</p>\
 <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
-<p><b>1</b> decreasing stopTimeDistTraveled found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Trip ID</th><th>CSV Row Number</th><th>Stop Sequence</th><th>Shape Distance Traveled</th><th>Previous CSV Row Number</th><th>Previous Stop Sequence</th><th>Previous Shape Distance Traveled</th></tr>\
@@ -320,7 +320,7 @@ than one `agency_lang`, that\'s an error</p>\
     const output =
         '<div><p class=\"warning"\>Warning - Trip with duplicate stops!</p>\
 <p>Description: For a trip, consecutive stop times have the same stop name.</p>\
-<p><b>2</b> Trip(s) with duplicate stops found in:</p>\
+<p><b>2</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Stop Name</th><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Route ID</th><th>Example Trip ID</th></tr>\
@@ -366,7 +366,7 @@ than one `agency_lang`, that\'s an error</p>\
     stops_too_close(params);
     const output = '<div><p class=\"warning"\>Warning - Stops too close!</p>\
 <p>Description: Two stops are too close with each other.</p>\
-<p><b>3</b> Stops too close found in:</p>\
+<p><b>3</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer Meters</th></tr>\
@@ -398,7 +398,7 @@ than one `agency_lang`, that\'s an error</p>\
     const output =
         '<div><p class=\"error"\>Error - Stop too far from trip shape!</p>\
 <p>Description: Stop is too far away from the trip shape.</p>\
-<p><b>1</b> Stop(s) too far from trip shape found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Stop ID</th><th>Stop Sequence</th><th>Trip ID</th><th>Shape ID</th><th>Trip Buffer Meters</th></tr>\
@@ -407,7 +407,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop101</td><td>3</td><td>tripC</td><td>circle3</td><td>100</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the stop position to make it closer than the trip buffer meters from the trip shape!</p><br><br></div>'
+<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -428,7 +428,7 @@ than one `agency_lang`, that\'s an error</p>\
        const output =
            '<div><p class=\"warning"\>Warning - Stop time with only arrival or departure time!</p>\
 <p>Description: Stop time is with only arrival time or departure time.</p>\
-<p><b>1</b> Stop time with only arrival or departure time found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>CSV Row Number</th><th>Trip ID</th><th>Stop Sequence</th><th>Specified Field</th></tr>\
@@ -467,7 +467,7 @@ than one `agency_lang`, that\'s an error</p>\
     const errorOutput =
         '<div><p class="error">Error - Invalid csv row length!</p>\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
-<p><b>1</b> Invalid row length found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>CSV Row Number</th><th>Row length</th><th>Header count</th></tr>\
@@ -479,7 +479,7 @@ than one `agency_lang`, that\'s an error</p>\
 <p>Please set the row length as specified by the CSV header!</p><br><br></div>';
     const warningOutput =
         '<div><p class="warning">Warning - Unknown Column(s) found!</p>\
-<p>Description: A column name is unknown.</p>\<p><b>1</b> unknown column(s) found in:</p>\
+<p>Description: A column name is unknown.</p>\<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>Field name</th><th>Index</th></tr>\
