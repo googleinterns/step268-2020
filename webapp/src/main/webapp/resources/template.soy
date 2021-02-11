@@ -418,3 +418,36 @@
   <p>Please fix the stop position to make it closer than the trip buffer meters from the trip shape!</p>
   <br><br>
 {/template} 
+
+/**
+ * Renders a basic explanation of the stop time with only arrival or departure time notice.
+ * @param notices : List<[csvRowNumber : number, tripId : string, stopSequence : number, specifiedField : string]>
+ */
+{template .stopTimeWithOnlyArrivalOrDepartureTime}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Stop time with only arrival or departure time!</p>
+  <p>Description: Stop time is with only arrival time or departure time.</p>
+  <p><b>{$numNotices}</b> Stop time with only arrival or departure time found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>CSV Row Number</th>
+        <th>Trip ID</th>
+        <th>Stop Sequence</th>
+        <th>Specified Field</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.stopSequence}</td>
+          <td>{$notice.specifiedField}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fill in the missing arrival time or departure time for the stop time!</p>
+  <br><br>
+{/template} 
