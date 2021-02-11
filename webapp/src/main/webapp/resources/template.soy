@@ -348,3 +348,38 @@
   <p>Please fix the problem of stop names for the corresponding trip(s)!</p>
   <br><br>
 {/template} 
+
+/**
+ * Renders a basic explanation of the stops too close notice.
+ * @param notices : List<[stopId1 : string, csvRowNumberStop1 : number, stopId2 : string, csvRowNumberStop2 : number, tripBufferMeters : number]>
+ */
+{template .stopsTooClose}
+{let $numNotices: length($notices)/}
+  <p class="warning">Warning - Stops too close!</p>
+  <p>Description: Two stops are too close with each other.</p>
+  <p><b>{$numNotices}</b> Stops too close found in:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop ID 1</th>
+        <th>CSV Row Number Stop 1</th>
+        <th>Stop ID 2</th>
+        <th>CSV Row Number Stop 2</th>
+        <th>Trip Buffer Meters</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId1}</td>
+          <td>{$notice.csvRowNumberStop1}</td>
+          <td>{$notice.stopId2}</td>
+          <td>{$notice.csvRowNumberStop2}</td>
+          <td>{$notice.tripBufferMeters}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fix the stops positions to make their distance further than the trip buffer meters!</p>
+  <br><br>
+{/template} 
