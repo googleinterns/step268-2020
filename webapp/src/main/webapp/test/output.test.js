@@ -116,7 +116,7 @@ describe('Output', function() {
     };
     unused_shape(params);
     const output = '<div><p class=\"error"\>Error - Unused shape!</p>\
-<p>Description: Every shape in shapes.txt is used by some trip from trips.txt.</p>\
+<p>Description: The shape in shapes.txt is never used by any trip from trips.txt.</p>\
 <p><b>1</b> Unused shape found in:</p>\
 <table>\
 <thead>\
@@ -130,27 +130,26 @@ describe('Output', function() {
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-/**       
- * Test for decreasing stop time distance notice 
- * */ 
+  /**
+   * Test for decreasing stop time distance notice
+   * */
   it('should issue decreasing stop time distance error', function() {
     const params = {
-      code: "decreasing_stop_time_distance",
+      code: 'decreasing_stop_time_distance',
       totalNotices: 1,
-      notices: [
-        {
-          tripId: "trip1",
-          csvRowNumber: 11,
-          stopSequence: 3,
-          shapeDistTraveled: 5.1,
-          prevCsvRowNumber: 10,
-          prevStopSequence: 2,
-          prevShapeDistTraveled: 5.5,
-        }
-      ]
+      notices: [{
+        tripId: 'trip1',
+        csvRowNumber: 11,
+        stopSequence: 3,
+        shapeDistTraveled: 5.1,
+        prevCsvRowNumber: 10,
+        prevStopSequence: 2,
+        prevShapeDistTraveled: 5.5,
+      }]
     };
     decreasing_stop_time_distance(params);
-    const output = "<div><p class=\"error\">Error - Decreasing Stop Time Distance(s) found!</p>\
+    const output =
+        '<div><p class="error">Error - Decreasing Stop Time Distance(s) found!</p>\
 <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
 <p><b>1</b> decreasing stopTimeDistTraveled found in:</p>\
 <table>\
@@ -161,31 +160,30 @@ describe('Output', function() {
 <tr><td>trip1</td><td>11</td><td>3</td><td>5.1</td><td>10</td><td>2</td><td>5.5</td></tr>\
 </tbody>\
 </table>\
-<p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>\
-<br><br></div>";
+<p>Please check distance traveled for the above rows in \'stop_times.txt\'!</p>\
+<br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
- 
+
   /** Decreasing shape distance notice template test */
   it('should issue decreasing shape distance error', function() {
     const params = {
-      code: "decreasing_shape_distance",
+      code: 'decreasing_shape_distance',
       totalNotices: 1,
-      notices: [
-        {
-          shapeId: "shape1",
-          csvRowNumber: 17,
-          shapeDistTraveled: 5.1,
-          shapePtSequence: 5,
-          prevCsvRowNumber: 16,
-          prevShapeDistTraveled: 5.5,
-          prevShapePtSequence: 4
-        }
-      ]
+      notices: [{
+        shapeId: 'shape1',
+        csvRowNumber: 17,
+        shapeDistTraveled: 5.1,
+        shapePtSequence: 5,
+        prevCsvRowNumber: 16,
+        prevShapeDistTraveled: 5.5,
+        prevShapePtSequence: 4
+      }]
     };
     decreasing_shape_distance(params);
-    const output = "<div><p class=\"error\">Error - Decreasing Shape Distance(s) found!</p>\
-<p>Description: shape_dist_traveled along a shape in \"shapes.txt\" are not all increasing.</p>\
+    const output =
+        '<div><p class="error">Error - Decreasing Shape Distance(s) found!</p>\
+<p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>\
 <p><b>1</b> found:</p>\
 <table>\
 <thead>\
@@ -195,32 +193,32 @@ describe('Output', function() {
 <tr><td>shape1</td><td>17</td><td>5.1</td><td>5</td><td>16</td><td>5.5</td><td>4</td></tr>\
 </tbody>\
 </table>\
-<p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>\
-<br><br></div>"
+<p>Please check shape dist traveled for the above rows in \'shapes.txt\'!</p>\
+<br><br></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-    
+
   /** Test for feed info language and engency language mismatch template */
-  it('should issue feed info language and engency language mismatch error', function() {
-    const params = {
-      code: "feed_info_lang_and_agency_lang_mismatch",
-      totalNotices: 1,
-      notices: [
-        {
-          feedInfoLang: "English",
-          agencyLangCollection: ["Spanish", "French"]
-        }
-      ]
-    };
-    feed_info_lang_and_agency_lang_mismatch(params);
-    const output = "<div><p class=\"error\">Error - Language mismatch found!</p>\
+  it('should issue feed info language and engency language mismatch error',
+     function() {
+       const params = {
+         code: 'feed_info_lang_and_agency_lang_mismatch',
+         totalNotices: 1,
+         notices: [{
+           feedInfoLang: 'English',
+           agencyLangCollection: ['Spanish', 'French']
+         }]
+       };
+       feed_info_lang_and_agency_lang_mismatch(params);
+       const output =
+           '<div><p class="error">Error - Language mismatch found!</p>\
 <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` \
 and `feed_info.feed_lang`. The default language may be multilingual for datasets with \
 the original text in multiple languages. In such cases, the feed_lang field should contain \
 the language code mul defined by the norm ISO 639-2. If `feed_lang` is not `mul` and does not \
-match with `agency_lang`, that's an error If there is more than one `agency_lang` and \
-`feed_lang` isn't `mul`, that's an error If `feed_lang` is `mul` and there isn't more \
-than one `agency_lang`, that's an error</p>\
+match with `agency_lang`, that\'s an error If there is more than one `agency_lang` and \
+`feed_lang` isn\'t `mul`, that\'s an error If `feed_lang` is `mul` and there isn\'t more \
+than one `agency_lang`, that\'s an error</p>\
 <p><b>1</b> found:</p>\
 <table>\
 <thead>\
@@ -231,26 +229,25 @@ than one `agency_lang`, that's an error</p>\
 </tbody>\
 </table>\
 <p>Please check languages!</p>\
-<br><br></div>"
-    expect(document.getElementById('error').innerHTML).toContain(output);
-  });
-    
+<br><br></div>'
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
+
   /** Test for inconsistent agency field template */
   it('should issue inconsistent agency field error', function() {
     const params = {
-      code: "inconsistent_agency_field",
+      code: 'inconsistent_agency_field',
       totalNotices: 1,
-      notices: [
-        {
-          csvRowNumber: 15,
-          fieldName: "Language",
-          expected: "English",
-          actual: "French"
-        }
-      ]
+      notices: [{
+        csvRowNumber: 15,
+        fieldName: 'Language',
+        expected: 'English',
+        actual: 'French'
+      }]
     };
     inconsistent_agency_field(params);
-    const output = "<div><p class=\"error\">Error - Inconsistent Agency Field(s) found!</p>\
+    const output =
+        '<div><p class="error">Error - Inconsistent Agency Field(s) found!</p>\
 <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -262,30 +259,23 @@ than one `agency_lang`, that's an error</p>\
 </tbody>\
 </table>\
 <p>Please check timezones/languages!</p>\
-<br><br></div>"
+<br><br></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-  
+
   /** Test for fast_travel_between_stops */
- it('should issue fast travel between stops warning', function() {
+  it('should issue fast travel between stops warning', function() {
     const params = {
-      code: "fast_travel_between_stops",
+      code: 'fast_travel_between_stops',
       totalNotices: 2,
       notices: [
-        {
-          tripId: "trip1",
-          speedkmh: 4000,
-          stopSequenceList: [6,7]
-        },
-        {
-          tripId: "trip89",
-          speedkmh: 5000,
-          stopSequenceList: [1,2]
-        }
+        {tripId: 'trip1', speedkmh: 4000, stopSequenceList: [6, 7]},
+        {tripId: 'trip89', speedkmh: 5000, stopSequenceList: [1, 2]}
       ]
     };
     fast_travel_between_stops(params);
-    const output = "<div><p class=\"warning\">Warning - Fast Travel Between Stops found!</p>\
+    const output =
+        '<div><p class="warning">Warning - Fast Travel Between Stops found!</p>\
 <p>Description: Travel speed between stops is very fast!.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -298,9 +288,9 @@ than one `agency_lang`, that's an error</p>\
 </tbody>\
 </table>\
 <p>Please check travel speed for the above trip(s)!</p>\
-<br><br></div>";
+<br><br></div>';
     expect(document.getElementById('warning').innerHTML).toContain(output);
- });
+  });
 
   it('should call the correct functions', function() {
     const params = JSON.stringify({
@@ -368,4 +358,3 @@ than one `agency_lang`, that's an error</p>\
         .toContain(JSON.stringify(params.notices[0]));
   })
 });
-  
