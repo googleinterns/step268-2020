@@ -94,3 +94,9 @@ function fast_travel_between_stops(params) {
       validator.templates.fastTravelBetweenStops, params);
   document.getElementById('warning').appendChild(template);
 }
+
+function location_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.locationWithoutParentStation, params);
+  document.getElementById('error').appendChild(template);
+}

@@ -261,6 +261,34 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+/** Test for location without parent station notice */
+  it('should issue location without parent station error', function() {
+    const params = {
+      code: 'location_without_parent_station',
+      totalNotices: 1,
+      notices: [{
+        stopId: "stop1",
+        csvRowNumber: 15,
+        locationType: 1,
+      }]
+    };
+    location_without_parent_station(params);
+    const output = '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
+  <p>Description: A location that must have `parent_station` field does not have it.</p>\
+  <p><b>1</b> found:</p>\
+  <table>\
+    <thead>\
+      <tr><th>Stop ID</th><th>CSV Row Number</th><th>Location Type</th></tr>\
+    </thead>\
+    <tbody>\
+        <tr><td>stop1</td><td>15</td><td>1</td></tr>\
+    </tbody>\
+  </table>\
+  <p>Please check the parent locations for the above stops!</p>\
+  <br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for fast_travel_between_stops */
   it('should issue fast travel between stops warning', function() {
     const params = {

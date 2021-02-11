@@ -309,3 +309,34 @@
   <p>Please check timezones/languages!</p>
   <br><br>
 {/template}
+
+/**
+ * Table for location without parent station notice. 
+ * @param notices : List<[String stopId, long csvRowNumber, int locationType]>
+ */
+{template .locationWithoutParentStation}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Location(s) without a parent station found!</p>
+  <p>Description: A location that must have `parent_station` field does not have it.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop ID</th>
+        <th>CSV Row Number</th>
+        <th>Location Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.locationType}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check the parent locations for the above stops!</p>
+  <br><br>
+{/template}
