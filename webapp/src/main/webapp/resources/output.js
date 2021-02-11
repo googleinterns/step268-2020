@@ -22,16 +22,19 @@ function callCorrespondingFunction(noticesJSON) {
       unimplementedNoticesArray.push(JSON.stringify(notice));
     }
   }
-  // Print all unimplemented notices as raw JSON in the unimplemented notices container
+  // Print all unimplemented notices as raw JSON in the unimplemented notices
+  // container
   if (unimplementedNoticesArray.length !== 0) {
-    document.getElementById("unimplementedNotices").innerHTML = unimplementedNoticesArray; 
+    document.getElementById('unimplementedNotices').innerHTML =
+        unimplementedNoticesArray;
   }
 }
 
 function runFunctionName(name, arguments) {
   const fn = window[name];
   // check if fn is a function
-  if (typeof fn !== 'function') return false;
+  if (typeof fn !== 'function')
+    return false;
   else {
     fn.apply(window, [arguments]);
     return true;
@@ -39,13 +42,15 @@ function runFunctionName(name, arguments) {
 }
 
 function unknown_column(params) {
-  const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
-  document.getElementById("warning").appendChild(template);
+  const template =
+      goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
+  document.getElementById('warning').appendChild(template);
 }
 
 function invalid_row_length(params) {
-  const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
-  document.getElementById("error").appendChild(template);
+  const template =
+      goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
+  document.getElementById('error').appendChild(template);
 }
 
 function wrong_parent_location_type(params) {
