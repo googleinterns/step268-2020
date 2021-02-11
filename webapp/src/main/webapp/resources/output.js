@@ -13,6 +13,17 @@
 // limitations under the License.
 
 function callCorrespondingFunction(noticesJSON) {
+  // Reset the notice containers
+  const errorOutput = document.getElementById('errorOutput');
+  errorOutput.innerHTML = '';
+  const error = document.getElementById('error');
+  error.innerHTML = '';
+  const warning = document.getElementById('warning');
+  warning.innerHTML = '';
+  const unimplementedNotices = document.getElementById('unimplementedNotices');
+  unimplementedNotices.innerHTML = '';
+
+  // Display the new notices
   const unimplementedNoticesArray = [];
   const noticeContainer = JSON.parse(noticesJSON);
   for (var i = 0; i < noticeContainer.notices.length; i++) {
@@ -22,16 +33,19 @@ function callCorrespondingFunction(noticesJSON) {
       unimplementedNoticesArray.push(JSON.stringify(notice));
     }
   }
-  // Print all unimplemented notices as raw JSON in the unimplemented notices container
+  // Print all unimplemented notices as raw JSON in the unimplemented notices
+  // container
   if (unimplementedNoticesArray.length !== 0) {
-    document.getElementById("unimplementedNotices").innerHTML = unimplementedNoticesArray; 
+    document.getElementById('unimplementedNotices').innerHTML =
+        unimplementedNoticesArray;
   }
 }
 
 function runFunctionName(name, arguments) {
   const fn = window[name];
   // check if fn is a function
-  if (typeof fn !== 'function') return false;
+  if (typeof fn !== 'function')
+    return false;
   else {
     fn.apply(window, [arguments]);
     return true;
@@ -39,11 +53,13 @@ function runFunctionName(name, arguments) {
 }
 
 function unknown_column(params) {
-  const template = goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
-  document.getElementById("warning").appendChild(template);
+  const template =
+      goog.soy.renderAsElement(validator.templates.unknownColumnNotice, params);
+  document.getElementById('warning').appendChild(template);
 }
 
 function invalid_row_length(params) {
-  const template = goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
-  document.getElementById("error").appendChild(template);
+  const template =
+      goog.soy.renderAsElement(validator.templates.invalidRowLength, params);
+  document.getElementById('error').appendChild(template);
 }

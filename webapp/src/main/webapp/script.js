@@ -17,6 +17,31 @@
 window.onload=function(){
   document.forms['myForm'].addEventListener('submit', (event) => {
     event.preventDefault();
+
+    // Create loading bar while waiting for the validator's results 
+    const errorOutput = document.getElementById('errorOutput');
+    const loadingSpinner = document.createElement('div');
+    loadingSpinner.className = "spinner-border";
+    loadingSpinner.setAttribute('role','status');
+    const loadingText = document.createElement("span");
+    loadingText.className = "sr-only";
+    loadingText.innerText = "Loading...";
+    loadingSpinner.appendChild(loadingText);
+    
+    // Create heading 
+    const resultsHeading = document.createElement('h2');
+    resultsHeading.id = "resultHeading";
+    resultsHeading.innerText = 'Results';
+    
+    // Clear heading
+    if (!(typeof errorOutput.nextSibling.id === 'undefined') && errorOutput.nextSibling.id.localeCompare("resultHeading") == 0) {
+      errorOutput.parentNode.removeChild(errorOutput.nextSibling);
+    }
+
+    // Add loading bar and result heading
+    errorOutput.parentNode.insertBefore(loadingSpinner, errorOutput.nextSibling);
+    errorOutput.parentNode.insertBefore(resultsHeading, errorOutput.nextSibling);
+
     fetch('/fileupload', {
       method: 'POST',
       body: new FormData(event.target)
@@ -25,6 +50,7 @@ window.onload=function(){
       const contentType = resp.headers.get("content-type");
       if (contentType && contentType.indexOf("application/json") !== -1) {
         return resp.text().then(data => {
+          errorOutput.parentNode.removeChild(loadingSpinner);
           this.callCorrespondingFunction(data);
         });
       } else {
