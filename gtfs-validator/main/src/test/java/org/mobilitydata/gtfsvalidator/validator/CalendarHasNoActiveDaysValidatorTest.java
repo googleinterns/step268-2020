@@ -37,6 +37,7 @@ public class CalendarHasNoActiveDaysValidatorTest {
   private final GtfsCalendar all_active_calendar =
       new GtfsCalendar.Builder()
           .setServiceId("service1")
+          .setCsvRowNumber(1)
           .setMonday(GtfsCalendarService.AVAILABLE.getNumber())
           .setTuesday(GtfsCalendarService.AVAILABLE.getNumber())
           .setWednesday(GtfsCalendarService.AVAILABLE.getNumber())
@@ -49,6 +50,7 @@ public class CalendarHasNoActiveDaysValidatorTest {
   private final GtfsCalendar no_active_calendar =
       new GtfsCalendar.Builder()
           .setServiceId("service2")
+          .setCsvRowNumber(2)
           .setMonday(GtfsCalendarService.NOT_AVAILABLE.getNumber())
           .setTuesday(GtfsCalendarService.NOT_AVAILABLE.getNumber())
           .setWednesday(GtfsCalendarService.NOT_AVAILABLE.getNumber())
@@ -61,6 +63,7 @@ public class CalendarHasNoActiveDaysValidatorTest {
   private final GtfsCalendar one_active_calendar =
       new GtfsCalendar.Builder()
           .setServiceId("service_3")
+          .setCsvRowNumber(3)
           .setMonday(GtfsCalendarService.NOT_AVAILABLE.getNumber())
           .setTuesday(GtfsCalendarService.NOT_AVAILABLE.getNumber())
           .setWednesday(GtfsCalendarService.AVAILABLE.getNumber())
@@ -73,6 +76,7 @@ public class CalendarHasNoActiveDaysValidatorTest {
   private final GtfsCalendar more_active_calendar =
       new GtfsCalendar.Builder()
           .setServiceId("service_4")
+          .setCsvRowNumber(4)
           .setMonday(GtfsCalendarService.NOT_AVAILABLE.getNumber())
           .setTuesday(GtfsCalendarService.AVAILABLE.getNumber())
           .setWednesday(GtfsCalendarService.AVAILABLE.getNumber())
@@ -108,13 +112,7 @@ public class CalendarHasNoActiveDaysValidatorTest {
     assertThat(noticeContainer.getNotices())
         .containsExactly(new CalendarHasNoActiveDaysNotice(
             /* serviceId= */ "service2",
-            /* monday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* tuesday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* wednesday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* thursday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* friday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* saturday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* sunday= */ GtfsCalendarService.NOT_AVAILABLE));
+            /* calendarCsvRowNumber= */ 2));
   }
 
   @Test
@@ -127,13 +125,7 @@ public class CalendarHasNoActiveDaysValidatorTest {
     assertThat(noticeContainer.getNotices())
         .containsExactly(new CalendarHasNoActiveDaysNotice(
             /* serviceId= */ "service2",
-            /* monday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* tuesday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* wednesday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* thursday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* friday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* saturday= */ GtfsCalendarService.NOT_AVAILABLE,
-            /* sunday= */ GtfsCalendarService.NOT_AVAILABLE));
+            /* calendarCsvRowNumber= */ 2));
   }
 
   @Test
