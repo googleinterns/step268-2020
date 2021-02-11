@@ -451,3 +451,38 @@
   <p>Please fill in the missing arrival time or departure time for the stop time!</p>
   <br><br>
 {/template} 
+
+/**
+ * Renders a basic explanation of the stop time with departure before arrival time notice.
+ * @param notices : List<[csvRowNumber : number, tripId : string, stopSequence : number, departureTime : GtfsTime, arrivalTime: GtfsTime]>
+ */
+{template .stopTimeWithDepartureBeforeArrivalTime}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Stop time with departure before arrival time!</p>
+  <p>Description: Departure time is before arrival time for the stop time.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>CSV Row Number</th>
+        <th>Trip ID</th>
+        <th>Stop Sequence</th>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.stopSequence}</td>
+          <td>{$notice.departureTime}</td>
+          <td>{$notice.arrivalTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fix the departure time or the arrival time!</p>
+  <br><br>
+{/template} 
