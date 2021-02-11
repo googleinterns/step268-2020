@@ -13,17 +13,6 @@
 // limitations under the License.
 
 function callCorrespondingFunction(noticesJSON) {
-  // Reset the notice containers
-  const errorOutput = document.getElementById('errorOutput');
-  errorOutput.innerHTML = '';
-  const error = document.getElementById('error');
-  error.innerHTML = '';
-  const warning = document.getElementById('warning');
-  warning.innerHTML = '';
-  const unimplementedNotices = document.getElementById('unimplementedNotices');
-  unimplementedNotices.innerHTML = '';
-
-  // Display the new notices
   const unimplementedNoticesArray = [];
   const noticeContainer = JSON.parse(noticesJSON);
   for (var i = 0; i < noticeContainer.notices.length; i++) {

@@ -37,6 +37,14 @@ window.onload=function(){
     if (!(typeof errorOutput.nextSibling.id === 'undefined') && errorOutput.nextSibling.id.localeCompare("resultHeading") == 0) {
       errorOutput.parentNode.removeChild(errorOutput.nextSibling);
     }
+    // Clear notice containers
+    errorOutput.innerHTML = '';
+    const error = document.getElementById('error');
+    error.innerHTML = '';
+    const warning = document.getElementById('warning');
+    warning.innerHTML = '';
+    const unimplementedNotices = document.getElementById('unimplementedNotices');
+    unimplementedNotices.innerHTML = '';
 
     // Add loading bar and result heading
     errorOutput.parentNode.insertBefore(loadingSpinner, errorOutput.nextSibling);
