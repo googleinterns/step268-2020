@@ -407,7 +407,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop101</td><td>3</td><td>tripC</td><td>circle3</td><td>100</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the stop position to be within the trip buffer metres of the trip shape!</p><br><br></div>'
+<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
