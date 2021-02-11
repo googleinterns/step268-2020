@@ -20,18 +20,10 @@ import com.google.common.collect.ImmutableMap;
 import org.mobilitydata.gtfsvalidator.table.GtfsCalendarService;
 
 public class CalendarHasNoActiveDaysNotice extends Notice {
-  public CalendarHasNoActiveDaysNotice(String serviceId, GtfsCalendarService monday,
-      GtfsCalendarService tuesday, GtfsCalendarService wednesday, GtfsCalendarService thursday,
-      GtfsCalendarService friday, GtfsCalendarService saturday, GtfsCalendarService sunday) {
+  public CalendarHasNoActiveDaysNotice(String serviceId, long calendarCsvRowNumber) {
     super(new ImmutableMap.Builder<String, Object>()
               .put("serviceId", serviceId)
-              .put("monday", monday)
-              .put("tuesday", tuesday)
-              .put("wednesday", wednesday)
-              .put("thursday", thursday)
-              .put("friday", friday)
-              .put("saturday", saturday)
-              .put("sunday", sunday)
+              .put("calendarCsvRowNumber", calendarCsvRowNumber)
               .build());
   }
 

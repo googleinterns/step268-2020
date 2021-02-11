@@ -44,13 +44,7 @@ public class CalendarHasNoActiveDaysValidator extends FileValidator {
           < 1) {
         noticeContainer.addNotice(new CalendarHasNoActiveDaysNotice(
             /* serviceId= */ calendar.serviceId(),
-            /* monday= */ calendar.monday(),
-            /* tuesday= */ calendar.tuesday(),
-            /* wednesday= */ calendar.wednesday(),
-            /* thursday= */ calendar.thursday(),
-            /* friday= */ calendar.friday(),
-            /* saturday= */ calendar.saturday(),
-            /* sunday= */ calendar.sunday()));
+            /* calendarCsvRowNumber= */ calendar.csvRowNumber()));
       }
     }
   }
