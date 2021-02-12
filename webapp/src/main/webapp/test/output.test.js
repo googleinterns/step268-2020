@@ -539,6 +539,44 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for route and route text color being too similar */
+  it('should issue route color contrast error', function() {
+    const params = {
+      code: 'route_color_contrast',
+      totalNotices: 2,
+      notices: [
+        {
+          routeId: 'routeA',
+          csvRowNumber: 2,
+          routeColor: 'FFFFFF',
+          routeTextColor: 'FFFFF1'
+        },
+        {
+          routeId: 'routeB',
+          csvRowNumber: 4,
+          routeColor: 'FFFFF3',
+          routeTextColor: 'FFFFF4'
+        }
+      ]
+    };
+    route_color_contrast(params);
+    const output = '<div><p class="error">Error - Route Color Contrast!</p>\
+<p>Description: The contrast between the route and the route text is too similar!</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Color</th><th>Route Text Color</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>routeA</td><td>2</td><td>FFFFFF</td><td>FFFFF1</td></tr>\
+<tr><td>routeB</td><td>4</td><td>FFFFF3</td><td>FFFFF4</td></tr>\
+</tbody>\
+</table>\
+<p>Please change the color of the route or the route text!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
