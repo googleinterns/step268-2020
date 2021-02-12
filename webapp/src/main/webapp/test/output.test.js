@@ -317,6 +317,36 @@ than one `agency_lang`, that\'s an error</p>\
 <br><br>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
+  /** 
+   * Test for missing trip edge arrival or departure time 
+   * */
+  it('should issue missing trip edge stop time error', function() {
+    const params = {
+      code: 'missing_trip_edge_arrival_time_departure_time',
+      totalNotices: 1,
+      notices: [{
+        tripId: "Trip1",
+        csvRowNumber: 21,
+        arrivalOrDepartureTime: "Arrival",
+        stopSequence: 21
+      }]
+    };
+    missing_trip_edge_arrival_time_departure_time(params);
+    const output = '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
+<p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Trip ID</th><th>CSV Row Number</th><th>Arrival / Depature Time</th><th>Stop Sequence</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>Trip1</td><td>21</td><td>Arrival</td><td>21</td></tr>\
+</tbody>\
+</table>\
+<p>Please check above trip(s)!</p>\
+<br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
 
   /** Test for fast_travel_between_stops */
   it('should issue fast travel between stops warning', function() {

@@ -106,3 +106,9 @@ function meaningless_trip_with_no_more_than_one_stop(params) {
       validator.templates.meaninglessTripWithNoMoreThanOneStop, params);
   document.getElementById('error').appendChild(template);
 }
+
+function missing_trip_edge_arrival_time_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.missingTripEdgeStopTime, params);
+  document.getElementById('error').appendChild(template);
+}
