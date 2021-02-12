@@ -103,7 +103,7 @@ public class TransfersAreUniqueValidatorTest {
   }
 
   @Test
-  public void moreDuplicateTransfersShouldGenerateNotice() {
+  public void anotherDuplicateTransferShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
     List<GtfsTransfer> transfers =
         new ArrayList<>(Arrays.asList(transfer_1_duplicate, transfer_2, transfer_3, transfer_1));
