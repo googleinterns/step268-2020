@@ -539,6 +539,35 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for route with short name too long */
+  it('should issue route with short name warning', function() {
+    const params = {
+      code: 'route_short_name_too_long',
+      totalNotices: 1,
+      notices: [{
+        routeId: 'RouteA',
+        csvRowNumber: 5,
+        routeShortName: 'veryLoooooooooonnnnnnnnnnngggggggggName'
+      }]
+    };
+    route_short_name_too_long(params);
+    const output =
+        '<div><p class="warning">Warning - Route short name too long!</p>\
+<p>Description: The short name of a route is too long.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Short Name</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>RouteA</td><td>5</td><td>veryLoooooooooonnnnnnnnnnngggggggggName</td></tr>\
+</tbody>\
+</table>\
+<p>Please shorten the route name\'s short name!</p>\
+<br><br></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
