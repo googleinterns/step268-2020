@@ -137,3 +137,9 @@ function station_with_parent_station(params) {
       validator.templates.stationWithParentStation, params);
   document.getElementById('error').appendChild(template);
 }
+
+function route_both_short_and_long_name_missing(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.routeBothShortAndLongNameMissing, params);
+  document.getElementById('error').appendChild(template);
+}
