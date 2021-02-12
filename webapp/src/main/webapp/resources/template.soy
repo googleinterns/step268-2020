@@ -454,7 +454,7 @@
 
 /**
  * Renders a basic explanation of the stop time with departure before arrival time notice.
- * @param notices : List<[csvRowNumber : number, tripId : string, stopSequence : number, departureTime : GtfsTime, arrivalTime: GtfsTime]>
+ * @param notices : List<[csvRowNumber : number, tripId : string, stopSequence : number, departureTime : string, arrivalTime: string]>
  */
 {template .stopTimeWithDepartureBeforeArrivalTime}
 {let $numNotices: length($notices)/}
@@ -486,3 +486,42 @@
   <p>Please fix the departure time or the arrival time!</p>
   <br><br>
 {/template} 
+
+/**
+ * Renders a basic explanation of the stop time with arrival before previous departure time notice.
+ * @param notices : List<[csvRowNumber : number, prevCsvRowNumber: number, tripId : string, departureTime : string, arrivalTime: string]>
+ */
+{template .stopTimeWithArrivalBeforePreviousDepartureTime}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Stop time with arrival before previous departure time!</p>
+  <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>CSV Row Number</th>
+        <th>Previous CSV Row Number</th>
+        <th>Trip ID</th>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.departureTime}</td>
+          <td>{$notice.arrivalTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please fix the arrival time or the previous departure time for the stop time!</p>
+  <br><br>
+{/template}
+
+
+
+
