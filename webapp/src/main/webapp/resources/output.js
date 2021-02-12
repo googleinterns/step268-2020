@@ -106,3 +106,9 @@ function stops_too_close(params) {
       goog.soy.renderAsElement(validator.templates.stopsTooClose, params);
   document.getElementById('warning').appendChild(template);
 }
+
+function stop_too_far_from_trip_shape(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTooFarFromTripShape, params);
+  document.getElementById('error').appendChild(template);
+}
