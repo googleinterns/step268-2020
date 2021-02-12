@@ -634,7 +634,7 @@ than one `agency_lang`, that\'s an error</p>\
     same_route_name_and_description(params);
     const output =
         '<div><p class="error">Error - Same route name and description!</p>\
-<p>Description: Name and description for the route are the same.</p>\
+<p>Description: Name and description of the route are the same.</p>\
 <p><b>2</b> found:</p>\
 <table>\
 <thead>\
@@ -645,7 +645,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>FILENAME</td><td>RouteP</td><td>4</td><td>Route12345</td><td>route_long_name</td></tr>\
 </tbody>\
 </table>\
-<p>Please adjust the specified name or the description for the route to make them different!</p>\
+<p>Please adjust the specified name or the description of the route to make them different!</p>\
 <br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
