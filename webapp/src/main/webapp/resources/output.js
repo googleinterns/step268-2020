@@ -137,3 +137,9 @@ function station_with_parent_station(params) {
       validator.templates.stationWithParentStation, params);
   document.getElementById('error').appendChild(template);
 }
+
+function platform_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.platformWithoutParentStation, params);
+  document.getElementById('warning').appendChild(template);
+}
