@@ -290,6 +290,50 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
+  /** Test for trip with duplicate stops template */
+  it('should issue trip with duplicate stops warning', function() {
+    const params = {
+      code: 'route_with_duplicate_stop_notice',
+      totalNotices: 2,
+      notices: [
+        {
+          stopName: 'AppleStop',
+          stopId1: 'stop101',
+          csvRowNumberStop1: 2,
+          stopId2: 'stop103',
+          csvRowNumberStop2: 3,
+          routeId: 'routeA',
+          exampleTripId: 'trip1'
+        },
+        {
+          stopName: 'OrangeStop',
+          stopId1: 'stop305',
+          csvRowNumberStop1: 7,
+          stopId2: 'stop308',
+          csvRowNumberStop2: 8,
+          routeId: 'routeC',
+          exampleTripId: 'trip3'
+        }
+      ]
+    };
+    trip_with_duplicate_stops(params);
+    const output =
+        '<div><p class=\"warning"\>Warning - Trip with duplicate stops!</p>\
+<p>Description: For a trip, consecutive stop times have the same stop name.</p>\
+<p><b>2</b> Trip(s) with duplicate stops found in:</p>\
+<table>\
+<thead>\
+<tr><th>Stop Name</th><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Route ID</th><th>Example Trip ID</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>AppleStop</td><td>stop101</td><td>2</td><td>stop103</td><td>3</td><td>routeA</td><td>trip1</td></tr>\
+<tr><td>OrangeStop</td><td>stop305</td><td>7</td><td>stop308</td><td>8</td><td>routeC</td><td>trip3</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the problem of stop names for the corresponding trip(s)!</p><br><br></div>'
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [

@@ -94,3 +94,9 @@ function fast_travel_between_stops(params) {
       validator.templates.fastTravelBetweenStops, params);
   document.getElementById('warning').appendChild(template);
 }
+
+function trip_with_duplicate_stops(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.tripWithDuplicateStops, params);
+  document.getElementById('warning').appendChild(template);
+}
