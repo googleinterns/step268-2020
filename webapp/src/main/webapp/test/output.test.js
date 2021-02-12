@@ -560,6 +560,32 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for station with parent station notice */
+  it('should issue station with parent station error', function() {
+    const params = {
+      code: 'station_with_parent_station',
+      totalNotices: 1,
+      notices:
+          [{stopId: 'StationB', csvRowNumber: 8, parentStation: 'StationW'}]
+    };
+    station_with_parent_station(params);
+    const output =
+        '<div><p class="error">Error - Station with parent station!</p>\
+<p>Description: A station has parent_station field set.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Station ID</th><th>CSV Row Number</th><th>Parent Station</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>StationB</td><td>8</td><td>StationW</td></tr>\
+</tbody>\
+</table>\
+<p>Please delete the parent station of the station!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
