@@ -587,3 +587,36 @@
   <p>Please adjust the start time or end time of the entity!</p>
   <br><br>
 {/template}
+
+/**
+ * Renders a basic explanation of the start and end date out of order notice.
+ * @param notices : List<[filename : string, csvRowNumber : number, entityId : string, startDate : string, endDate : string]>
+ */
+{template .startAndEndDateOutOfOrder}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Start and end date out of order!</p>
+  <p>Description: Start date is later than the end date.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>CSV Row Number</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.startDate}</td>
+          <td>{$notice.endDate}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please adjust the start or the end date!</p>
+  <br><br>
+{/template}
