@@ -539,6 +539,36 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for route having the same short and long name */
+  it('should issue route short and long name error', function() {
+    const params = {
+      code: 'route_short_and_long_name_equal',
+      totalNotices: 1,
+      notices: [{
+        routeId: 'Route1',
+        csvRowNumber: 2,
+        routeShortName: 'routeName',
+        routeLongName: 'routeName'
+      }]
+    };
+    route_short_and_long_name_equal(params);
+    const output =
+        '<div><p class="error">Error - Route Short and Long Name Equal!</p>\
+<p>Description: Both the short and long name of a route are equal.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Short Name</th><th>Route Long Name</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>Route1</td><td>2</td><td>routeName</td><td>routeName</td></tr>\
+</tbody>\
+</table>\
+<p>Please change the short or long name of the route!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
