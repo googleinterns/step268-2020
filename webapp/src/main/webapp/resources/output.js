@@ -100,3 +100,9 @@ function trip_with_duplicate_stops(params) {
       validator.templates.tripWithDuplicateStops, params);
   document.getElementById('warning').appendChild(template);
 }
+
+function stops_too_close(params) {
+  const template =
+      goog.soy.renderAsElement(validator.templates.stopsTooClose, params);
+  document.getElementById('warning').appendChild(template);
+}

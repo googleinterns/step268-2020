@@ -334,6 +334,53 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
+  /** Test for stops too close template */
+  it('should issue stops too close warning', function() {
+    const params = {
+      code: 'stops_too_close_to_each_other_warning',
+      totalNotices: 3,
+      notices: [
+        {
+          stopId1: 'stop101',
+          csvRowNumberStop1: 2,
+          stopId2: 'stop103',
+          csvRowNumberStop2: 4,
+          tripBufferMeters: 5
+        },
+        {
+          stopId1: 'stop307',
+          csvRowNumberStop1: 3,
+          stopId2: 'stop325',
+          csvRowNumberStop2: 17,
+          tripBufferMeters: 5
+        },
+        {
+          stopId1: 'stop501',
+          csvRowNumberStop1: 1,
+          stopId2: 'stop507',
+          csvRowNumberStop2: 5,
+          tripBufferMeters: 5
+        }
+      ]
+    };
+    stops_too_close(params);
+    const output = '<div><p class=\"warning"\>Warning - Stops too close!</p>\
+<p>Description: Two stops are too close to each other.</p>\
+<p><b>3</b> found in:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer in Meters</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop101</td><td>2</td><td>stop103</td><td>4</td><td>5</td></tr>\
+<tr><td>stop307</td><td>3</td><td>stop325</td><td>17</td><td>5</td></tr>\
+<tr><td>stop501</td><td>1</td><td>stop507</td><td>5</td><td>5</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the stops positions to make their distance further than the trip buffer meters!</p><br><br></div>'
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
