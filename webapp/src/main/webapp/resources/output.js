@@ -131,3 +131,9 @@ function stop_time_with_arrival_before_previous_departure_time(params) {
       params);
   document.getElementById('error').appendChild(template);
 }
+
+function station_with_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stationWithParentStation, params);
+  document.getElementById('error').appendChild(template);
+}
