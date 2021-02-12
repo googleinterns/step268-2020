@@ -37,7 +37,7 @@ public class RouteUniqueNamesNotice extends Notice {
             .put("comparedRouteCsvRowNumber", comparedRouteCsvRowNumber)
             .put("routeLongName", routeLongName)
             .put("routeShortName", routeShortName)
-            .put("routeType", routeType)
+            .put("routeType", routeType.toString())
             .put("agencyId", agencyId)
             .build());
   }
