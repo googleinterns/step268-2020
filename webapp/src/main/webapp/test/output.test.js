@@ -540,16 +540,16 @@ than one `agency_lang`, that\'s an error</p>\
   });
 
   /** Test if route is missing both short and long name. */
-  it('should issue error if both short and long route names are missing', function() {
-    const params = {
-      code: 'route_both_short_and_long_name_missing',
-      totalNotices: 1,
-      notices:
-          [{routeId: 'RouteA', csvRowNumber: 8}]
-    };
-    route_both_short_and_long_name_missing(params);
-    const output =
-        '<div><p class="error">Error - Route short and long name missing!</p>\
+  it('should issue error if both short and long route names are missing',
+     function() {
+       const params = {
+         code: 'route_both_short_and_long_name_missing',
+         totalNotices: 1,
+         notices: [{routeId: 'RouteA', csvRowNumber: 8}]
+       };
+       route_both_short_and_long_name_missing(params);
+       const output =
+           '<div><p class="error">Error - Route short and long name missing!</p>\
 <p>Description: Both the short name and long name of the route are missing.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -562,8 +562,8 @@ than one `agency_lang`, that\'s an error</p>\
 </table>\
 <p>Please add a short name or a long name for the route!</p>\
 <br><br></div>';
-    expect(document.getElementById('error').innerHTML).toContain(output);
-  });
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
 
   it('should call the correct functions', function() {
     const params = JSON.stringify({
