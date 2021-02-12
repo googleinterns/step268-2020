@@ -369,7 +369,7 @@ than one `agency_lang`, that\'s an error</p>\
 <p><b>3</b> found:</p>\
 <table>\
 <thead>\
-<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer Meters</th></tr>\
+<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer in Meters</th></tr>\
 </thead>\
 <tbody>\
 <tr><td>stop101</td><td>2</td><td>stop103</td><td>4</td><td>5</td></tr>\
