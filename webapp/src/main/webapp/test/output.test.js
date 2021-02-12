@@ -502,7 +502,7 @@ than one `agency_lang`, that\'s an error</p>\
 <p><b>2</b> found:</p>\
 <table>\
 <thead>\
-<tr><th>CSV Row Number</th><th>Previous CSV Row Number</th><th>Trip ID</th><th>Departure Time</th><th>Arrival Time</th></tr>\
+<tr><th>CSV Row Number</th><th>Previous CSV Row Number</th><th>Trip ID</th><th>Previous Departure Time</th><th>Arrival Time</th></tr>\
 </thead>\
 <tbody>\
 <tr><td>11</td><td>3</td><td>tripB</td><td>10:20:30</td><td>10:19:00</td></tr>\
