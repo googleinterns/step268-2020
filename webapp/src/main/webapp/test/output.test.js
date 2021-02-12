@@ -1,3 +1,4 @@
+
 /*
  * Unit tests for output.js
  */
@@ -439,6 +440,37 @@ than one `agency_lang`, that\'s an error</p>\
 </table>\
 <p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div>'
        expect(document.getElementById('warning').innerHTML).toContain(output);
+     });
+
+  /** Test for stop time with departure before arrival time template */
+  it('should issue stop time with departure before arrival time error',
+     function() {
+       const params = {
+         code: 'stop_time_with_departure_before_arrival_time',
+         totalNotices: 1,
+         notices: [{
+           csvRowNumber: 11,
+           tripId: 'tripB',
+           stopSequence: 4,
+           departureTime: '10:20:30',
+           arrivalTime: '11:18:30'
+         }]
+       };
+       stop_time_with_departure_before_arrival_time(params);
+       const output =
+           '<div><p class=\"error"\>Error - Stop time with departure before arrival time!</p>\
+<p>Description: Departure time is before arrival time for the stop time.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Trip ID</th><th>Stop Sequence</th><th>Departure Time</th><th>Arrival Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>11</td><td>tripB</td><td>4</td><td>10:20:30</td><td>11:18:30</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the departure time or the arrival time!</p><br><br></div>'
+       expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
   it('should call the correct functions', function() {

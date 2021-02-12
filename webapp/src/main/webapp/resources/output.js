@@ -118,3 +118,9 @@ function stop_time_with_only_arrival_or_departure_time(params) {
       validator.templates.stopTimeWithOnlyArrivalOrDepartureTime, params);
   document.getElementById('warning').appendChild(template);
 }
+
+function stop_time_with_departure_before_arrival_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTimeWithDepartureBeforeArrivalTime, params);
+  document.getElementById('error').appendChild(template);
+}
