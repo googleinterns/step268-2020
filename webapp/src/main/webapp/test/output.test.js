@@ -544,8 +544,7 @@ than one `agency_lang`, that\'s an error</p>\
     const params = {
       code: 'platform_without_parent_station',
       totalNotices: 1,
-      notices:
-          [{stopId: 'StationB', csvRowNumber: 8}]
+      notices: [{stopId: 'StationB', csvRowNumber: 8}]
     };
     platform_without_parent_station(params);
     const output =
