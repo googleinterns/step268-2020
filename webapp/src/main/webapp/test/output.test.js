@@ -645,7 +645,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>FILENAME</td><td>RouteP</td><td>4</td><td>Route12345</td><td>route_long_name</td></tr>\
 </tbody>\
 </table>\
-<p>Please adjust the name or the description for the route to make them different!</p>\
+<p>Please adjust the specified name or the description for the route to make them different!</p>\
 <br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
