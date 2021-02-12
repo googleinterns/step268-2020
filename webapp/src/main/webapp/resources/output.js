@@ -112,3 +112,9 @@ function stop_too_far_from_trip_shape(params) {
       validator.templates.stopTooFarFromTripShape, params);
   document.getElementById('error').appendChild(template);
 }
+
+function stop_time_with_only_arrival_or_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTimeWithOnlyArrivalOrDepartureTime, params);
+  document.getElementById('warning').appendChild(template);
+}

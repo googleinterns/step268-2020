@@ -411,6 +411,36 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for stop time with only arrival or departure time template */
+  it('should issue stop time with only arrival or departure time warning',
+     function() {
+       const params = {
+         code: 'stop_time_with_only_arrival_or_departure_time',
+         totalNotices: 1,
+         notices: [{
+           csvRowNumber: 8,
+           tripId: 'tripC',
+           stopSequence: 3,
+           specifiedField: 'ARRIVAL_TIME_FIELD_NAME'
+         }]
+       };
+       stop_time_with_only_arrival_or_departure_time(params);
+       const output =
+           '<div><p class=\"warning"\>Warning - Stop time with only arrival or departure time!</p>\
+<p>Description: Stop time is with only arrival time or departure time.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Trip ID</th><th>Stop Sequence</th><th>Specified Field</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>8</td><td>tripC</td><td>3</td><td>ARRIVAL_TIME_FIELD_NAME</td></tr>\
+</tbody>\
+</table>\
+<p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div>'
+       expect(document.getElementById('warning').innerHTML).toContain(output);
+     });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
