@@ -473,6 +473,46 @@ than one `agency_lang`, that\'s an error</p>\
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
+  it('should issue stop time with arrival before previous departure time error',
+     function() {
+       const params = {
+         code: 'stop_time_with_arrival_before_previous_departure_time',
+         totalNotices: 2,
+         notices: [
+           {
+             csvRowNumber: 11,
+             prevCsvRowNumber: 3,
+             tripId: 'tripB',
+             departureTime: '10:20:30',
+             arrivalTime: '10:19:00'
+           },
+           {
+             csvRowNumber: 28,
+             prevCsvRowNumber: 26,
+             tripId: 'tripV',
+             departureTime: '07:18:15',
+             arrivalTime: '07:18:00'
+           }
+         ]
+       };
+       stop_time_with_arrival_before_previous_departure_time(params);
+       const output =
+           '<div><p class=\"error"\>Error - Stop time with arrival before previous departure time!</p>\
+<p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Previous CSV Row Number</th><th>Trip ID</th><th>Previous Departure Time</th><th>Arrival Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>11</td><td>3</td><td>tripB</td><td>10:20:30</td><td>10:19:00</td></tr>\
+<tr><td>28</td><td>26</td><td>tripV</td><td>07:18:15</td><td>07:18:00</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div>'
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [

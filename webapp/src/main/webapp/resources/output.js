@@ -124,3 +124,10 @@ function stop_time_with_departure_before_arrival_time(params) {
       validator.templates.stopTimeWithDepartureBeforeArrivalTime, params);
   document.getElementById('error').appendChild(template);
 }
+
+function stop_time_with_arrival_before_previous_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTimeWithArrivalBeforePreviousDepartureTime,
+      params);
+  document.getElementById('error').appendChild(template);
+}
