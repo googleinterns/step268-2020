@@ -552,3 +552,38 @@
   <p>Please delete the parent station of the station!</p>
   <br><br>
 {/template}
+
+/**
+ * Renders a basic explanation of the start and end time out of order notice.
+ * @param notices : List<[filename : string, csvRowNumber : number, entityId : string, startTime : string, endTime : string]>
+ */
+{template .startAndEndTimeOutOfOrder}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Start and end time out of order!</p>
+  <p>Description: start_time is after the end_time for a single entity.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>CSV Row Number</th>
+        <th>Entity ID</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.entityId}</td>
+          <td>{$notice.startTime}</td>
+          <td>{$notice.endTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please adjust the start time or end time of the entity!</p>
+  <br><br>
+{/template}

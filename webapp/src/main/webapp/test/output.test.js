@@ -539,6 +539,37 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for start and end time out of order notice */
+  it('should issue start and end time out of order error', function() {
+    const params = {
+      code: 'start_and_end_time_out_of_order',
+      totalNotices: 1,
+      notices: [{
+        filename: 'stop_times.txt',
+        csvRowNumber: 12,
+        entityId: 'stopC',
+        startTime: '14:20:10',
+        endTime: '14:00:10'
+      }]
+    };
+    start_and_end_time_out_of_order(params);
+    const output =
+        '<div><p class="error">Error - Start and end time out of order!</p>\
+<p>Description: start_time is after the end_time for a single entity.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>File Name</th><th>CSV Row Number</th><th>Entity ID</th><th>Start Time</th><th>End Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop_times.txt</td><td>12</td><td>stopC</td><td>14:20:10</td><td>14:00:10</td></tr>\
+</tbody>\
+</table>\
+<p>Please adjust the start time or end time of the entity!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
