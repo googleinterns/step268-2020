@@ -112,3 +112,9 @@ function missing_trip_edge_arrival_time_departure_time(params) {
       validator.templates.missingTripEdgeStopTime, params);
   document.getElementById('error').appendChild(template);
 }
+
+function overlapping_frequency(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.overlappingFrequency, params);
+  document.getElementById('error').appendChild(template);
+}

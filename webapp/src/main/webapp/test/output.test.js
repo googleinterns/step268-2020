@@ -348,6 +348,38 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** 
+   * Test for overlapping frequency
+   * */
+  it('should issue overlapping frequency error', function() {
+    const params = {
+      code: 'overlapping_frequency',
+      totalNotices: 1,
+      notices: [{
+        tripId: "Trip1",
+        prevCsvRowNumber: 18,
+        prevEndTime: "18:00:00",
+        currCsvRowNumber: 19,
+        currStartTime:  "18:00:00"
+      }]
+    };
+    overlapping_frequency(params);
+    const output = '<p class="error">Error - Overlapping frequency entries found!</p>\
+<p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Trip ID</th><th>Current CSV Row Number</th><th>Current Start Time</th><th>Previous CSV Row Number</th><th>Previous End Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>Trip1</td><td>19</td><td>18:00:00</td><td>18</td><td>18:00:00</td></tr>\
+</tbody>\
+</table>\
+<p>Please check above trip(s)!</p>\
+<br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for fast_travel_between_stops */
   it('should issue fast travel between stops warning', function() {
     const params = {
