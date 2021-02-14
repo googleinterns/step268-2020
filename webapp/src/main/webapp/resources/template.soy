@@ -403,3 +403,40 @@
   <p>Please check above trip(s)!</p>
   <br><br>
 {/template}
+
+
+
+/**
+ * Table for overlapping frequency
+ * @param notices : List<[long prevCsvRowNumber, GtfsTime prevEndTime, long currCsvRowNumber, GtfsTime currStartTime, String tripId]>
+ */
+{template .overlappingFrequency}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Overlapping frequency entries found!</p>
+  <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>Current CSV Row Number</th>
+        <th>Current Start Time</th>
+        <th>Previous CSV Row Number</th>
+        <th>Previous End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.currCsvRowNumber}</td>
+          <td>{$notice.currStartTime}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevEndTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check above trip(s)!</p>
+  <br><br>
+{/template}
