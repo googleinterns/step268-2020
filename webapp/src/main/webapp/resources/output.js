@@ -118,3 +118,46 @@ function overlapping_frequency(params) {
       validator.templates.overlappingFrequency, params);
   document.getElementById('error').appendChild(template);
 }
+
+function trip_with_duplicate_stops(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.tripWithDuplicateStops, params);
+  document.getElementById('warning').appendChild(template);
+}
+
+function stops_too_close(params) {
+  const template =
+      goog.soy.renderAsElement(validator.templates.stopsTooClose, params);
+  document.getElementById('warning').appendChild(template);
+}
+
+function stop_too_far_from_trip_shape(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTooFarFromTripShape, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function stop_time_with_only_arrival_or_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTimeWithOnlyArrivalOrDepartureTime, params);
+  document.getElementById('warning').appendChild(template);
+}
+
+function stop_time_with_departure_before_arrival_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTimeWithDepartureBeforeArrivalTime, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function stop_time_with_arrival_before_previous_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stopTimeWithArrivalBeforePreviousDepartureTime,
+      params);
+  document.getElementById('error').appendChild(template);
+}
+
+function station_with_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.stationWithParentStation, params);
+  document.getElementById('error').appendChild(template);
+}

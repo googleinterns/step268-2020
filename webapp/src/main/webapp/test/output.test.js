@@ -1,3 +1,4 @@
+
 /*
  * Unit tests for output.js
  */
@@ -27,7 +28,7 @@ describe('Output', function() {
     const output =
         '<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
 <p>Description: A column name is unknown.</p>\
-<p><b>1</b> unknown column(s) found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>Field name</th><th>Index</th></tr>\
@@ -62,7 +63,7 @@ describe('Output', function() {
     invalid_row_length(params);
     const output = '<div><p class="error">Error - Invalid csv row length!</p>\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
-<p><b>2</b> Invalid row length found in:</p>\
+<p><b>2</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>CSV Row Number</th><th>Row length</th><th>Header count</th></tr>\
@@ -94,7 +95,7 @@ describe('Output', function() {
     const output =
         '<div><p class=\"error"\>Error - Wrong parent location type!</p>\
 <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>\
-<p><b>1</b> Wrong parent location type found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Stop ID</th><th>CSV Row Number</th><th>Location Type</th><th>Parent Station</th><th>Parent CSV Row Number</th><th>Parent Location Type</th><th>Expected Location Type</th></tr>\
@@ -117,7 +118,7 @@ describe('Output', function() {
     unused_shape(params);
     const output = '<div><p class=\"error"\>Error - Unused shape!</p>\
 <p>Description: The shape in shapes.txt is never used by any trip from trips.txt.</p>\
-<p><b>1</b> Unused shape found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Shape ID</th><th>CSV Row Number</th></tr>\
@@ -149,7 +150,7 @@ describe('Output', function() {
     const output =
         '<div><p class="error">Error - Decreasing Stop Time Distance(s) found!</p>\
 <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
-<p><b>1</b> decreasing stopTimeDistTraveled found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Trip ID</th><th>CSV Row Number</th><th>Stop Sequence</th><th>Shape Distance Traveled</th><th>Previous CSV Row Number</th><th>Previous Stop Sequence</th><th>Previous Shape Distance Traveled</th></tr>\
@@ -409,6 +410,254 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
+  /** Test for trip with duplicate stops template */
+  it('should issue trip with duplicate stops warning', function() {
+    const params = {
+      code: 'route_with_duplicate_stop_notice',
+      totalNotices: 2,
+      notices: [
+        {
+          stopName: 'AppleStop',
+          stopId1: 'stop101',
+          csvRowNumberStop1: 2,
+          stopId2: 'stop103',
+          csvRowNumberStop2: 3,
+          routeId: 'routeA',
+          exampleTripId: 'trip1'
+        },
+        {
+          stopName: 'OrangeStop',
+          stopId1: 'stop305',
+          csvRowNumberStop1: 7,
+          stopId2: 'stop308',
+          csvRowNumberStop2: 8,
+          routeId: 'routeC',
+          exampleTripId: 'trip3'
+        }
+      ]
+    };
+    trip_with_duplicate_stops(params);
+    const output =
+        '<div><p class=\"warning"\>Warning - Trip with duplicate stops!</p>\
+<p>Description: For a trip, consecutive stop times have the same stop name.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Stop Name</th><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Route ID</th><th>Example Trip ID</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>AppleStop</td><td>stop101</td><td>2</td><td>stop103</td><td>3</td><td>routeA</td><td>trip1</td></tr>\
+<tr><td>OrangeStop</td><td>stop305</td><td>7</td><td>stop308</td><td>8</td><td>routeC</td><td>trip3</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the problem of stop names for the corresponding trip(s)!</p><br><br></div>'
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
+  /** Test for stops too close template */
+  it('should issue stops too close warning', function() {
+    const params = {
+      code: 'stops_too_close_to_each_other_warning',
+      totalNotices: 3,
+      notices: [
+        {
+          stopId1: 'stop101',
+          csvRowNumberStop1: 2,
+          stopId2: 'stop103',
+          csvRowNumberStop2: 4,
+          tripBufferMeters: 5
+        },
+        {
+          stopId1: 'stop307',
+          csvRowNumberStop1: 3,
+          stopId2: 'stop325',
+          csvRowNumberStop2: 17,
+          tripBufferMeters: 5
+        },
+        {
+          stopId1: 'stop501',
+          csvRowNumberStop1: 1,
+          stopId2: 'stop507',
+          csvRowNumberStop2: 5,
+          tripBufferMeters: 5
+        }
+      ]
+    };
+    stops_too_close(params);
+    const output = '<div><p class=\"warning"\>Warning - Stops too close!</p>\
+<p>Description: Two stops are too close with each other.</p>\
+<p><b>3</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer in Meters</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop101</td><td>2</td><td>stop103</td><td>4</td><td>5</td></tr>\
+<tr><td>stop307</td><td>3</td><td>stop325</td><td>17</td><td>5</td></tr>\
+<tr><td>stop501</td><td>1</td><td>stop507</td><td>5</td><td>5</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the stops positions to make their distance further than the trip buffer meters!</p><br><br></div>'
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
+  /** Test for stop too far from trip shape template */
+  it('should issue stop too far from trip shape error', function() {
+    const params = {
+      code: 'stop_too_far_from_trip_shape',
+      totalNotices: 1,
+      notices: [{
+        stopId: 'stop101',
+        stopSequence: 3,
+        tripId: 'tripC',
+        shapeId: 'circle3',
+        tripBufferMeters: 100
+      }]
+    };
+    stop_too_far_from_trip_shape(params);
+    const output =
+        '<div><p class=\"error"\>Error - Stop too far from trip shape!</p>\
+<p>Description: Stop is too far away from the trip shape.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID</th><th>Stop Sequence</th><th>Trip ID</th><th>Shape ID</th><th>Trip Buffer Meters</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop101</td><td>3</td><td>tripC</td><td>circle3</td><td>100</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div>'
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  /** Test for stop time with only arrival or departure time template */
+  it('should issue stop time with only arrival or departure time warning',
+     function() {
+       const params = {
+         code: 'stop_time_with_only_arrival_or_departure_time',
+         totalNotices: 1,
+         notices: [{
+           csvRowNumber: 8,
+           tripId: 'tripC',
+           stopSequence: 3,
+           specifiedField: 'ARRIVAL_TIME_FIELD_NAME'
+         }]
+       };
+       stop_time_with_only_arrival_or_departure_time(params);
+       const output =
+           '<div><p class=\"warning"\>Warning - Stop time with only arrival or departure time!</p>\
+<p>Description: Stop time is with only arrival time or departure time.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Trip ID</th><th>Stop Sequence</th><th>Specified Field</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>8</td><td>tripC</td><td>3</td><td>ARRIVAL_TIME_FIELD_NAME</td></tr>\
+</tbody>\
+</table>\
+<p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div>'
+       expect(document.getElementById('warning').innerHTML).toContain(output);
+     });
+
+  /** Test for stop time with departure before arrival time template */
+  it('should issue stop time with departure before arrival time error',
+     function() {
+       const params = {
+         code: 'stop_time_with_departure_before_arrival_time',
+         totalNotices: 1,
+         notices: [{
+           csvRowNumber: 11,
+           tripId: 'tripB',
+           stopSequence: 4,
+           departureTime: '10:20:30',
+           arrivalTime: '11:18:30'
+         }]
+       };
+       stop_time_with_departure_before_arrival_time(params);
+       const output =
+           '<div><p class=\"error"\>Error - Stop time with departure before arrival time!</p>\
+<p>Description: Departure time is before arrival time for the stop time.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Trip ID</th><th>Stop Sequence</th><th>Departure Time</th><th>Arrival Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>11</td><td>tripB</td><td>4</td><td>10:20:30</td><td>11:18:30</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the departure time or the arrival time!</p><br><br></div>'
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
+
+  it('should issue stop time with arrival before previous departure time error',
+     function() {
+       const params = {
+         code: 'stop_time_with_arrival_before_previous_departure_time',
+         totalNotices: 2,
+         notices: [
+           {
+             csvRowNumber: 11,
+             prevCsvRowNumber: 3,
+             tripId: 'tripB',
+             departureTime: '10:20:30',
+             arrivalTime: '10:19:00'
+           },
+           {
+             csvRowNumber: 28,
+             prevCsvRowNumber: 26,
+             tripId: 'tripV',
+             departureTime: '07:18:15',
+             arrivalTime: '07:18:00'
+           }
+         ]
+       };
+       stop_time_with_arrival_before_previous_departure_time(params);
+       const output =
+           '<div><p class=\"error"\>Error - Stop time with arrival before previous departure time!</p>\
+<p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>CSV Row Number</th><th>Previous CSV Row Number</th><th>Trip ID</th><th>Previous Departure Time</th><th>Arrival Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>11</td><td>3</td><td>tripB</td><td>10:20:30</td><td>10:19:00</td></tr>\
+<tr><td>28</td><td>26</td><td>tripV</td><td>07:18:15</td><td>07:18:00</td></tr>\
+</tbody>\
+</table>\
+<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div>'
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
+
+  /** Test for station with parent station notice */
+  it('should issue station with parent station error', function() {
+    const params = {
+      code: 'station_with_parent_station',
+      totalNotices: 1,
+      notices:
+          [{stopId: 'StationB', csvRowNumber: 8, parentStation: 'StationW'}]
+    };
+    station_with_parent_station(params);
+    const output =
+        '<div><p class="error">Error - Station with parent station!</p>\
+<p>Description: A station has parent_station field set.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Station ID</th><th>CSV Row Number</th><th>Parent Station</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>StationB</td><td>8</td><td>StationW</td></tr>\
+</tbody>\
+</table>\
+<p>Please delete the parent station of the station!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
@@ -435,7 +684,7 @@ than one `agency_lang`, that\'s an error</p>\
     const errorOutput =
         '<div><p class="error">Error - Invalid csv row length!</p>\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
-<p><b>1</b> Invalid row length found in:</p>\
+<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>CSV Row Number</th><th>Row length</th><th>Header count</th></tr>\
@@ -447,7 +696,7 @@ than one `agency_lang`, that\'s an error</p>\
 <p>Please set the row length as specified by the CSV header!</p><br><br></div>';
     const warningOutput =
         '<div><p class="warning">Warning - Unknown Column(s) found!</p>\
-<p>Description: A column name is unknown.</p>\<p><b>1</b> unknown column(s) found in:</p>\
+<p>Description: A column name is unknown.</p>\<p><b>1</b> found:</p>\
 <table>\
 <thead>\
 <tr><th>Filename</th><th>Field name</th><th>Index</th></tr>\

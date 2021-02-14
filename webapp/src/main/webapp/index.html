@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>GTFS Validator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="resources/soyutils.js"></script>
     <script type="text/javascript" src="resources/template.soy.js"></script>
@@ -19,12 +20,12 @@
       <form id="myForm" method="post" action="fileupload" enctype="multipart/form-data">
         <input type="file" name="file" id="file" accept=".zip" required/>
         <br>
-        <button class="btn btn-outline-primary" type="submit">Upload</button>
+        <button class="btn btn-outline-primary" type="submit" id="uploadButton">Upload</button>
       </form>
+      <div id="errorOutput"></div>
+      <div id="error"></div>
+      <div id="warning"></div>
+      <div id="unimplementedNotices"></div>
     </div>
-    <div id="errorOutput"></div>
-    <div id="error"></div>
-    <div id="warning"></div>
-    <div id="unimplementedNotices"></div>
   </body>
 </html>
