@@ -311,6 +311,137 @@
 {/template}
 
 /**
+ * Table for location without parent station notice. 
+ * @param notices : List<[String stopId, long csvRowNumber, int locationType]>
+ */
+{template .locationWithoutParentStation}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Location(s) without a parent station found!</p>
+  <p>Description: A location that must have `parent_station` field does not have it.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop ID</th>
+        <th>CSV Row Number</th>
+        <th>Location Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.locationType}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check the parent locations for the above stops!</p>
+  <br><br>
+{/template}
+
+
+/**
+ * Table for meaningless trip with no more than one stop
+ * @param notices : List<[String tripId, long csvRowNumber]>
+ */
+{template .meaninglessTripWithNoMoreThanOneStop}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Meaningless trip(s) found!</p>
+  <p>Description: A trip must have at least 2 stops.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>CSV Row Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please above trip(s)!</p>
+  <br><br>
+{/template}
+
+/**
+ * Table for missing trip edge stop time notice
+ * @param notices : List<[String arrivalOrDepartureTime, String tripId, long csvRowNumber, int stopSequence]>
+ */
+{template .missingTripEdgeStopTime}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Missing arrival or departure time for trip(s)!</p>
+  <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>CSV Row Number</th>
+        <th>Arrival / Depature Time</th>
+        <th>Stop Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.arrivalOrDepartureTime}</td>
+          <td>{$notice.stopSequence}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check above trip(s)!</p>
+  <br><br>
+{/template}
+
+
+
+/**
+ * Table for overlapping frequency
+ * @param notices : List<[long prevCsvRowNumber, GtfsTime prevEndTime, long currCsvRowNumber, GtfsTime currStartTime, String tripId]>
+ */
+{template .overlappingFrequency}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Overlapping frequency entries found!</p>
+  <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>Current CSV Row Number</th>
+        <th>Current Start Time</th>
+        <th>Previous CSV Row Number</th>
+        <th>Previous End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.currCsvRowNumber}</td>
+          <td>{$notice.currStartTime}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevEndTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check above trip(s)!</p>
+  <br><br>
+{/template}
+
+/**
  * Renders a basic explanation of the trip with duplicate stops notice.
  * @param notices : List<[stopName : string, stopId1 : string, csvRowNumberStop1 : number, stopId2 : string, csvRowNumberStop2 : number, routeId : string, exampleTripId : string]>
  */
