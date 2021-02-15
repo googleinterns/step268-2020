@@ -139,7 +139,7 @@ public class AmbiguousStopStationTransfersValidatorTest {
   @Test
   public void sameStationSameDirectionTransfersShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsStop> stops =
+    List<GtfsStop> stops = 
         new ArrayList<>(Arrays.asList(stationA, stationB, stop1_in_stationA, stop2_in_stationB));
     validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
     List<GtfsTransfer> transfers =
