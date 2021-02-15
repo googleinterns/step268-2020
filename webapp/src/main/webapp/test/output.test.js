@@ -693,7 +693,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     station_with_parent_station(params);
     const output =
-        '<div><p class="error">Error - Station with parent station!</p>\
+        '<div><button data-toggle="collapse" data-target="#stationWithParentStation" class="error collapsed">Error - Station with parent station!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stationWithParentStation">\
 <p>Description: A station has parent_station field set.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -705,7 +706,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please delete the parent station of the station!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 

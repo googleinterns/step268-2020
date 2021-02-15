@@ -708,29 +708,31 @@
  */
 {template .stationWithParentStation}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Station with parent station!</p>
-  <p>Description: A station has parent_station field set.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Station ID</th>
-        <th>CSV Row Number</th>
-        <th>Parent Station</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stationWithParentStation" class="error collapsed">Error - Station with parent station!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stationWithParentStation">
+    <p>Description: A station has parent_station field set.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.parentStation}</td>
+          <th>Station ID</th>
+          <th>CSV Row Number</th>
+          <th>Parent Station</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please delete the parent station of the station!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.parentStation}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please delete the parent station of the station!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
