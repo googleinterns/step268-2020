@@ -27,7 +27,7 @@ public class RouteUniqueNamesNotice extends Notice {
       long comparedRouteCsvRowNumber,
       String routeLongName,
       String routeShortName,
-      GtfsRouteType routeType,
+      String routeType,
       String agencyId) {
     super(
         new ImmutableMap.Builder<String, Object>()

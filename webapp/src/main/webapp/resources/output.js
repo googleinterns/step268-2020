@@ -156,8 +156,35 @@ function stop_time_with_arrival_before_previous_departure_time(params) {
   document.getElementById('error').appendChild(template);
 }
 
+function route_unique_names(params) {
+  const template =
+      goog.soy.renderAsElement(validator.templates.routeUniqueNames, params);
+  document.getElementById('error').appendChild(template);
+}
+
 function station_with_parent_station(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.stationWithParentStation, params);
   document.getElementById('error').appendChild(template);
 }
+<<<<<<< HEAD
+=======
+
+function start_and_end_time_out_of_order(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.startAndEndTimeOutOfOrder, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function start_and_end_date_out_of_order(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.startAndEndDateOutOfOrder, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function same_route_name_and_description(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.sameNameAndDescriptionForRoute, params);
+  document.getElementById('error').appendChild(template);
+}
+>>>>>>> 0ff352a77676a495b5ac010127e6a48f0293806a

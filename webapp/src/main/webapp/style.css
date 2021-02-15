@@ -27,6 +27,37 @@ td, th {
 .warning {
   background: #ff7003;
   color: white;
+  
+}
+.content {
+  padding: 12px;
+}
+
+.error span, .warning span{
+  display: inline;
+}
+
+.error:not(.collapsed)  span, .warning:not(.collapsed)  span { 
+  display: none;
+}
+
+.error.collapsed p, .warning.collapsed p{
+  display: none;
+}
+
+.error p, .error span, .warning p, .warning span {
+  float: right; 
+  margin: 0px;
+}
+
+.warning, .error {
+  padding: 12px;
+  cursor: pointer; 
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  margin-bottom: 10px;
 }
 
 form {

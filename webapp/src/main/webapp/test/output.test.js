@@ -26,7 +26,8 @@ describe('Output', function() {
     };
     unknown_column(params);  // Unknown column output
     const output =
-        '<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
+        '<div><button data-toggle="collapse" data-target="#unknownColumnNotice" class="warning collapsed">Warning - Unknown Column(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="unknownColumnNotice">\
 <p>Description: A column name is unknown.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -37,7 +38,7 @@ describe('Output', function() {
 <tr><td>stop_times.txt</td><td>drop_off_time</td><td>8</td></tr>\
 </tbody>\
 </table>\
-<p>Please delete or rename column!</p><br><br></div>'
+<p>Please delete or rename column!</p><br><br></div></div>'
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
@@ -61,7 +62,8 @@ describe('Output', function() {
       ]
     };
     invalid_row_length(params);
-    const output = '<div><p class="error">Error - Invalid csv row length!</p>\
+    const output = '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="invalidRowLength">\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -73,7 +75,7 @@ describe('Output', function() {
 <tr><td>stop_times.txt</td><td>18</td><td>5</td><td>9</td></tr>\
 </tbody>\
 </table>\
-<p>Please set the row length as specified by the CSV header!</p><br><br></div>'
+<p>Please set the row length as specified by the CSV header!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -93,7 +95,8 @@ describe('Output', function() {
     };
     wrong_parent_location_type(params);
     const output =
-        '<div><p class=\"error"\>Error - Wrong parent location type!</p>\
+        '<div><button data-toggle="collapse" data-target="#wrongParentLocationType" class="error collapsed">Error - Wrong parent location type!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="wrongParentLocationType">\
 <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -104,7 +107,7 @@ describe('Output', function() {
 <tr><td>stop101</td><td>4</td><td>0</td><td>station1001</td><td>7</td><td>2</td><td>1</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p><br><br></div>'
+<p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -632,6 +635,53 @@ than one `agency_lang`, that\'s an error</p>\
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
+  /** Test for route unique names notice */
+  it('should issue route without unique names error', function() {
+    const params = {
+      code: 'route_without_unique_names',
+      totalNotices: 2,
+      notices: [
+        {
+          routeId: 'routeC',
+          routeCsvRowNumber: 8,
+          comparedRouteId: 'routeF',
+          comparedRouteCsvRowNumber: 2,
+          routeLongName: 'RouteApple',
+          routeShortName: 'apple',
+          routeType: 'SUBWAY',
+          agencyId: 'agency3'
+        },
+        {
+          routeId: 'routeW',
+          routeCsvRowNumber: 15,
+          comparedRouteId: 'routeV',
+          comparedRouteCsvRowNumber: 11,
+          routeLongName: 'RoutePear',
+          routeShortName: 'pear',
+          routeType: 'BUS',
+          agencyId: 'agency1'
+        }
+      ]
+    };
+    route_unique_names(params);
+    const output =
+        '<div><p class="error">Error - Route without unique names!</p>\
+<p>Description: The combination of long name, short name, route type and agency ID for a route is not unique.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>Route CSV Row Number</th><th>Compared Route ID</th><th>Compared Route CSV Row Number</th><th>Route Long Name</th><th>Route Short Name</th><th>Route Type</th><th>Agency ID</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>routeC</td><td>8</td><td>routeF</td><td>2</td><td>RouteApple</td><td>apple</td><td>SUBWAY</td><td>agency3</td></tr>\
+<tr><td>routeW</td><td>15</td><td>routeV</td><td>11</td><td>RoutePear</td><td>pear</td><td>BUS</td><td>agency1</td></tr>\
+</tbody>\
+</table>\
+<p>Please change the long name or short name of the route to make it unique!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for station with parent station notice */
   it('should issue station with parent station error', function() {
     const params = {
@@ -658,6 +708,120 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+<<<<<<< HEAD
+=======
+  /** Test for start and end time out of order notice */
+  it('should issue start and end time out of order error', function() {
+    const params = {
+      code: 'start_and_end_time_out_of_order',
+      totalNotices: 1,
+      notices: [{
+        filename: 'frequencies.txt',
+        csvRowNumber: 12,
+        entityId: 'frequencyC',
+        startTime: '14:20:10',
+        endTime: '14:00:10'
+      }]
+    };
+    start_and_end_time_out_of_order(params);
+    const output =
+        '<div><p class="error">Error - Start and end time out of order!</p>\
+<p>Description: start_time is after the end_time for a row in frequencies.txt.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>File Name</th><th>CSV Row Number</th><th>Entity ID</th><th>Start Time</th><th>End Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>frequencies.txt</td><td>12</td><td>frequencyC</td><td>14:20:10</td><td>14:00:10</td></tr>\
+</tbody>\
+</table>\
+<p>Please adjust the start time or end time of the entity!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  /** Test for start and end date out of order notice */
+  it('should issue start and end date out of order error', function() {
+    const params = {
+      code: 'start_and_end_date_out_of_order',
+      totalNotices: 2,
+      notices: [
+        {
+          filename: 'calendar.txt',
+          csvRowNumber: 3,
+          startDate: '20201230',
+          endDate: '20201129'
+        },
+        {
+          filename: 'feed_info.txt',
+          csvRowNumber: 4,
+          startDate: '20190121',
+          endDate: '20181230'
+        }
+      ]
+    };
+    start_and_end_date_out_of_order(params);
+    const output =
+        '<div><p class="error">Error - Start and end date out of order!</p>\
+<p>Description: Start date is later than the end date.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>File Name</th><th>CSV Row Number</th><th>Start Date</th><th>End Date</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>calendar.txt</td><td>3</td><td>20201230</td><td>20201129</td></tr>\
+<tr><td>feed_info.txt</td><td>4</td><td>20190121</td><td>20181230</td></tr>\
+</tbody>\
+</table>\
+<p>Please adjust the start or the end date!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  /** Test for the same route name and description notice */
+  it('should issue the same route name and description error', function() {
+    const params = {
+      code: 'same_route_name_and_description',
+      totalNotices: 2,
+      notices: [
+        {
+          filename: 'FILENAME',
+          routeId: 'RouteB',
+          csvRowNumber: 12,
+          routeDesc: 'RouteFromAppleBlockToOrangeBlock',
+          specifiedField: 'route_short_name'
+        },
+        {
+          filename: 'FILENAME',
+          routeId: 'RouteP',
+          csvRowNumber: 4,
+          routeDesc: 'Route12345',
+          specifiedField: 'route_long_name'
+        }
+      ]
+    };
+    same_route_name_and_description(params);
+    const output =
+        '<div><p class="error">Error - Same route name and description!</p>\
+<p>Description: Name and description of the route are the same.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>File Name</th><th>Route ID</th><th>CSV Row Number</th><th>Route Description</th><th>Specified Field</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>FILENAME</td><td>RouteB</td><td>12</td><td>RouteFromAppleBlockToOrangeBlock</td><td>route_short_name</td></tr>\
+<tr><td>FILENAME</td><td>RouteP</td><td>4</td><td>Route12345</td><td>route_long_name</td></tr>\
+</tbody>\
+</table>\
+<p>Please adjust the specified name or the description of the route to make them different!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+>>>>>>> 0ff352a77676a495b5ac010127e6a48f0293806a
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
@@ -682,7 +846,8 @@ than one `agency_lang`, that\'s an error</p>\
     });
     callCorrespondingFunction(params);
     const errorOutput =
-        '<div><p class="error">Error - Invalid csv row length!</p>\
+        '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="invalidRowLength">\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -693,9 +858,10 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop_times.txt</td><td>17</td><td>5</td><td>9</td></tr>\
 </tbody>\
 </table>\
-<p>Please set the row length as specified by the CSV header!</p><br><br></div>';
+<p>Please set the row length as specified by the CSV header!</p><br><br></div></div>';
     const warningOutput =
-        '<div><p class="warning">Warning - Unknown Column(s) found!</p>\
+        '<div><button data-toggle="collapse" data-target="#unknownColumnNotice" class="warning collapsed">Warning - Unknown Column(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="unknownColumnNotice">\
 <p>Description: A column name is unknown.</p>\<p><b>1</b> found:</p>\
 <table>\
 <thead>\
