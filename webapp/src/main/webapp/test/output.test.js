@@ -553,7 +553,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     route_short_and_long_name_equal(params);
     const output =
-        '<div><p class="error">Error - Route Short and Long Name Equal!</p>\
+        '<button data-toggle="collapse" data-target="#routeShortAndLongNameEqual" class="error collapsed">Error - Route Short and Long Name Equal!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeShortAndLongNameEqual">\
 <p>Description: Both the short and long name of a route are equal.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -565,7 +566,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please change the short or long name of the route!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 

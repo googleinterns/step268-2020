@@ -559,27 +559,29 @@
  */
 {template .routeShortAndLongNameEqual}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Route Short and Long Name Equal!</p>
-  <p>Description: Both the short and long name of a route are equal.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Route ID</th>
-        <th>CSV Row Number</th>
-        <th>Route Name (short and long)</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#routeShortAndLongNameEqual" class="error collapsed">Error - Route Short and Long Name Equal!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="routeShortAndLongNameEqual">
+    <p>Description: Both the short and long name of a route are equal.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.routeId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.routeShortName}</td>
+          <th>Route ID</th>
+          <th>CSV Row Number</th>
+          <th>Route Name (short and long)</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please change the short or long name of the route!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.routeShortName}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please change the short or long name of the route!</p>
+    <br><br>
+  </div>
 {/template}
