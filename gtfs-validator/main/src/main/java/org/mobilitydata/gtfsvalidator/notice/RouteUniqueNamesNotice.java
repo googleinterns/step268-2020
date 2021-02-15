@@ -27,7 +27,7 @@ public class RouteUniqueNamesNotice extends Notice {
       long comparedRouteCsvRowNumber,
       String routeLongName,
       String routeShortName,
-      GtfsRouteType routeType,
+      String routeType,
       String agencyId) {
     super(
         new ImmutableMap.Builder<String, Object>()
@@ -37,7 +37,7 @@ public class RouteUniqueNamesNotice extends Notice {
             .put("comparedRouteCsvRowNumber", comparedRouteCsvRowNumber)
             .put("routeLongName", routeLongName)
             .put("routeShortName", routeShortName)
-            .put("routeType", routeType.toString())
+            .put("routeType", routeType)
             .put("agencyId", agencyId)
             .build());
   }

@@ -81,6 +81,7 @@ public class RouteUniqueNamesValidator extends FileValidator {
       // If the combination of names, type and agency ID for a route appeared before, a notice is
       // generated
       if (testedRoutes.containsKey(routeIdentifier)) {
+        // Generate a notice
         noticeContainer.addNotice(
             new RouteUniqueNamesNotice(
                 route.routeId(),
@@ -89,7 +90,8 @@ public class RouteUniqueNamesValidator extends FileValidator {
                 /* comparedRouteCsvRowNumber= */ testedRoutes.get(routeIdentifier).csvRowNumber(),
                 routeIdentifier.longName(),
                 routeIdentifier.shortName(),
-                routeIdentifier.routeType(),
+                // Get routeType as a string without "GtfsRouteType."
+                routeIdentifier.routeType().toString().split("GtfsRouteType.")[0],
                 routeIdentifier.agencyId()));
       } else {
         // Add necessary route information for notice to the storage with the routeIdentifier as key
