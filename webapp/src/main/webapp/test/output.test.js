@@ -768,7 +768,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     start_and_end_date_out_of_order(params);
     const output =
-        '<div><p class="error">Error - Start and end date out of order!</p>\
+        '<div><button data-toggle="collapse" data-target="#startAndEndDateOutOfOrder" class="error collapsed">Error - Start and end date out of order!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="startAndEndDateOutOfOrder">\
 <p>Description: Start date is later than the end date.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -781,7 +782,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the start or the end date!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -809,7 +810,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     same_route_name_and_description(params);
     const output =
-        '<div><p class="error">Error - Same route name and description!</p>\
+        '<div><button data-toggle="collapse" data-target="#sameNameAndDescriptionForRoute" class="error collapsed">Error - Same route name and description!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="sameNameAndDescriptionForRoute">\
 <p>Description: Name and description of the route are the same.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -822,7 +824,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the specified name or the description of the route to make them different!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
