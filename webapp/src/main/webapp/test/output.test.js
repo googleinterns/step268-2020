@@ -708,8 +708,6 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-<<<<<<< HEAD
-=======
   /** Test for start and end time out of order notice */
   it('should issue start and end time out of order error', function() {
     const params = {
@@ -821,7 +819,6 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
->>>>>>> 0ff352a77676a495b5ac010127e6a48f0293806a
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [

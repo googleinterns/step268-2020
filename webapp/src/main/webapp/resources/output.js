@@ -167,8 +167,6 @@ function station_with_parent_station(params) {
       validator.templates.stationWithParentStation, params);
   document.getElementById('error').appendChild(template);
 }
-<<<<<<< HEAD
-=======
 
 function start_and_end_time_out_of_order(params) {
   const template = goog.soy.renderAsElement(
@@ -187,4 +185,3 @@ function same_route_name_and_description(params) {
       validator.templates.sameNameAndDescriptionForRoute, params);
   document.getElementById('error').appendChild(template);
 }
->>>>>>> 0ff352a77676a495b5ac010127e6a48f0293806a
