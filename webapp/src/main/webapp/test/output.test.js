@@ -670,7 +670,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     route_unique_names(params);
     const output =
-        '<div><p class="error">Error - Route without unique names!</p>\
+        '<div><button data-toggle="collapse" data-target="#routeUniqueNames" class="error collapsed">Error - Route without unique names!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeUniqueNames">\
 <p>Description: The combination of long name, short name, route type and agency ID for a route is not unique.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -683,7 +684,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please change the long name or short name of the route to make it unique!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
