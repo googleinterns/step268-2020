@@ -526,7 +526,7 @@ than one `agency_lang`, that\'s an error</p>\
           comparedRouteCsvRowNumber: 2,
           routeLongName: 'RouteApple',
           routeShortName: 'apple',
-          routeType: 'GtfsRouteType.SUBWAY',
+          routeType: 'SUBWAY',
           agencyId: 'agency3'
         },
         {
@@ -536,7 +536,7 @@ than one `agency_lang`, that\'s an error</p>\
           comparedRouteCsvRowNumber: 11,
           routeLongName: 'RoutePear',
           routeShortName: 'pear',
-          routeType: 'GtfsRouteType.BUS',
+          routeType: 'BUS',
           agencyId: 'agency1'
         }
       ]
@@ -551,8 +551,8 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><th>Route ID</th><th>Route CSV Row Number</th><th>Compared Route ID</th><th>Compared Route CSV Row Number</th><th>Route Long Name</th><th>Route Short Name</th><th>Route Type</th><th>Agency ID</th></tr>\
 </thead>\
 <tbody>\
-<tr><td>routeC</td><td>8</td><td>routeF</td><td>2</td><td>RouteApple</td><td>apple</td><td>GtfsRouteType.SUBWAY</td><td>agency3</td></tr>\
-<tr><td>routeW</td><td>15</td><td>routeV</td><td>11</td><td>RoutePear</td><td>pear</td><td>GtfsRouteType.BUS</td><td>agency1</td></tr>\
+<tr><td>routeC</td><td>8</td><td>routeF</td><td>2</td><td>RouteApple</td><td>apple</td><td>SUBWAY</td><td>agency3</td></tr>\
+<tr><td>routeW</td><td>15</td><td>routeV</td><td>11</td><td>RoutePear</td><td>pear</td><td>BUS</td><td>agency1</td></tr>\
 </tbody>\
 </table>\
 <p>Please change the long name or short name of the route to make it unique!</p>\
