@@ -559,25 +559,27 @@
  */
 {template .platformWithoutParentStation}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Platform Without Parent Station!</p>
-  <p>Description: A platform does not have a parent station set.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop ID</th>
-        <th>CSV Row Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#platformWithoutParentStation" class="warning collapsed">Warning - Platform Without Parent Station!<span>+</span><p>-</p></button>
+    <div class="content collapse in" id="platformWithoutParentStation">
+    <p>Description: A platform does not have a parent station set.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.csvRowNumber}</td>
+          <th>Stop ID</th>
+          <th>CSV Row Number</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please add parent station to the platform!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please add parent station to the platform!</p>
+    <br><br>
+  </div>
 {/template}

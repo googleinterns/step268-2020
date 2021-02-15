@@ -548,7 +548,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     platform_without_parent_station(params);
     const output =
-        '<div><p class="warning">Warning - Platform Without Parent Station!</p>\
+        '<div><button data-toggle="collapse" data-target="#platformWithoutParentStation" class="warning collapsed">Warning - Platform Without Parent Station!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="platformWithoutParentStation">\
 <p>Description: A platform does not have a parent station set.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -560,7 +561,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please add parent station to the platform!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
