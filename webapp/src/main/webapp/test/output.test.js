@@ -62,7 +62,8 @@ describe('Output', function() {
       ]
     };
     invalid_row_length(params);
-    const output = '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
+    const output =
+        '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="invalidRowLength">\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
 <p><b>2</b> found:</p>\
@@ -119,7 +120,9 @@ describe('Output', function() {
       notices: [{shapeId: 'star2', csvRowNumber: 13}]
     };
     unused_shape(params);
-    const output = '<div><p class=\"error"\>Error - Unused shape!</p>\
+    const output =
+        '<div><button data-toggle="collapse" data-target="#unusedShape" class="error collapsed">Error - Unused shape!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="unusedShape">\
 <p>Description: The shape in shapes.txt is never used by any trip from trips.txt.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -130,7 +133,7 @@ describe('Output', function() {
 <tr><td>star2</td><td>13</td></tr>\
 </tbody>\
 </table>\
-<p>Please delete the unused shape(s)!</p><br><br></div>'
+<p>Please delete the unused shape(s)!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -265,19 +268,20 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-/** Test for location without parent station notice */
+  /** Test for location without parent station notice */
   it('should issue location without parent station error', function() {
     const params = {
       code: 'location_without_parent_station',
       totalNotices: 1,
       notices: [{
-        stopId: "stop1",
+        stopId: 'stop1',
         csvRowNumber: 15,
         locationType: 1,
       }]
     };
     location_without_parent_station(params);
-    const output = '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
+    const output =
+        '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
 <p>Description: A location that must have `parent_station` field does not have it.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -293,15 +297,15 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  /** 
-   * Test for meaningless trip notice 
+  /**
+   * Test for meaningless trip notice
    * */
   it('should issue meaingless trip error', function() {
     const params = {
       code: 'meaningless_trip_with_no_more_than_one_stop',
       totalNotices: 1,
       notices: [{
-        tripId: "trip1",
+        tripId: 'trip1',
         csvRowNumber: 15,
       }]
     };
@@ -321,22 +325,23 @@ than one `agency_lang`, that\'s an error</p>\
 <br><br>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-  /** 
-   * Test for missing trip edge arrival or departure time 
+  /**
+   * Test for missing trip edge arrival or departure time
    * */
   it('should issue missing trip edge stop time error', function() {
     const params = {
       code: 'missing_trip_edge_arrival_time_departure_time',
       totalNotices: 1,
       notices: [{
-        tripId: "Trip1",
+        tripId: 'Trip1',
         csvRowNumber: 21,
-        arrivalOrDepartureTime: "Arrival",
+        arrivalOrDepartureTime: 'Arrival',
         stopSequence: 21
       }]
     };
     missing_trip_edge_arrival_time_departure_time(params);
-    const output = '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
+    const output =
+        '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
 <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -352,7 +357,7 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  /** 
+  /**
    * Test for overlapping frequency
    * */
   it('should issue overlapping frequency error', function() {
@@ -360,15 +365,16 @@ than one `agency_lang`, that\'s an error</p>\
       code: 'overlapping_frequency',
       totalNotices: 1,
       notices: [{
-        tripId: "Trip1",
+        tripId: 'Trip1',
         prevCsvRowNumber: 18,
-        prevEndTime: "18:00:00",
+        prevEndTime: '18:00:00',
         currCsvRowNumber: 19,
-        currStartTime:  "18:00:00"
+        currStartTime: '18:00:00'
       }]
     };
     overlapping_frequency(params);
-    const output = '<p class="error">Error - Overlapping frequency entries found!</p>\
+    const output =
+        '<p class="error">Error - Overlapping frequency entries found!</p>\
 <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -441,7 +447,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     trip_with_duplicate_stops(params);
     const output =
-        '<div><p class=\"warning"\>Warning - Trip with duplicate stops!</p>\
+        '<div><button data-toggle="collapse" data-target="#tripWithDuplicateStops" class="warning collapsed">Warning - Trip with duplicate stops!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="tripWithDuplicateStops">\
 <p>Description: For a trip, consecutive stop times have the same stop name.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -453,7 +460,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>OrangeStop</td><td>stop305</td><td>7</td><td>stop308</td><td>8</td><td>routeC</td><td>trip3</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the problem of stop names for the corresponding trip(s)!</p><br><br></div>'
+<p>Please fix the problem of stop names for the corresponding trip(s)!</p><br><br></div></div>'
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
@@ -487,7 +494,9 @@ than one `agency_lang`, that\'s an error</p>\
       ]
     };
     stops_too_close(params);
-    const output = '<div><p class=\"warning"\>Warning - Stops too close!</p>\
+    const output =
+        '<div><button data-toggle="collapse" data-target="#stopsTooClose" class="warning collapsed">Warning - Stops too close!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopsTooClose">\
 <p>Description: Two stops are too close with each other.</p>\
 <p><b>3</b> found:</p>\
 <table>\
@@ -500,7 +509,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop501</td><td>1</td><td>stop507</td><td>5</td><td>5</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the stops positions to make their distance further than the trip buffer meters!</p><br><br></div>'
+<p>Please fix the stops positions to make their distance further than the trip buffer meters!</p><br><br></div></div>'
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
@@ -519,7 +528,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     stop_too_far_from_trip_shape(params);
     const output =
-        '<div><p class=\"error"\>Error - Stop too far from trip shape!</p>\
+        '<div><button data-toggle="collapse" data-target="#stopTooFarFromTripShape" class="error collapsed">Error - Stop too far from trip shape!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTooFarFromTripShape">\
 <p>Description: Stop is too far away from the trip shape.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -530,7 +540,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop101</td><td>3</td><td>tripC</td><td>circle3</td><td>100</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div>'
+<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -549,7 +559,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_only_arrival_or_departure_time(params);
        const output =
-           '<div><p class=\"warning"\>Warning - Stop time with only arrival or departure time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithOnlyArrivalOrDepartureTime" class="warning collapsed">Warning - Stop time with only arrival or departure time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithOnlyArrivalOrDepartureTime">\
 <p>Description: Stop time is with only arrival time or departure time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -560,7 +571,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>8</td><td>tripC</td><td>3</td><td>ARRIVAL_TIME_FIELD_NAME</td></tr>\
 </tbody>\
 </table>\
-<p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div>'
+<p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div></div>'
        expect(document.getElementById('warning').innerHTML).toContain(output);
      });
 
@@ -580,7 +591,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_departure_before_arrival_time(params);
        const output =
-           '<div><p class=\"error"\>Error - Stop time with departure before arrival time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithDepartureBeforeArrivalTime" class="error collapsed">Error - Stop time with departure before arrival time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithDepartureBeforeArrivalTime">\
 <p>Description: Departure time is before arrival time for the stop time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -591,7 +603,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>11</td><td>tripB</td><td>4</td><td>10:20:30</td><td>11:18:30</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the departure time or the arrival time!</p><br><br></div>'
+<p>Please fix the departure time or the arrival time!</p><br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
@@ -619,7 +631,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_arrival_before_previous_departure_time(params);
        const output =
-           '<div><p class=\"error"\>Error - Stop time with arrival before previous departure time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithArrivalBeforePreviousDepartureTime" class="error collapsed">Error - Stop time with arrival before previous departure time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithArrivalBeforePreviousDepartureTime">\
 <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -631,7 +644,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>28</td><td>26</td><td>tripV</td><td>07:18:15</td><td>07:18:00</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div>'
+<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
@@ -665,7 +678,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     route_unique_names(params);
     const output =
-        '<div><p class="error">Error - Route without unique names!</p>\
+        '<div><button data-toggle="collapse" data-target="#routeUniqueNames" class="error collapsed">Error - Route without unique names!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeUniqueNames">\
 <p>Description: The combination of long name, short name, route type and agency ID for a route is not unique.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -678,7 +692,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please change the long name or short name of the route to make it unique!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -692,7 +706,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     station_with_parent_station(params);
     const output =
-        '<div><p class="error">Error - Station with parent station!</p>\
+        '<div><button data-toggle="collapse" data-target="#stationWithParentStation" class="error collapsed">Error - Station with parent station!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stationWithParentStation">\
 <p>Description: A station has parent_station field set.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -704,8 +719,91 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please delete the parent station of the station!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  /** Test if route is missing both short and long name. */
+  it('should issue error if both short and long route names are missing',
+     function() {
+       const params = {
+         code: 'route_both_short_and_long_name_missing',
+         totalNotices: 1,
+         notices: [{routeId: 'RouteA', csvRowNumber: 8}]
+       };
+       route_both_short_and_long_name_missing(params);
+       const output =
+           '<div><button data-toggle="collapse" data-target="#routeBothShortAndLongNameMissing" class="error collapsed">Error - Route short and long name missing!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeBothShortAndLongNameMissing">\
+<p>Description: Both the short name and long name of the route are missing.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>RouteA</td><td>8</td></tr>\
+</tbody>\
+</table>\
+<p>Please add a short name or a long name for the route!</p>\
+<br><br></div></div>';
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
+
+  /* Test for platform without a parent station.*/
+  it('should issue warning if platform does not have parent station', function() {
+    const params = {
+      code: 'platform_without_parent_station',
+      totalNotices: 1,
+      notices: [{stopId: 'StationB', csvRowNumber: 8}]
+    };
+    platform_without_parent_station(params);
+    const output =
+        '<div><button data-toggle="collapse" data-target="#platformWithoutParentStation" class="warning collapsed">Warning - Platform Without Parent Station!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="platformWithoutParentStation">\
+<p>Description: A platform does not have a parent station set.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID</th><th>CSV Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>StationB</td><td>8</td></tr>\
+</tbody>\
+</table>\
+<p>Please add parent station to the platform!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+  
+  /** Test for route with short name too long */
+  it('should issue route with short name warning', function() {
+    const params = {
+      code: 'route_short_name_too_long',
+      totalNotices: 1,
+      notices: [{
+        routeId: 'RouteA',
+        csvRowNumber: 5,
+        routeShortName: 'veryLoooooooooonnnnnnnnnnngggggggggName'
+      }]
+    };
+    route_short_name_too_long(params);
+    const output =
+        '<button data-toggle="collapse" data-target="#routeShortNameTooLong" class="warning collapsed">Warning - Route short name too long!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeShortNameTooLong">\
+<p>Description: The short name of a route is too long.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Short Name</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>RouteA</td><td>5</td><td>veryLoooooooooonnnnnnnnnnngggggggggName</td></tr>\
+</tbody>\
+</table>\
+<p>Please shorten the route name\'s short name!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
   /** Test for start and end time out of order notice */
@@ -723,7 +821,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     start_and_end_time_out_of_order(params);
     const output =
-        '<div><p class="error">Error - Start and end time out of order!</p>\
+        '<div><button data-toggle="collapse" data-target="#startAndEndTimeOutOfOrder" class="error collapsed">Error - Start and end time out of order!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="startAndEndTimeOutOfOrder">\
 <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -735,7 +834,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the start time or end time of the entity!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -761,7 +860,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     start_and_end_date_out_of_order(params);
     const output =
-        '<div><p class="error">Error - Start and end date out of order!</p>\
+        '<div><button data-toggle="collapse" data-target="#startAndEndDateOutOfOrder" class="error collapsed">Error - Start and end date out of order!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="startAndEndDateOutOfOrder">\
 <p>Description: Start date is later than the end date.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -774,7 +874,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the start or the end date!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -802,7 +902,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     same_route_name_and_description(params);
     const output =
-        '<div><p class="error">Error - Same route name and description!</p>\
+        '<div><button data-toggle="collapse" data-target="#sameNameAndDescriptionForRoute" class="error collapsed">Error - Same route name and description!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="sameNameAndDescriptionForRoute">\
 <p>Description: Name and description of the route are the same.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -815,7 +916,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the specified name or the description of the route to make them different!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
