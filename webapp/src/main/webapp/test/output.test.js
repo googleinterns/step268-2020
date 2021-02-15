@@ -708,6 +708,36 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for route with short name too long */
+  it('should issue route with short name warning', function() {
+    const params = {
+      code: 'route_short_name_too_long',
+      totalNotices: 1,
+      notices: [{
+        routeId: 'RouteA',
+        csvRowNumber: 5,
+        routeShortName: 'veryLoooooooooonnnnnnnnnnngggggggggName'
+      }]
+    };
+    route_short_name_too_long(params);
+    const output =
+        '<button data-toggle="collapse" data-target="#routeShortNameTooLong" class="warning collapsed">Warning - Route short name too long!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeShortNameTooLong">\
+<p>Description: The short name of a route is too long.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Short Name</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>RouteA</td><td>5</td><td>veryLoooooooooonnnnnnnnnnngggggggggName</td></tr>\
+</tbody>\
+</table>\
+<p>Please shorten the route name\'s short name!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
   /** Test for start and end time out of order notice */
   it('should issue start and end time out of order error', function() {
     const params = {
