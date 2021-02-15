@@ -262,6 +262,125 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+/** Test for location without parent station notice */
+  it('should issue location without parent station error', function() {
+    const params = {
+      code: 'location_without_parent_station',
+      totalNotices: 1,
+      notices: [{
+        stopId: "stop1",
+        csvRowNumber: 15,
+        locationType: 1,
+      }]
+    };
+    location_without_parent_station(params);
+    const output = '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
+<p>Description: A location that must have `parent_station` field does not have it.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID</th><th>CSV Row Number</th><th>Location Type</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>stop1</td><td>15</td><td>1</td></tr>\
+</tbody>\
+</table>\
+<p>Please check the parent locations for the above stops!</p>\
+<br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  /** 
+   * Test for meaningless trip notice 
+   * */
+  it('should issue meaingless trip error', function() {
+    const params = {
+      code: 'meaningless_trip_with_no_more_than_one_stop',
+      totalNotices: 1,
+      notices: [{
+        tripId: "trip1",
+        csvRowNumber: 15,
+      }]
+    };
+    meaningless_trip_with_no_more_than_one_stop(params);
+    const output = '<p class="error">Error - Meaningless trip(s) found!</p>\
+<p>Description: A trip must have at least 2 stops.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Trip ID</th><th>CSV Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>trip1</td><td>15</td></tr>\
+</tbody>\
+</table>\
+<p>Please above trip(s)!</p>\
+<br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+  /** 
+   * Test for missing trip edge arrival or departure time 
+   * */
+  it('should issue missing trip edge stop time error', function() {
+    const params = {
+      code: 'missing_trip_edge_arrival_time_departure_time',
+      totalNotices: 1,
+      notices: [{
+        tripId: "Trip1",
+        csvRowNumber: 21,
+        arrivalOrDepartureTime: "Arrival",
+        stopSequence: 21
+      }]
+    };
+    missing_trip_edge_arrival_time_departure_time(params);
+    const output = '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
+<p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Trip ID</th><th>CSV Row Number</th><th>Arrival / Depature Time</th><th>Stop Sequence</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>Trip1</td><td>21</td><td>Arrival</td><td>21</td></tr>\
+</tbody>\
+</table>\
+<p>Please check above trip(s)!</p>\
+<br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  /** 
+   * Test for overlapping frequency
+   * */
+  it('should issue overlapping frequency error', function() {
+    const params = {
+      code: 'overlapping_frequency',
+      totalNotices: 1,
+      notices: [{
+        tripId: "Trip1",
+        prevCsvRowNumber: 18,
+        prevEndTime: "18:00:00",
+        currCsvRowNumber: 19,
+        currStartTime:  "18:00:00"
+      }]
+    };
+    overlapping_frequency(params);
+    const output = '<p class="error">Error - Overlapping frequency entries found!</p>\
+<p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Trip ID</th><th>Current CSV Row Number</th><th>Current Start Time</th><th>Previous CSV Row Number</th><th>Previous End Time</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>Trip1</td><td>19</td><td>18:00:00</td><td>18</td><td>18:00:00</td></tr>\
+</tbody>\
+</table>\
+<p>Please check above trip(s)!</p>\
+<br><br>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for fast_travel_between_stops */
   it('should issue fast travel between stops warning', function() {
     const params = {
@@ -370,7 +489,7 @@ than one `agency_lang`, that\'s an error</p>\
 <p><b>3</b> found:</p>\
 <table>\
 <thead>\
-<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer Meters</th></tr>\
+<tr><th>Stop ID 1</th><th>CSV Row Number Stop 1</th><th>Stop ID 2</th><th>CSV Row Number Stop 2</th><th>Trip Buffer in Meters</th></tr>\
 </thead>\
 <tbody>\
 <tr><td>stop101</td><td>2</td><td>stop103</td><td>4</td><td>5</td></tr>\
