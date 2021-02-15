@@ -148,7 +148,7 @@ public class RouteUniqueNamesValidatorTest {
                 /* comparedRouteCsvRowNumber= */ 5,
                 /* routeLongName= */ "abcd-long-name",
                 /* routeShortName= */ "abcd",
-                /* routeType= */ GtfsRouteType.SUBWAY,
+                /* routeType= */ "SUBWAY",
                 /* agencyId= */ "agency1"));
   }
 
@@ -167,7 +167,7 @@ public class RouteUniqueNamesValidatorTest {
                 /* comparedRouteCsvRowNumber= */ 2,
                 /* routeLongName= */ "",
                 /* routeShortName= */ "abcd",
-                /* routeType= */ GtfsRouteType.BUS,
+                /* routeType= */ "BUS",
                 /* agencyId= */ ""));
   }
 
@@ -188,7 +188,7 @@ public class RouteUniqueNamesValidatorTest {
                 /* comparedRouteCsvRowNumber= */ 5,
                 /* routeLongName= */ "abcd-long-name",
                 /* routeShortName= */ "abcd",
-                /* routeType= */ GtfsRouteType.SUBWAY,
+                /* routeType= */ "SUBWAY",
                 /* agencyId= */ "agency1"),
             new RouteUniqueNamesNotice(
                 /* routeId= */ "routeH",
@@ -197,7 +197,7 @@ public class RouteUniqueNamesValidatorTest {
                 /* comparedRouteCsvRowNumber= */ 2,
                 /* routeLongName= */ "",
                 /* routeShortName= */ "abcd",
-                /* routeType= */ GtfsRouteType.BUS,
+                /* routeType= */ "BUS",
                 /* agencyId= */ ""));
   }
 }
