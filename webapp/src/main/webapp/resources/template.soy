@@ -1063,8 +1063,8 @@
           <tr>
             <td>{$notice.routeId}</td>
             <td>{$notice.csvRowNumber}</td>
-            <td><div class="colorBox" style="background-color: #{$notice.routeColor};"></div></td>
-            <td><div class="colorBox" style="background-color: #{$notice.routeTextColor};"></div></td>
+            <td><div class="colorBox" style="background-color: #{$notice.routeColor};"></div><p>#{$notice.routeColor}</p></td>
+            <td><div class="colorBox" style="background-color: #{$notice.routeTextColor};"></div><p>#{$notice.routeTextColor}</p></td>
           </tr>
         {/foreach}
       </tbody>

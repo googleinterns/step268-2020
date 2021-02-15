@@ -914,8 +914,8 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><th>Route ID</th><th>CSV Row Number</th><th>Route Color</th><th>Route Text Color</th></tr>\
 </thead>\
 <tbody>\
-<tr><td>routeA</td><td>2</td><td><div class="colorBox" style="background-color: #4b3bff;"></div></td><td><div class="colorBox" style="background-color: #5a4cfc;"></div></td></tr>\
-<tr><td>routeB</td><td>4</td><td><div class="colorBox" style="background-color: #fc262d;"></div></td><td><div class="colorBox" style="background-color: #ff383f;"></div></td></tr>\
+<tr><td>routeA</td><td>2</td><td><div class="colorBox" style="background-color: #4b3bff;"></div><p>#4b3bff</p></td><td><div class="colorBox" style="background-color: #5a4cfc;"></div><p>#5a4cfc</p></td></tr>\
+<tr><td>routeB</td><td>4</td><td><div class="colorBox" style="background-color: #fc262d;"></div><p>#fc262d</p></td><td><div class="colorBox" style="background-color: #ff383f;"></div><p>#ff383f</p></td></tr>\
 </tbody>\
 </table>\
 <p>Please change the color of the route or the route text!</p>\
