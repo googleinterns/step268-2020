@@ -39,8 +39,8 @@
  */
 {template .invalidRowLength}
 {let $numNotices: length($notices)/}
-  <button data-toggle="collapse" data-target="#invalid_row_length" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>
-  <div class="content collapse in" id="invalid_row_length">
+  <button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="invalidRowLength">
     <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>
     <p><b>{$numNotices}</b> found:</p>
     <table>
