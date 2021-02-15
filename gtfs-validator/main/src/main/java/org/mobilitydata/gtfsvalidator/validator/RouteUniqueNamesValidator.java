@@ -91,7 +91,7 @@ public class RouteUniqueNamesValidator extends FileValidator {
                 routeIdentifier.longName(),
                 routeIdentifier.shortName(),
                 // Get routeType as a string without "GtfsRouteType."
-                routeIdentifier.routeType().toString().split("GtfsRouteType.")[0],
+                routeIdentifier.routeType().toString().replace("GtfsRouteType.",""),
                 routeIdentifier.agencyId()));
       } else {
         // Add necessary route information for notice to the storage with the routeIdentifier as key
