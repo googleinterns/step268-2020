@@ -560,7 +560,8 @@ than one `agency_lang`, that\'s an error</p>\
       ]
     };
     route_color_contrast(params);
-    const output = '<div><p class="error">Error - Route Color Contrast!</p>\
+    const output = '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeColorContrast">\
 <p>Description: The contrast between the route and the route text is too similar!</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -573,7 +574,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please change the color of the route or the route text!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 

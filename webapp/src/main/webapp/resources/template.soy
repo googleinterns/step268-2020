@@ -559,29 +559,31 @@
  */
 {template .routeColorContrast}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Route Color Contrast!</p>
-  <p>Description: The contrast between the route and the route text is too similar!</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Route ID</th>
-        <th>CSV Row Number</th>
-        <th>Route Color</th>
-        <th>Route Text Color</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="routeColorContrast">
+    <p>Description: The contrast between the route and the route text is too similar!</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.routeId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.routeColor}</td>
-          <td>{$notice.routeTextColor}</td>
+          <th>Route ID</th>
+          <th>CSV Row Number</th>
+          <th>Route Color</th>
+          <th>Route Text Color</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please change the color of the route or the route text!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.routeColor}</td>
+            <td>{$notice.routeTextColor}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please change the color of the route or the route text!</p>
+    <br><br>
+  </div>
 {/template}
