@@ -558,10 +558,10 @@ than one `agency_lang`, that\'s an error</p>\
 <p><b>1</b> found:</p>\
 <table>\
 <thead>\
-<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Short Name</th><th>Route Long Name</th></tr>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Name (short and long)</th></tr>\
 </thead>\
 <tbody>\
-<tr><td>Route1</td><td>2</td><td>routeName</td><td>routeName</td></tr>\
+<tr><td>Route1</td><td>2</td><td>routeName</td></tr>\
 </tbody>\
 </table>\
 <p>Please change the short or long name of the route!</p>\
