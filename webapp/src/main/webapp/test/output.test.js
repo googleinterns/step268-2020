@@ -736,6 +736,45 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for start and end date out of order notice */
+  it('should issue start and end date out of order error', function() {
+    const params = {
+      code: 'start_and_end_date_out_of_order',
+      totalNotices: 2,
+      notices: [
+        {
+          filename: 'calendar.txt',
+          csvRowNumber: 3,
+          startDate: '20201230',
+          endDate: '20201129'
+        },
+        {
+          filename: 'feed_info.txt',
+          csvRowNumber: 4,
+          startDate: '20190121',
+          endDate: '20181230'
+        }
+      ]
+    };
+    start_and_end_date_out_of_order(params);
+    const output =
+        '<div><p class="error">Error - Start and end date out of order!</p>\
+<p>Description: Start date is later than the end date.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>File Name</th><th>CSV Row Number</th><th>Start Date</th><th>End Date</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>calendar.txt</td><td>3</td><td>20201230</td><td>20201129</td></tr>\
+<tr><td>feed_info.txt</td><td>4</td><td>20190121</td><td>20181230</td></tr>\
+</tbody>\
+</table>\
+<p>Please adjust the start or the end date!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
