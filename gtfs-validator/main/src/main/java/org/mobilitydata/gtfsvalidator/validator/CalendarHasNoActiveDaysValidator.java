@@ -21,6 +21,7 @@ import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.CalendarHasNoActiveDaysNotice;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsCalendar;
+import org.mobilitydata.gtfsvalidator.table.GtfsCalendarService;
 import org.mobilitydata.gtfsvalidator.table.GtfsCalendarTableContainer;
 
 /**
@@ -30,7 +31,7 @@ import org.mobilitydata.gtfsvalidator.table.GtfsCalendarTableContainer;
  */
 @GtfsValidator
 public class CalendarHasNoActiveDaysValidator extends FileValidator {
-  private final static int NOT_AVAILBLE = 0;
+  private final static GtfsCalendarService NOT_AVAILABLE = GtfsCalendarService.NOT_AVAILABLE;
 
   @Inject GtfsCalendarTableContainer calendarTable;
 
@@ -39,13 +40,10 @@ public class CalendarHasNoActiveDaysValidator extends FileValidator {
     // Loop through calendar and add up enum values for each day. If value is less than 1, then no
     // days are active.
     for (GtfsCalendar calendar : calendarTable.getEntities()) {
-      if (calendar.monday().getNumber() == NOT_AVAILBLE
-          && calendar.tuesday().getNumber() == NOT_AVAILBLE
-          && calendar.wednesday().getNumber() == NOT_AVAILBLE
-          && calendar.thursday().getNumber() == NOT_AVAILBLE
-          && calendar.friday().getNumber() == NOT_AVAILBLE
-          && calendar.saturday().getNumber() == NOT_AVAILBLE
-          && calendar.sunday().getNumber() == NOT_AVAILBLE) {
+      if (calendar.monday() == NOT_AVAILABLE && calendar.tuesday() == NOT_AVAILABLE
+          && calendar.wednesday() == NOT_AVAILABLE && calendar.thursday() == NOT_AVAILABLE
+          && calendar.friday() == NOT_AVAILABLE && calendar.saturday() == NOT_AVAILABLE
+          && calendar.sunday() == NOT_AVAILABLE) {
         noticeContainer.addNotice(new CalendarHasNoActiveDaysNotice(
             /* serviceId= */ calendar.serviceId(),
             /* calendarCsvRowNumber= */ calendar.csvRowNumber()));
