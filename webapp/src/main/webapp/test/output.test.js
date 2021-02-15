@@ -632,6 +632,53 @@ than one `agency_lang`, that\'s an error</p>\
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
+  /** Test for route unique names notice */
+  it('should issue route without unique names error', function() {
+    const params = {
+      code: 'route_without_unique_names',
+      totalNotices: 2,
+      notices: [
+        {
+          routeId: 'routeC',
+          routeCsvRowNumber: 8,
+          comparedRouteId: 'routeF',
+          comparedRouteCsvRowNumber: 2,
+          routeLongName: 'RouteApple',
+          routeShortName: 'apple',
+          routeType: 'SUBWAY',
+          agencyId: 'agency3'
+        },
+        {
+          routeId: 'routeW',
+          routeCsvRowNumber: 15,
+          comparedRouteId: 'routeV',
+          comparedRouteCsvRowNumber: 11,
+          routeLongName: 'RoutePear',
+          routeShortName: 'pear',
+          routeType: 'BUS',
+          agencyId: 'agency1'
+        }
+      ]
+    };
+    route_unique_names(params);
+    const output =
+        '<div><p class="error">Error - Route without unique names!</p>\
+<p>Description: The combination of long name, short name, route type and agency ID for a route is not unique.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>Route CSV Row Number</th><th>Compared Route ID</th><th>Compared Route CSV Row Number</th><th>Route Long Name</th><th>Route Short Name</th><th>Route Type</th><th>Agency ID</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>routeC</td><td>8</td><td>routeF</td><td>2</td><td>RouteApple</td><td>apple</td><td>SUBWAY</td><td>agency3</td></tr>\
+<tr><td>routeW</td><td>15</td><td>routeV</td><td>11</td><td>RoutePear</td><td>pear</td><td>BUS</td><td>agency1</td></tr>\
+</tbody>\
+</table>\
+<p>Please change the long name or short name of the route to make it unique!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for station with parent station notice */
   it('should issue station with parent station error', function() {
     const params = {
