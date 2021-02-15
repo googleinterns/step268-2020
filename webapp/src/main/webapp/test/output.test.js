@@ -619,7 +619,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_arrival_before_previous_departure_time(params);
        const output =
-           '<div><p class=\"error"\>Error - Stop time with arrival before previous departure time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithArrivalBeforePreviousDepartureTime" class="error collapsed">Error - Stop time with arrival before previous departure time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithArrivalBeforePreviousDepartureTime">\
 <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -631,7 +632,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>28</td><td>26</td><td>tripV</td><td>07:18:15</td><td>07:18:00</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div>'
+<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 

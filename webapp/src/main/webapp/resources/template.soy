@@ -630,33 +630,35 @@
  */
 {template .stopTimeWithArrivalBeforePreviousDepartureTime}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Stop time with arrival before previous departure time!</p>
-  <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>CSV Row Number</th>
-        <th>Previous CSV Row Number</th>
-        <th>Trip ID</th>
-        <th>Previous Departure Time</th>
-        <th>Arrival Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stopTimeWithArrivalBeforePreviousDepartureTime" class="error collapsed">Error - Stop time with arrival before previous departure time!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stopTimeWithArrivalBeforePreviousDepartureTime">
+    <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.prevCsvRowNumber}</td>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.departureTime}</td>
-          <td>{$notice.arrivalTime}</td>
+          <th>CSV Row Number</th>
+          <th>Previous CSV Row Number</th>
+          <th>Trip ID</th>
+          <th>Previous Departure Time</th>
+          <th>Arrival Time</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the arrival time or the previous departure time for the stop time!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.prevCsvRowNumber}</td>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.departureTime}</td>
+            <td>{$notice.arrivalTime}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the arrival time or the previous departure time for the stop time!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
