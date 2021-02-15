@@ -741,33 +741,35 @@
  */
 {template .startAndEndTimeOutOfOrder}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Start and end time out of order!</p>
-  <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>File Name</th>
-        <th>CSV Row Number</th>
-        <th>Entity ID</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#startAndEndTimeOutOfOrder" class="error collapsed">Error - Start and end time out of order!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="startAndEndTimeOutOfOrder">
+    <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.filename}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.entityId}</td>
-          <td>{$notice.startTime}</td>
-          <td>{$notice.endTime}</td>
+          <th>File Name</th>
+          <th>CSV Row Number</th>
+          <th>Entity ID</th>
+          <th>Start Time</th>
+          <th>End Time</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please adjust the start time or end time of the entity!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.filename}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.entityId}</td>
+            <td>{$notice.startTime}</td>
+            <td>{$notice.endTime}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please adjust the start time or end time of the entity!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**

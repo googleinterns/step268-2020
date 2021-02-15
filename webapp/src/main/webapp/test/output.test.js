@@ -62,7 +62,8 @@ describe('Output', function() {
       ]
     };
     invalid_row_length(params);
-    const output = '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
+    const output =
+        '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="invalidRowLength">\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
 <p><b>2</b> found:</p>\
@@ -265,19 +266,20 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-/** Test for location without parent station notice */
+  /** Test for location without parent station notice */
   it('should issue location without parent station error', function() {
     const params = {
       code: 'location_without_parent_station',
       totalNotices: 1,
       notices: [{
-        stopId: "stop1",
+        stopId: 'stop1',
         csvRowNumber: 15,
         locationType: 1,
       }]
     };
     location_without_parent_station(params);
-    const output = '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
+    const output =
+        '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
 <p>Description: A location that must have `parent_station` field does not have it.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -293,15 +295,15 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  /** 
-   * Test for meaningless trip notice 
+  /**
+   * Test for meaningless trip notice
    * */
   it('should issue meaingless trip error', function() {
     const params = {
       code: 'meaningless_trip_with_no_more_than_one_stop',
       totalNotices: 1,
       notices: [{
-        tripId: "trip1",
+        tripId: 'trip1',
         csvRowNumber: 15,
       }]
     };
@@ -321,22 +323,23 @@ than one `agency_lang`, that\'s an error</p>\
 <br><br>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-  /** 
-   * Test for missing trip edge arrival or departure time 
+  /**
+   * Test for missing trip edge arrival or departure time
    * */
   it('should issue missing trip edge stop time error', function() {
     const params = {
       code: 'missing_trip_edge_arrival_time_departure_time',
       totalNotices: 1,
       notices: [{
-        tripId: "Trip1",
+        tripId: 'Trip1',
         csvRowNumber: 21,
-        arrivalOrDepartureTime: "Arrival",
+        arrivalOrDepartureTime: 'Arrival',
         stopSequence: 21
       }]
     };
     missing_trip_edge_arrival_time_departure_time(params);
-    const output = '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
+    const output =
+        '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
 <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -352,7 +355,7 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  /** 
+  /**
    * Test for overlapping frequency
    * */
   it('should issue overlapping frequency error', function() {
@@ -360,15 +363,16 @@ than one `agency_lang`, that\'s an error</p>\
       code: 'overlapping_frequency',
       totalNotices: 1,
       notices: [{
-        tripId: "Trip1",
+        tripId: 'Trip1',
         prevCsvRowNumber: 18,
-        prevEndTime: "18:00:00",
+        prevEndTime: '18:00:00',
         currCsvRowNumber: 19,
-        currStartTime:  "18:00:00"
+        currStartTime: '18:00:00'
       }]
     };
     overlapping_frequency(params);
-    const output = '<p class="error">Error - Overlapping frequency entries found!</p>\
+    const output =
+        '<p class="error">Error - Overlapping frequency entries found!</p>\
 <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -725,7 +729,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     start_and_end_time_out_of_order(params);
     const output =
-        '<div><p class="error">Error - Start and end time out of order!</p>\
+        '<div><button data-toggle="collapse" data-target="#startAndEndTimeOutOfOrder" class="error collapsed">Error - Start and end time out of order!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="startAndEndTimeOutOfOrder">\
 <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -737,7 +742,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the start time or end time of the entity!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
