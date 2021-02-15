@@ -95,6 +95,30 @@ function fast_travel_between_stops(params) {
   document.getElementById('warning').appendChild(template);
 }
 
+function location_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.locationWithoutParentStation, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function meaningless_trip_with_no_more_than_one_stop(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.meaninglessTripWithNoMoreThanOneStop, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function missing_trip_edge_arrival_time_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.missingTripEdgeStopTime, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function overlapping_frequency(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.overlappingFrequency, params);
+  document.getElementById('error').appendChild(template);
+}
+
 function trip_with_duplicate_stops(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.tripWithDuplicateStops, params);
