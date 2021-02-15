@@ -115,27 +115,29 @@
  */
 {template .unusedShape}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Unused shape!</p>
-  <p>Description: The shape in shapes.txt is never used by any trip from trips.txt.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Shape ID</th>
-        <th>CSV Row Number</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#unusedShape" class="error collapsed">Error - Unused shape!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="unusedShape">
+    <p>Description: The shape in shapes.txt is never used by any trip from trips.txt.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.shapeId}</td>
-          <td>{$notice.csvRowNumber}</td>
+          <th>Shape ID</th>
+          <th>CSV Row Number</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please delete the unused shape(s)!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.shapeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please delete the unused shape(s)!</p>
+    <br><br>  
+  </div>
 {/template}
 
 /**
@@ -453,37 +455,39 @@
  */
 {template .tripWithDuplicateStops}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Trip with duplicate stops!</p>
-  <p>Description: For a trip, consecutive stop times have the same stop name.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop Name</th>
-        <th>Stop ID 1</th>
-        <th>CSV Row Number Stop 1</th>
-        <th>Stop ID 2</th>
-        <th>CSV Row Number Stop 2</th>
-        <th>Route ID</th>
-        <th>Example Trip ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#tripWithDuplicateStops" class="warning collapsed">Warning - Trip with duplicate stops!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="tripWithDuplicateStops">
+    <p>Description: For a trip, consecutive stop times have the same stop name.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopName}</td>
-          <td>{$notice.stopId1}</td>
-          <td>{$notice.csvRowNumberStop1}</td>
-          <td>{$notice.stopId2}</td>
-          <td>{$notice.csvRowNumberStop2}</td>
-          <td>{$notice.routeId}</td>
-          <td>{$notice.exampleTripId}</td>
+          <th>Stop Name</th>
+          <th>Stop ID 1</th>
+          <th>CSV Row Number Stop 1</th>
+          <th>Stop ID 2</th>
+          <th>CSV Row Number Stop 2</th>
+          <th>Route ID</th>
+          <th>Example Trip ID</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the problem of stop names for the corresponding trip(s)!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopName}</td>
+            <td>{$notice.stopId1}</td>
+            <td>{$notice.csvRowNumberStop1}</td>
+            <td>{$notice.stopId2}</td>
+            <td>{$notice.csvRowNumberStop2}</td>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.exampleTripId}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the problem of stop names for the corresponding trip(s)!</p>
+    <br><br>
+  </div>
 {/template} 
 
 /**
@@ -492,33 +496,35 @@
  */
 {template .stopsTooClose}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Stops too close!</p>
-  <p>Description: Two stops are too close with each other.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop ID 1</th>
-        <th>CSV Row Number Stop 1</th>
-        <th>Stop ID 2</th>
-        <th>CSV Row Number Stop 2</th>
-        <th>Trip Buffer in Meters</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stopsTooClose" class="warning collapsed">Warning - Stops too close!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stopsTooClose">
+    <p>Description: Two stops are too close with each other.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId1}</td>
-          <td>{$notice.csvRowNumberStop1}</td>
-          <td>{$notice.stopId2}</td>
-          <td>{$notice.csvRowNumberStop2}</td>
-          <td>{$notice.tripBufferMeters}</td>
+          <th>Stop ID 1</th>
+          <th>CSV Row Number Stop 1</th>
+          <th>Stop ID 2</th>
+          <th>CSV Row Number Stop 2</th>
+          <th>Trip Buffer in Meters</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the stops positions to make their distance further than the trip buffer meters!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId1}</td>
+            <td>{$notice.csvRowNumberStop1}</td>
+            <td>{$notice.stopId2}</td>
+            <td>{$notice.csvRowNumberStop2}</td>
+            <td>{$notice.tripBufferMeters}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the stops positions to make their distance further than the trip buffer meters!</p>
+    <br><br>
+  </div>
 {/template} 
 
 /**
