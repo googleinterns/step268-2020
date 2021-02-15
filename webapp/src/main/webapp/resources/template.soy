@@ -533,33 +533,35 @@
  */
 {template .stopTooFarFromTripShape}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Stop too far from trip shape!</p>
-  <p>Description: Stop is too far away from the trip shape.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop ID</th>
-        <th>Stop Sequence</th>
-        <th>Trip ID</th>
-        <th>Shape ID</th>
-        <th>Trip Buffer Meters</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stopTooFarFromTripShape" class="error collapsed">Error - Stop too far from trip shape!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stopTooFarFromTripShape">
+    <p>Description: Stop is too far away from the trip shape.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.stopSequence}</td>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.shapeId}</td>
-          <td>{$notice.tripBufferMeters}</td>
+          <th>Stop ID</th>
+          <th>Stop Sequence</th>
+          <th>Trip ID</th>
+          <th>Shape ID</th>
+          <th>Trip Buffer Meters</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the stop position to be within the trip buffer of the trip shape!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.stopSequence}</td>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.shapeId}</td>
+            <td>{$notice.tripBufferMeters}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the stop position to be within the trip buffer of the trip shape!</p>
+    <br><br>
+  </div>
 {/template} 
 
 /**
@@ -568,31 +570,33 @@
  */
 {template .stopTimeWithOnlyArrivalOrDepartureTime}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Stop time with only arrival or departure time!</p>
-  <p>Description: Stop time is with only arrival time or departure time.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>CSV Row Number</th>
-        <th>Trip ID</th>
-        <th>Stop Sequence</th>
-        <th>Specified Field</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stopTimeWithOnlyArrivalOrDepartureTime" class="warning collapsed">Warning - Stop time with only arrival or departure time!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stopTimeWithOnlyArrivalOrDepartureTime">
+    <p>Description: Stop time is with only arrival time or departure time.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.stopSequence}</td>
-          <td>{$notice.specifiedField}</td>
+          <th>CSV Row Number</th>
+          <th>Trip ID</th>
+          <th>Stop Sequence</th>
+          <th>Specified Field</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fill in the missing arrival time or departure time for the stop time!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.stopSequence}</td>
+            <td>{$notice.specifiedField}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fill in the missing arrival time or departure time for the stop time!</p>
+    <br><br>
+  </div>
 {/template} 
 
 /**
@@ -601,33 +605,35 @@
  */
 {template .stopTimeWithDepartureBeforeArrivalTime}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Stop time with departure before arrival time!</p>
-  <p>Description: Departure time is before arrival time for the stop time.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>CSV Row Number</th>
-        <th>Trip ID</th>
-        <th>Stop Sequence</th>
-        <th>Departure Time</th>
-        <th>Arrival Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stopTimeWithDepartureBeforeArrivalTime" class="error collapsed">Error - Stop time with departure before arrival time!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stopTimeWithDepartureBeforeArrivalTime">
+    <p>Description: Departure time is before arrival time for the stop time.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.stopSequence}</td>
-          <td>{$notice.departureTime}</td>
-          <td>{$notice.arrivalTime}</td>
+          <th>CSV Row Number</th>
+          <th>Trip ID</th>
+          <th>Stop Sequence</th>
+          <th>Departure Time</th>
+          <th>Arrival Time</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the departure time or the arrival time!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.stopSequence}</td>
+            <td>{$notice.departureTime}</td>
+            <td>{$notice.arrivalTime}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the departure time or the arrival time!</p>
+    <br><br>
+  </div>
 {/template} 
 
 /**
