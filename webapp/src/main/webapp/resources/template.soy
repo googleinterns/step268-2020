@@ -962,3 +962,38 @@
     <br><br>
   </div>
 {/template}
+
+/**
+ * Renders a basic explanation if transfers are not unique.
+ * @param notices : List<[fromStopId : string, toStopId : string, csvRowNumber : number, originalCsvRowNumber : number]>
+ */
+{template .transfersAreUnique}
+{let $numNotices: length($notices)/}
+  <button data-toggle="collapse" data-target="#transfersAreUnique" class="warning collapsed">Warning - Transfers are not unique!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="transfersAreUnique">
+    <p>Description: The same transfer already exists.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>From Stop</th>
+          <th>To Stop</th>
+          <th>Csv Row Number</th>
+          <th>Original Csv Row Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.fromStopId}</td>
+            <td>{$notice.toStopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.originalCsvRowNumber}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please remove the duplicate transfer!</p>
+    <br><br>
+  </div>
+{/template}
