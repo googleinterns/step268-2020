@@ -775,6 +775,47 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for the same route name and description notice */
+  it('should issue the same route name and description error', function() {
+    const params = {
+      code: 'same_route_name_and_description',
+      totalNotices: 2,
+      notices: [
+        {
+          filename: 'FILENAME',
+          routeId: 'RouteB',
+          csvRowNumber: 12,
+          routeDesc: 'RouteFromAppleBlockToOrangeBlock',
+          specifiedField: 'route_short_name'
+        },
+        {
+          filename: 'FILENAME',
+          routeId: 'RouteP',
+          csvRowNumber: 4,
+          routeDesc: 'Route12345',
+          specifiedField: 'route_long_name'
+        }
+      ]
+    };
+    same_route_name_and_description(params);
+    const output =
+        '<div><p class="error">Error - Same route name and description!</p>\
+<p>Description: Name and description of the route are the same.</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>File Name</th><th>Route ID</th><th>CSV Row Number</th><th>Route Description</th><th>Specified Field</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>FILENAME</td><td>RouteB</td><td>12</td><td>RouteFromAppleBlockToOrangeBlock</td><td>route_short_name</td></tr>\
+<tr><td>FILENAME</td><td>RouteP</td><td>4</td><td>Route12345</td><td>route_long_name</td></tr>\
+</tbody>\
+</table>\
+<p>Please adjust the specified name or the description of the route to make them different!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
