@@ -148,7 +148,8 @@ describe('Output', function() {
     };
     decreasing_stop_time_distance(params);
     const output =
-        '<div><p class="error">Error - Decreasing Stop Time Distance(s) found!</p>\
+        '<button data-toggle="collapse" data-target="#decreasingStopTimeDistance" class="error collapsed">Error - Decreasing Stop Time Distance(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="decreasingStopTimeDistance">\
 <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -160,7 +161,7 @@ describe('Output', function() {
 </tbody>\
 </table>\
 <p>Please check distance traveled for the above rows in \'stop_times.txt\'!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -181,7 +182,8 @@ describe('Output', function() {
     };
     decreasing_shape_distance(params);
     const output =
-        '<div><p class="error">Error - Decreasing Shape Distance(s) found!</p>\
+        '<button data-toggle="collapse" data-target="#decreasingShapeDistance" class="error collapsed">Error - Decreasing Shape Distance(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="decreasingShapeDistance">\
 <p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -193,7 +195,7 @@ describe('Output', function() {
 </tbody>\
 </table>\
 <p>Please check shape dist traveled for the above rows in \'shapes.txt\'!</p>\
-<br><br></div>'
+<br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -210,7 +212,8 @@ describe('Output', function() {
        };
        feed_info_lang_and_agency_lang_mismatch(params);
        const output =
-           '<div><p class="error">Error - Language mismatch found!</p>\
+           '<button data-toggle="collapse" data-target="#feedInfoLangAndAgencyLangMismatch" class="error collapsed">Error - Language mismatch found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="feedInfoLangAndAgencyLangMismatch">\
 <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` \
 and `feed_info.feed_lang`. The default language may be multilingual for datasets with \
 the original text in multiple languages. In such cases, the feed_lang field should contain \
@@ -228,7 +231,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check languages!</p>\
-<br><br></div>'
+<br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
@@ -246,7 +249,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     inconsistent_agency_field(params);
     const output =
-        '<div><p class="error">Error - Inconsistent Agency Field(s) found!</p>\
+        '<button data-toggle="collapse" data-target="#inconsistentAgencyField" class="error collapsed">Error - Inconsistent Agency Field(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="inconsistentAgencyField">\
 <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -258,7 +262,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check timezones/languages!</p>\
-<br><br></div>'
+<br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -274,7 +278,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     fast_travel_between_stops(params);
     const output =
-        '<div><p class="warning">Warning - Fast Travel Between Stops found!</p>\
+        '<button data-toggle="collapse" data-target="#fastTravelBetweenStops" class="warning collapsed">Warning - Fast Travel Between Stops found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="fastTravelBetweenStops">\
 <p>Description: Travel speed between stops is very fast!.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -287,7 +292,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check travel speed for the above trip(s)!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
