@@ -18,8 +18,7 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +35,8 @@ import org.mobilitydata.gtfsvalidator.table.GtfsTransferTableContainer;
 public class AmbiguousStopStationTransfersValidatorTest {
   private AmbiguousStopStationTransfersValidator validator =
       new AmbiguousStopStationTransfersValidator();
+
+  private final NoticeContainer noticeContainer = new NoticeContainer();
 
   // For stopTable:
   private final GtfsStop stationA =
@@ -91,6 +92,17 @@ public class AmbiguousStopStationTransfersValidatorTest {
           .setLocationType(GtfsLocationType.ENTRANCE.getNumber())
           .setParentStation("stationB")
           .build();
+  // Build shared stopTable for all tests
+  List<GtfsStop> stops =
+      ImmutableList.of(
+          stationA,
+          stationB,
+          stationC,
+          stop1_in_stationA,
+          stop2_in_stationB,
+          stop3_in_stationC,
+          boarding_area1_in_stationA,
+          entrance2_in_stationB);
 
   // For transferTable:
   private final GtfsTransfer transfer_from_stop1_in_stationA_to_stationB =
@@ -138,15 +150,11 @@ public class AmbiguousStopStationTransfersValidatorTest {
 
   @Test
   public void sameStationSameDirectionTransfersShouldGenerateNotice() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsStop> stops = 
-        new ArrayList<>(Arrays.asList(stationA, stationB, stop1_in_stationA, stop2_in_stationB));
     validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
     List<GtfsTransfer> transfers =
-        new ArrayList<>(
-            Arrays.asList(
-                transfer_from_stop1_in_stationA_to_stationB,
-                transfer_from_stationA_to_stop2_in_stationB));
+        ImmutableList.of(
+            transfer_from_stop1_in_stationA_to_stationB,
+            transfer_from_stationA_to_stop2_in_stationB);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -160,15 +168,11 @@ public class AmbiguousStopStationTransfersValidatorTest {
 
   @Test
   public void sameStationDifferentDirectionTransfersShouldNotGenerateNotice() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsStop> stops =
-        new ArrayList<>(Arrays.asList(stationA, stationB, stop1_in_stationA, stop2_in_stationB));
     validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
     List<GtfsTransfer> transfers =
-        new ArrayList<>(
-            Arrays.asList(
-                transfer_from_stop1_in_stationA_to_stationB,
-                transfer_from_stop2_in_stationB_to_stationA));
+        ImmutableList.of(
+            transfer_from_stop1_in_stationA_to_stationB,
+            transfer_from_stop2_in_stationB_to_stationA);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
@@ -176,23 +180,12 @@ public class AmbiguousStopStationTransfersValidatorTest {
 
   @Test
   public void differentStationTransfersShouldNotGenerateNotice() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsStop> stops =
-        new ArrayList<>(
-            Arrays.asList(
-                stationA,
-                stationB,
-                stationC,
-                stop1_in_stationA,
-                stop2_in_stationB,
-                stop3_in_stationC));
     validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
     List<GtfsTransfer> transfers =
-        new ArrayList<>(
-            Arrays.asList(
-                transfer_from_stationA_to_stop2_in_stationB,
-                transfer_from_stop1_in_stationA_to_stationC,
-                transfer_from_stop3_in_stationC_to_stationB));
+        ImmutableList.of(
+            transfer_from_stationA_to_stop2_in_stationB,
+            transfer_from_stop1_in_stationA_to_stationC,
+            transfer_from_stop3_in_stationC_to_stationB);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
@@ -200,22 +193,12 @@ public class AmbiguousStopStationTransfersValidatorTest {
 
   @Test
   public void otherLocationTypesWithSameStationTransfersShouldNotGenerateNotice() {
-    final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsStop> stops =
-        new ArrayList<>(
-            Arrays.asList(
-                stationA,
-                stationB,
-                stop1_in_stationA,
-                boarding_area1_in_stationA,
-                entrance2_in_stationB));
     validator.stopTable = GtfsStopTableContainer.forEntities(stops, noticeContainer);
     List<GtfsTransfer> transfers =
-        new ArrayList<>(
-            Arrays.asList(
-                transfer_from_stop1_in_stationA_to_stationB,
-                transfer_from_boarding_area1_in_stationA_to_stationB,
-                transfer_from_stationA_to_entrance2_in_stationB));
+        ImmutableList.of(
+            transfer_from_stop1_in_stationA_to_stationB,
+            transfer_from_boarding_area1_in_stationA_to_stationB,
+            transfer_from_stationA_to_entrance2_in_stationB);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
