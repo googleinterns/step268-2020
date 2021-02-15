@@ -708,6 +708,33 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test if route is missing both short and long name. */
+  it('should issue error if both short and long route names are missing',
+     function() {
+       const params = {
+         code: 'route_both_short_and_long_name_missing',
+         totalNotices: 1,
+         notices: [{routeId: 'RouteA', csvRowNumber: 8}]
+       };
+       route_both_short_and_long_name_missing(params);
+       const output =
+           '<div><button data-toggle="collapse" data-target="#routeBothShortAndLongNameMissing" class="error collapsed">Error - Route short and long name missing!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeBothShortAndLongNameMissing">\
+<p>Description: Both the short name and long name of the route are missing.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>RouteA</td><td>8</td></tr>\
+</tbody>\
+</table>\
+<p>Please add a short name or a long name for the route!</p>\
+<br><br></div></div>';
+       expect(document.getElementById('error').innerHTML).toContain(output);
+     });
+
   /* Test for platform without a parent station.*/
   it('should issue warning if platform does not have parent station', function() {
     const params = {

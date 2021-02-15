@@ -732,6 +732,37 @@
 {/template}
 
 /**
+ * Renders a basic explanation of the station with parent station notice.
+ * @param notices : List<[routeId : string, csvRowNumber : number]>
+ */
+{template .routeBothShortAndLongNameMissing}
+{let $numNotices: length($notices)/}
+  <button data-toggle="collapse" data-target="#routeBothShortAndLongNameMissing" class="error collapsed">Error - Route short and long name missing!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="routeBothShortAndLongNameMissing">
+    <p>Description: Both the short name and long name of the route are missing.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Route ID</th>
+          <th>CSV Row Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+           </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please add a short name or a long name for the route!</p>
+    <br><br>
+  </div>
+{/template}
+
+/**
  * Renders a basic explanation of a platform without a parent station.
  * @param notices : List<[stopId : string, csvRowNumber : number]>
  */
