@@ -18,6 +18,7 @@ package org.mobilitydata.gtfsvalidator.validator;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,8 +62,7 @@ public class TransfersAreUniqueValidatorTest {
   @Test
   public void allDifferentTransfersShouldNotGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTransfer> transfers =
-        new ArrayList<>(Arrays.asList(transfer_1, transfer_2, transfer_3));
+    List<GtfsTransfer> transfers = Arrays.asList(transfer_1, transfer_2, transfer_3);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices()).isEmpty();
@@ -71,7 +71,7 @@ public class TransfersAreUniqueValidatorTest {
   @Test
   public void onlyDuplicateTransfersShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTransfer> transfers = new ArrayList<>(Arrays.asList(transfer_1, transfer_1_duplicate));
+    List<GtfsTransfer> transfers = Arrays.asList(transfer_1, transfer_1_duplicate);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -85,8 +85,8 @@ public class TransfersAreUniqueValidatorTest {
   @Test
   public void someDuplicateTransfersShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
-    List<GtfsTransfer> transfers = new ArrayList<>(Arrays.asList(
-        transfer_1, transfer_2, transfer_3, transfer_1_duplicate, transfer_2_duplicate));
+    List<GtfsTransfer> transfers = Arrays.asList(
+        transfer_1, transfer_2, transfer_3, transfer_1_duplicate, transfer_2_duplicate);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
@@ -106,7 +106,7 @@ public class TransfersAreUniqueValidatorTest {
   public void anotherDuplicateTransferShouldGenerateNotice() {
     final NoticeContainer noticeContainer = new NoticeContainer();
     List<GtfsTransfer> transfers =
-        new ArrayList<>(Arrays.asList(transfer_1_duplicate, transfer_2, transfer_3, transfer_1));
+        Arrays.asList(transfer_1_duplicate, transfer_2, transfer_3, transfer_1);
     validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
     validator.validate(noticeContainer);
     assertThat(noticeContainer.getNotices())
