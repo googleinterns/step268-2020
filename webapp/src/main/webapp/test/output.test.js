@@ -631,7 +631,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_arrival_before_previous_departure_time(params);
        const output =
-           '<div><p class=\"error"\>Error - Stop time with arrival before previous departure time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithArrivalBeforePreviousDepartureTime" class="error collapsed">Error - Stop time with arrival before previous departure time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithArrivalBeforePreviousDepartureTime">\
 <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -643,7 +644,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>28</td><td>26</td><td>tripV</td><td>07:18:15</td><td>07:18:00</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div>'
+<p>Please fix the arrival time or the previous departure time for the stop time!</p><br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
@@ -704,7 +705,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     station_with_parent_station(params);
     const output =
-        '<div><p class="error">Error - Station with parent station!</p>\
+        '<div><button data-toggle="collapse" data-target="#stationWithParentStation" class="error collapsed">Error - Station with parent station!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stationWithParentStation">\
 <p>Description: A station has parent_station field set.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -716,7 +718,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please delete the parent station of the station!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -818,7 +820,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     start_and_end_time_out_of_order(params);
     const output =
-        '<div><p class="error">Error - Start and end time out of order!</p>\
+        '<div><button data-toggle="collapse" data-target="#startAndEndTimeOutOfOrder" class="error collapsed">Error - Start and end time out of order!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="startAndEndTimeOutOfOrder">\
 <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -830,7 +833,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please adjust the start time or end time of the entity!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 

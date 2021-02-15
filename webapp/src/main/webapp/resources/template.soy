@@ -642,33 +642,35 @@
  */
 {template .stopTimeWithArrivalBeforePreviousDepartureTime}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Stop time with arrival before previous departure time!</p>
-  <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>CSV Row Number</th>
-        <th>Previous CSV Row Number</th>
-        <th>Trip ID</th>
-        <th>Previous Departure Time</th>
-        <th>Arrival Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stopTimeWithArrivalBeforePreviousDepartureTime" class="error collapsed">Error - Stop time with arrival before previous departure time!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stopTimeWithArrivalBeforePreviousDepartureTime">
+    <p>Description: Arrival for the stop time is before its corresponding previous departure time.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.prevCsvRowNumber}</td>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.departureTime}</td>
-          <td>{$notice.arrivalTime}</td>
+          <th>CSV Row Number</th>
+          <th>Previous CSV Row Number</th>
+          <th>Trip ID</th>
+          <th>Previous Departure Time</th>
+          <th>Arrival Time</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the arrival time or the previous departure time for the stop time!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.prevCsvRowNumber}</td>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.departureTime}</td>
+            <td>{$notice.arrivalTime}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the arrival time or the previous departure time for the stop time!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -718,29 +720,31 @@
  */
 {template .stationWithParentStation}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Station with parent station!</p>
-  <p>Description: A station has parent_station field set.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Station ID</th>
-        <th>CSV Row Number</th>
-        <th>Parent Station</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#stationWithParentStation" class="error collapsed">Error - Station with parent station!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="stationWithParentStation">
+    <p>Description: A station has parent_station field set.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.parentStation}</td>
+          <th>Station ID</th>
+          <th>CSV Row Number</th>
+          <th>Parent Station</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please delete the parent station of the station!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.parentStation}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please delete the parent station of the station!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -844,33 +848,35 @@
  */
 {template .startAndEndTimeOutOfOrder}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Start and end time out of order!</p>
-  <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>File Name</th>
-        <th>CSV Row Number</th>
-        <th>Entity ID</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#startAndEndTimeOutOfOrder" class="error collapsed">Error - Start and end time out of order!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="startAndEndTimeOutOfOrder">
+    <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.filename}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.entityId}</td>
-          <td>{$notice.startTime}</td>
-          <td>{$notice.endTime}</td>
+          <th>File Name</th>
+          <th>CSV Row Number</th>
+          <th>Entity ID</th>
+          <th>Start Time</th>
+          <th>End Time</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please adjust the start time or end time of the entity!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.filename}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.entityId}</td>
+            <td>{$notice.startTime}</td>
+            <td>{$notice.endTime}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please adjust the start time or end time of the entity!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
