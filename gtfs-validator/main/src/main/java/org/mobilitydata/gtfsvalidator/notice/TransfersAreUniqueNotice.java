@@ -17,33 +17,24 @@
 package org.mobilitydata.gtfsvalidator.notice;
 
 import com.google.common.collect.ImmutableMap;
-import org.mobilitydata.gtfsvalidator.table.GtfsRouteType;
 
-public class RouteUniqueNamesNotice extends Notice {
-  public RouteUniqueNamesNotice(
-      String routeId,
-      long routeCsvRowNumber,
-      String comparedRouteId,
-      long comparedRouteCsvRowNumber,
-      String routeLongName,
-      String routeShortName,
-      String routeType,
-      String agencyId) {
+public class TransfersAreUniqueNotice extends Notice {
+  public TransfersAreUniqueNotice(
+      String fromStopId,
+      String toStopId,
+      long duplicateCsvRowNumber,
+      long originalCsvRowNumber) {
     super(
         new ImmutableMap.Builder<String, Object>()
-            .put("routeId", routeId)
-            .put("routeCsvRowNumber", routeCsvRowNumber)
-            .put("comparedRouteId", comparedRouteId)
-            .put("comparedRouteCsvRowNumber", comparedRouteCsvRowNumber)
-            .put("routeLongName", routeLongName)
-            .put("routeShortName", routeShortName)
-            .put("routeType", routeType)
-            .put("agencyId", agencyId)
+            .put("fromStopId", fromStopId)
+            .put("toStopId", toStopId)
+            .put("csvRowNumber", duplicateCsvRowNumber)
+            .put("originalCsvRowNumber", originalCsvRowNumber)
             .build());
   }
 
   @Override
   public String getCode() {
-    return "route_without_unique_names";
+    return "transfers_are_unique";
   }
 }
