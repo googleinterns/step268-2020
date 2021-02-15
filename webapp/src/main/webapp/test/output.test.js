@@ -26,7 +26,8 @@ describe('Output', function() {
     };
     unknown_column(params);  // Unknown column output
     const output =
-        '<div><p class=\"warning\">Warning - Unknown Column(s) found!</p>\
+        '<div><button data-toggle="collapse" data-target="#unknownColumnNotice" class="warning collapsed">Warning - Unknown Column(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="unknownColumnNotice">\
 <p>Description: A column name is unknown.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -37,7 +38,7 @@ describe('Output', function() {
 <tr><td>stop_times.txt</td><td>drop_off_time</td><td>8</td></tr>\
 </tbody>\
 </table>\
-<p>Please delete or rename column!</p><br><br></div>'
+<p>Please delete or rename column!</p><br><br></div></div>'
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
@@ -61,7 +62,8 @@ describe('Output', function() {
       ]
     };
     invalid_row_length(params);
-    const output = '<div><p class="error">Error - Invalid csv row length!</p>\
+    const output = '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="invalidRowLength">\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -73,7 +75,7 @@ describe('Output', function() {
 <tr><td>stop_times.txt</td><td>18</td><td>5</td><td>9</td></tr>\
 </tbody>\
 </table>\
-<p>Please set the row length as specified by the CSV header!</p><br><br></div>'
+<p>Please set the row length as specified by the CSV header!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -93,7 +95,8 @@ describe('Output', function() {
     };
     wrong_parent_location_type(params);
     const output =
-        '<div><p class=\"error"\>Error - Wrong parent location type!</p>\
+        '<div><button data-toggle="collapse" data-target="#wrongParentLocationType" class="error collapsed">Error - Wrong parent location type!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="wrongParentLocationType">\
 <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -104,7 +107,7 @@ describe('Output', function() {
 <tr><td>stop101</td><td>4</td><td>0</td><td>station1001</td><td>7</td><td>2</td><td>1</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p><br><br></div>'
+<p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -682,7 +685,8 @@ than one `agency_lang`, that\'s an error</p>\
     });
     callCorrespondingFunction(params);
     const errorOutput =
-        '<div><p class="error">Error - Invalid csv row length!</p>\
+        '<div><button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="invalidRowLength">\
 <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -693,9 +697,10 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop_times.txt</td><td>17</td><td>5</td><td>9</td></tr>\
 </tbody>\
 </table>\
-<p>Please set the row length as specified by the CSV header!</p><br><br></div>';
+<p>Please set the row length as specified by the CSV header!</p><br><br></div></div>';
     const warningOutput =
-        '<div><p class="warning">Warning - Unknown Column(s) found!</p>\
+        '<div><button data-toggle="collapse" data-target="#unknownColumnNotice" class="warning collapsed">Warning - Unknown Column(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="unknownColumnNotice">\
 <p>Description: A column name is unknown.</p>\<p><b>1</b> found:</p>\
 <table>\
 <thead>\

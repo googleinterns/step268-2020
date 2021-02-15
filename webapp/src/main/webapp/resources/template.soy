@@ -74,37 +74,39 @@
  */
 {template .wrongParentLocationType}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Wrong parent location type!</p>
-  <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop ID</th>
-        <th>CSV Row Number</th>
-        <th>Location Type</th>
-        <th>Parent Station</th>
-        <th>Parent CSV Row Number</th>
-        <th>Parent Location Type</th>
-        <th>Expected Location Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#wrongParentLocationType" class="error collapsed">Error - Wrong parent location type!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="wrongParentLocationType">
+    <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.locationType}</td>
-          <td>{$notice.parentStation}</td>
-          <td>{$notice.parentCsvRowNumber}</td>
-          <td>{$notice.parentLocationType}</td>
-          <td>{$notice.expectedLocationType}</td>
+          <th>Stop ID</th>
+          <th>CSV Row Number</th>
+          <th>Location Type</th>
+          <th>Parent Station</th>
+          <th>Parent CSV Row Number</th>
+          <th>Parent Location Type</th>
+          <th>Expected Location Type</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.locationType}</td>
+            <td>{$notice.parentStation}</td>
+            <td>{$notice.parentCsvRowNumber}</td>
+            <td>{$notice.parentLocationType}</td>
+            <td>{$notice.expectedLocationType}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
