@@ -185,3 +185,9 @@ function same_route_name_and_description(params) {
       validator.templates.sameNameAndDescriptionForRoute, params);
   document.getElementById('error').appendChild(template);
 }
+
+function transfers_are_unique(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.transfersAreUnique, params);
+  document.getElementById('warning').appendChild(template);
+}

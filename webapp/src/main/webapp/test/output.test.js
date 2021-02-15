@@ -819,6 +819,39 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for transfers that aren't unique. */
+  it('should issue the transfers are unique error', function() {
+    const params = {
+      code: 'transfers_are_unique',
+      totalNotices: 1,
+      notices: [
+        {
+          fromStopId: 'fromStop',
+          toStopId: 'toStop',
+          csvRowNumber: 5,
+          originalCsvRowNumber: 2,
+        }
+      ]
+    };
+    transfers_are_unique(params);
+    const output =
+        '<button data-toggle="collapse" data-target="#transfersAreUnique" class="warning collapsed">Warning - Transfers are not unique!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="transfersAreUnique">\
+<p>Description: The same transfer already exists.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>From Stop</th><th>To Stop</th><th>Csv Row Number</th><th>Original Csv Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>fromStop</td><td>toStop</td><td>5</td><td>2</td></tr>\
+</tbody>\
+</table>\
+<p>Please remove the duplicate transfer!</p>\
+<br><br></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+
   it('should call the correct functions', function() {
     const params = JSON.stringify({
       notices: [
