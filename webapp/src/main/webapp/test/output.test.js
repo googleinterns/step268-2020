@@ -548,14 +548,14 @@ than one `agency_lang`, that\'s an error</p>\
         {
           routeId: 'routeA',
           csvRowNumber: 2,
-          routeColor: 'FFFFFF',
-          routeTextColor: 'FFFFF1'
+          routeColor: '4b3bff',
+          routeTextColor: '5a4cfc'
         },
         {
           routeId: 'routeB',
           csvRowNumber: 4,
-          routeColor: 'FFFFF3',
-          routeTextColor: 'FFFFF4'
+          routeColor: 'fc262d',
+          routeTextColor: 'ff383f'
         }
       ]
     };
@@ -569,12 +569,12 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><th>Route ID</th><th>CSV Row Number</th><th>Route Color</th><th>Route Text Color</th></tr>\
 </thead>\
 <tbody>\
-<tr><td>routeA</td><td>2</td><td>FFFFFF</td><td>FFFFF1</td></tr>\
-<tr><td>routeB</td><td>4</td><td>FFFFF3</td><td>FFFFF4</td></tr>\
+<tr><td>routeA</td><td>2</td><td><div class="colorBox" style="background-color: #4b3bff;"></div></td><td><div class="colorBox" style="background-color: #5a4cfc;"></div></td></tr>\
+<tr><td>routeB</td><td>4</td><td><div class="colorBox" style="background-color: #fc262d;"></div></td><td><div class="colorBox" style="background-color: #ff383f;"></div></td></tr>\
 </tbody>\
 </table>\
 <p>Please change the color of the route or the route text!</p>\
-<br><br></div></div>';
+<br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
