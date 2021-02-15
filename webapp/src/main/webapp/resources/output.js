@@ -156,6 +156,12 @@ function stop_time_with_arrival_before_previous_departure_time(params) {
   document.getElementById('error').appendChild(template);
 }
 
+function route_unique_names(params) {
+  const template =
+      goog.soy.renderAsElement(validator.templates.routeUniqueNames, params);
+  document.getElementById('error').appendChild(template);
+}
+
 function station_with_parent_station(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.stationWithParentStation, params);

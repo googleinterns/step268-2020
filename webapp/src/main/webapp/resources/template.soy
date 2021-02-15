@@ -654,6 +654,47 @@
 {/template}
 
 /**
+ * Renders a basic explanation of the route unique names notice.
+ * @param notices : List<[routeId : string, routeCsvRowNumber : number, comparedRouteId : string, comparedRouteCsvRowNumber: number, routeLongName : string, routeShortName : string, routeType : string, agencyId : string]>
+ */
+{template .routeUniqueNames}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Route without unique names!</p>
+  <p>Description: The combination of long name, short name, route type and agency ID for a route is not unique.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Route ID</th>
+        <th>Route CSV Row Number</th>
+        <th>Compared Route ID</th>
+        <th>Compared Route CSV Row Number</th>
+        <th>Route Long Name</th>
+        <th>Route Short Name</th>
+        <th>Route Type</th>
+        <th>Agency ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.routeId}</td>
+          <td>{$notice.routeCsvRowNumber}</td>
+          <td>{$notice.comparedRouteId}</td>
+          <td>{$notice.comparedRouteCsvRowNumber}</td>
+          <td>{$notice.routeLongName}</td>
+          <td>{$notice.routeShortName}</td>
+          <td>{$notice.routeType}</td>
+          <td>{$notice.agencyId}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please change the long name or short name of the route to make it unique!</p>
+  <br><br>
+{/template}
+
+/**
  * Renders a basic explanation of the station with parent station notice.
  * @param notices : List<[stopId : string, csvRowNumber : number, parentStation : string]>
  */
