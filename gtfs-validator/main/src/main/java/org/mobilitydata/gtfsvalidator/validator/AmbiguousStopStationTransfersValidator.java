@@ -23,6 +23,7 @@ import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
 import org.mobilitydata.gtfsvalidator.annotation.Inject;
 import org.mobilitydata.gtfsvalidator.notice.AmbiguousStopStationTransfersNotice;
 import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.table.GtfsLocationType;
 import org.mobilitydata.gtfsvalidator.table.GtfsStop;
 import org.mobilitydata.gtfsvalidator.table.GtfsStopTableContainer;
 import org.mobilitydata.gtfsvalidator.table.GtfsTransfer;
@@ -58,13 +59,14 @@ public class AmbiguousStopStationTransfersValidator extends FileValidator {
       final GtfsStop fromStop = stopTable.byStopId(transfer.fromStopId());
       final GtfsStop toStop = stopTable.byStopId(transfer.toStopId());
       // Only check station-to-stop or stop-to-station transfers
-      // If the sum of two locationTypes is 1, it must be 1 + 0 according to the locationType
-      // definition (i.e. a STOP and a STATION)
-      if (fromStop.locationType().getNumber() + toStop.locationType().getNumber() == 1) {
-        // If the from_stop is a STOP with value 0, the transfer is from STOP to STATION; otherwise,
-        // the transfer is from STATION to STOP
+      if ((fromStop.locationType() == GtfsLocationType.STOP
+              && toStop.locationType() == GtfsLocationType.STATION)
+          || (fromStop.locationType() == GtfsLocationType.STATION
+              && toStop.locationType() == GtfsLocationType.STOP)) {
+        // If the from_stop is a STOP location type, the transfer is from STOP to STATION;
+        // otherwise, the transfer is from STATION to STOP
         final TransferIdentifier transferIdentifier =
-            (fromStop.locationType().getNumber() == 0)
+            (fromStop.locationType() == GtfsLocationType.STOP)
                 ? TransferIdentifier.create(fromStop.parentStation(), toStop.stopId())
                 : TransferIdentifier.create(fromStop.stopId(), toStop.parentStation());
         // Add the transferIdentifier to the HashMap storage if it has not appeared; otherwise,
