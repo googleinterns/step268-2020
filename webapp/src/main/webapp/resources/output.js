@@ -168,6 +168,24 @@ function station_with_parent_station(params) {
   document.getElementById('error').appendChild(template);
 }
 
+function route_both_short_and_long_name_missing(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.routeBothShortAndLongNameMissing, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function platform_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.platformWithoutParentStation, params);
+  document.getElementById('warning').appendChild(template);
+}
+
+function route_short_name_too_long(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.routeShortNameTooLong, params);
+  document.getElementById('warning').appendChild(template);
+}
+
 function start_and_end_time_out_of_order(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.startAndEndTimeOutOfOrder, params);
@@ -184,4 +202,10 @@ function same_route_name_and_description(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.sameNameAndDescriptionForRoute, params);
   document.getElementById('error').appendChild(template);
+}
+
+function transfers_are_unique(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.transfersAreUnique, params);
+  document.getElementById('warning').appendChild(template);
 }
