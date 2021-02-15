@@ -708,6 +708,32 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /* Test for platform without a parent station.*/
+  it('should issue warning if platform does not have parent station', function() {
+    const params = {
+      code: 'platform_without_parent_station',
+      totalNotices: 1,
+      notices: [{stopId: 'StationB', csvRowNumber: 8}]
+    };
+    platform_without_parent_station(params);
+    const output =
+        '<div><button data-toggle="collapse" data-target="#platformWithoutParentStation" class="warning collapsed">Warning - Platform Without Parent Station!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="platformWithoutParentStation">\
+<p>Description: A platform does not have a parent station set.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Stop ID</th><th>CSV Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>StationB</td><td>8</td></tr>\
+</tbody>\
+</table>\
+<p>Please add parent station to the platform!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
+  });
+  
   /** Test for route with short name too long */
   it('should issue route with short name warning', function() {
     const params = {

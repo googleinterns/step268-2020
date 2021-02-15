@@ -168,6 +168,12 @@ function station_with_parent_station(params) {
   document.getElementById('error').appendChild(template);
 }
 
+function platform_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.platformWithoutParentStation, params);
+  document.getElementById('warning').appendChild(template);
+}
+
 function route_short_name_too_long(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.routeShortNameTooLong, params);

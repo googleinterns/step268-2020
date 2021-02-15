@@ -732,6 +732,37 @@
 {/template}
 
 /**
+ * Renders a basic explanation of a platform without a parent station.
+ * @param notices : List<[stopId : string, csvRowNumber : number]>
+ */
+{template .platformWithoutParentStation}
+{let $numNotices: length($notices)/}
+  <button data-toggle="collapse" data-target="#platformWithoutParentStation" class="warning collapsed">Warning - Platform Without Parent Station!<span>+</span><p>-</p></button>
+    <div class="content collapse in" id="platformWithoutParentStation">
+    <p>Description: A platform does not have a parent station set.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Stop ID</th>
+          <th>CSV Row Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please add parent station to the platform!</p>
+    <br><br>
+  </div>
+{/template}
+
+/**
  * Renders a basic explanation of the station with parent station notice.
  * @param notices : List<[routeId : string, csvRowNumber : number, routeShortName : string]>
  */
@@ -764,6 +795,7 @@
   </div>
 {/template}
 
+/**
  * Renders a basic explanation of the start and end time out of order notice.
  * @param notices : List<[filename : string, csvRowNumber : number, entityId : string, startTime : string, endTime : string]>
  */
