@@ -552,7 +552,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     route_short_name_too_long(params);
     const output =
-        '<div><p class="warning">Warning - Route short name too long!</p>\
+        '<button data-toggle="collapse" data-target="#routeShortNameTooLong" class="warning collapsed">Warning - Route short name too long!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeShortNameTooLong">\
 <p>Description: The short name of a route is too long.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -564,7 +565,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please shorten the route name\'s short name!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 

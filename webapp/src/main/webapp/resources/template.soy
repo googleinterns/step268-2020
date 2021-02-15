@@ -559,27 +559,29 @@
  */
 {template .routeShortNameTooLong}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Route short name too long!</p>
-  <p>Description: The short name of a route is too long.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Route ID</th>
-        <th>CSV Row Number</th>
-        <th>Route Short Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+ <button data-toggle="collapse" data-target="#routeShortNameTooLong" class="warning collapsed">Warning - Route short name too long!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="routeShortNameTooLong">
+    <p>Description: The short name of a route is too long.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.routeId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.routeShortName}</td>
+          <th>Route ID</th>
+          <th>CSV Row Number</th>
+          <th>Route Short Name</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please shorten the route name's short name!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.routeShortName}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please shorten the route name's short name!</p>
+    <br><br>
+  </div>
 {/template}
