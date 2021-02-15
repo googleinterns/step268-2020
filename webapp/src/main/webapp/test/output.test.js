@@ -528,7 +528,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     stop_too_far_from_trip_shape(params);
     const output =
-        '<div><p class=\"error"\>Error - Stop too far from trip shape!</p>\
+        '<div><button data-toggle="collapse" data-target="#stopTooFarFromTripShape" class="error collapsed">Error - Stop too far from trip shape!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTooFarFromTripShape">\
 <p>Description: Stop is too far away from the trip shape.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -539,7 +540,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>stop101</td><td>3</td><td>tripC</td><td>circle3</td><td>100</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div>'
+<p>Please fix the stop position to be within the trip buffer of the trip shape!</p><br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -558,7 +559,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_only_arrival_or_departure_time(params);
        const output =
-           '<div><p class=\"warning"\>Warning - Stop time with only arrival or departure time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithOnlyArrivalOrDepartureTime" class="warning collapsed">Warning - Stop time with only arrival or departure time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithOnlyArrivalOrDepartureTime">\
 <p>Description: Stop time is with only arrival time or departure time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -569,7 +571,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>8</td><td>tripC</td><td>3</td><td>ARRIVAL_TIME_FIELD_NAME</td></tr>\
 </tbody>\
 </table>\
-<p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div>'
+<p>Please fill in the missing arrival time or departure time for the stop time!</p><br><br></div></div>'
        expect(document.getElementById('warning').innerHTML).toContain(output);
      });
 
@@ -589,7 +591,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        stop_time_with_departure_before_arrival_time(params);
        const output =
-           '<div><p class=\"error"\>Error - Stop time with departure before arrival time!</p>\
+           '<div><button data-toggle="collapse" data-target="#stopTimeWithDepartureBeforeArrivalTime" class="error collapsed">Error - Stop time with departure before arrival time!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="stopTimeWithDepartureBeforeArrivalTime">\
 <p>Description: Departure time is before arrival time for the stop time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -600,7 +603,7 @@ than one `agency_lang`, that\'s an error</p>\
 <tr><td>11</td><td>tripB</td><td>4</td><td>10:20:30</td><td>11:18:30</td></tr>\
 </tbody>\
 </table>\
-<p>Please fix the departure time or the arrival time!</p><br><br></div>'
+<p>Please fix the departure time or the arrival time!</p><br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
