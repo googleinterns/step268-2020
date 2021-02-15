@@ -746,7 +746,7 @@
         <tr>
           <th>Stop ID</th>
           <th>CSV Row Number</th>
-          </tr>
+        </tr>
       </thead>
       <tbody>
         {foreach $notice in $notices}
@@ -771,6 +771,10 @@
  <button data-toggle="collapse" data-target="#routeShortNameTooLong" class="warning collapsed">Warning - Route short name too long!<span>+</span><p>-</p></button>
   <div class="content collapse in" id="routeShortNameTooLong">
     <p>Description: The short name of a route is too long.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
           <th>Route ID</th>
           <th>CSV Row Number</th>
           <th>Route Short Name</th>
@@ -779,8 +783,6 @@
       <tbody>
         {foreach $notice in $notices}
           <tr>
-            <td>{$notice.stopId}</td>
-            <td>{$notice.csvRowNumber}</td>
             <td>{$notice.routeId}</td>
             <td>{$notice.csvRowNumber}</td>
             <td>{$notice.routeShortName}</td>
@@ -793,6 +795,7 @@
   </div>
 {/template}
 
+/**
  * Renders a basic explanation of the start and end time out of order notice.
  * @param notices : List<[filename : string, csvRowNumber : number, entityId : string, startTime : string, endTime : string]>
  */
