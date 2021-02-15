@@ -549,7 +549,8 @@ than one `agency_lang`, that\'s an error</p>\
        };
        route_both_short_and_long_name_missing(params);
        const output =
-           '<div><p class="error">Error - Route short and long name missing!</p>\
+           '<div><button data-toggle="collapse" data-target="#routeBothShortAndLongNameMissing" class="error collapsed">Error - Route short and long name missing!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeBothShortAndLongNameMissing">\
 <p>Description: Both the short name and long name of the route are missing.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -561,7 +562,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please add a short name or a long name for the route!</p>\
-<br><br></div>';
+<br><br></div></div>';
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
