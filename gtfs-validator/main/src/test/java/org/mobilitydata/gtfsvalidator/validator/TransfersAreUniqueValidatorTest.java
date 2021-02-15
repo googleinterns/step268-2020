@@ -59,6 +59,11 @@ public class TransfersAreUniqueValidatorTest {
                                               .setToStopId("stop_9")
                                               .setCsvRowNumber(3)
                                               .build();
+  private final GtfsTransfer transfer_3_reverse = new GtfsTransfer.Builder()
+                                              .setFromStopId("stop_9")
+                                              .setToStopId("stop_5")
+                                              .setCsvRowNumber(11)
+                                              .build();
 
   @Test
   public void allDifferentTransfersShouldNotGenerateNotice() {
@@ -116,5 +121,15 @@ public class TransfersAreUniqueValidatorTest {
             /* toStopId= */ "stop_2",
             /* duplicateCsvRowNumber= */ 1,
             /* originalCsvRowNumber= */ 10));
+  }
+
+  @Test
+  public void reverseStopsShouldNotGenerateNotice() {
+    final NoticeContainer noticeContainer = new NoticeContainer();
+    List<GtfsTransfer> transfers =
+        ImmutableList.of(transfer_3, transfer_3_reverse);
+    validator.transferTable = GtfsTransferTableContainer.forEntities(transfers, noticeContainer);
+    validator.validate(noticeContainer);
+    assertThat(noticeContainer.getNotices()).isEmpty();
   }
 }
