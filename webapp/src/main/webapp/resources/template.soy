@@ -6,29 +6,31 @@
  */
 {template .unknownColumnNotice}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Unknown Column(s) found!</p>
-  <p>Description: A column name is unknown.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>Field name</th>
-        <th>Index</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#unknownColumnNotice" class="warning collapsed">Warning - Unknown Column(s) found!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="unknownColumnNotice">
+    <p>Description: A column name is unknown.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.filename}</td>
-          <td>{$notice.fieldName}</td>
-          <td>{$notice.index}</td>
+          <th>Filename</th>
+          <th>Field name</th>
+          <th>Index</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please delete or rename column!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.filename}</td>
+            <td>{$notice.fieldName}</td>
+            <td>{$notice.index}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please delete or rename column!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -37,31 +39,33 @@
  */
 {template .invalidRowLength}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Invalid csv row length!</p>
-  <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>CSV Row Number</th>
-        <th>Row length</th>
-        <th>Header count</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="invalidRowLength">
+    <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.filename}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.rowLength}</td>
-          <td>{$notice.headerCount}</td>
+          <th>Filename</th>
+          <th>CSV Row Number</th>
+          <th>Row length</th>
+          <th>Header count</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please set the row length as specified by the CSV header!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.filename}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.rowLength}</td>
+            <td>{$notice.headerCount}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please set the row length as specified by the CSV header!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -70,37 +74,39 @@
  */
 {template .wrongParentLocationType}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Wrong parent location type!</p>
-  <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop ID</th>
-        <th>CSV Row Number</th>
-        <th>Location Type</th>
-        <th>Parent Station</th>
-        <th>Parent CSV Row Number</th>
-        <th>Parent Location Type</th>
-        <th>Expected Location Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#wrongParentLocationType" class="error collapsed">Error - Wrong parent location type!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="wrongParentLocationType">
+    <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.locationType}</td>
-          <td>{$notice.parentStation}</td>
-          <td>{$notice.parentCsvRowNumber}</td>
-          <td>{$notice.parentLocationType}</td>
-          <td>{$notice.expectedLocationType}</td>
+          <th>Stop ID</th>
+          <th>CSV Row Number</th>
+          <th>Location Type</th>
+          <th>Parent Station</th>
+          <th>Parent CSV Row Number</th>
+          <th>Parent Location Type</th>
+          <th>Expected Location Type</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.locationType}</td>
+            <td>{$notice.parentStation}</td>
+            <td>{$notice.parentCsvRowNumber}</td>
+            <td>{$notice.parentLocationType}</td>
+            <td>{$notice.expectedLocationType}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
