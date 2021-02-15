@@ -146,29 +146,31 @@
  */
 {template .fastTravelBetweenStops}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Fast Travel Between Stops found!</p>
+  <button data-toggle="collapse" data-target="#fastTravelBetweenStops" class="warning collapsed">Warning - Fast Travel Between Stops found!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="fastTravelBetweenStops">
   <p>Description: Travel speed between stops is very fast!.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Trip ID</th>
-        <th>Travel Speed km/h</th>
-        <th>Stop Sequence</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.speedkmh}</td>
-          <td>{$notice.stopSequenceList}</td>
+          <th>Trip ID</th>
+          <th>Travel Speed km/h</th>
+          <th>Stop Sequence</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please check travel speed for the above trip(s)!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.speedkmh}</td>
+            <td>{$notice.stopSequenceList}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please check travel speed for the above trip(s)!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -178,37 +180,39 @@
  */
 {template .decreasingShapeDistance}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Decreasing Shape Distance(s) found!</p>
-  <p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Shape ID</th>
-        <th>CSV Row Number</th>
-        <th>Shape Distance Traveled</th>
-        <th>Shape Pt Sequence</th>
-        <th>Previous CSV Row Number</th>
-        <th>Previous Shape Distance Traveled</th>
-        <th>Previous Shape Pt Sequence</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#decreasingShapeDistance" class="error collapsed">Error - Decreasing Shape Distance(s) found!<span>+</span><p>-</p></button>
+    <div class="content collapse in" id="decreasingShapeDistance">
+    <p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.shapeId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.shapeDistTraveled}</td>
-          <td>{$notice.shapePtSequence}</td>
-          <td>{$notice.prevCsvRowNumber}</td>
-          <td>{$notice.prevShapeDistTraveled}</td>
-          <td>{$notice.prevShapePtSequence}</td>
+          <th>Shape ID</th>
+          <th>CSV Row Number</th>
+          <th>Shape Distance Traveled</th>
+          <th>Shape Pt Sequence</th>
+          <th>Previous CSV Row Number</th>
+          <th>Previous Shape Distance Traveled</th>
+          <th>Previous Shape Pt Sequence</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.shapeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.shapeDistTraveled}</td>
+            <td>{$notice.shapePtSequence}</td>
+            <td>{$notice.prevCsvRowNumber}</td>
+            <td>{$notice.prevShapeDistTraveled}</td>
+            <td>{$notice.prevShapePtSequence}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please check shape dist traveled for the above rows in 'shapes.txt'!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -218,37 +222,39 @@
  */
 {template .decreasingStopTimeDistance}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Decreasing Stop Time Distance(s) found!</p>
-  <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Trip ID</th>
-        <th>CSV Row Number</th>
-        <th>Stop Sequence</th>
-        <th>Shape Distance Traveled</th>
-        <th>Previous CSV Row Number</th>
-        <th>Previous Stop Sequence</th>
-        <th>Previous Shape Distance Traveled</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#decreasingStopTimeDistance" class="error collapsed">Error - Decreasing Stop Time Distance(s) found!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="decreasingStopTimeDistance">
+    <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.tripId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.stopSequence}</td>
-          <td>{$notice.shapeDistTraveled}</td>
-          <td>{$notice.prevCsvRowNumber}</td>
-          <td>{$notice.prevStopSequence}</td>
-          <td>{$notice.prevShapeDistTraveled}</td>
+          <th>Trip ID</th>
+          <th>CSV Row Number</th>
+          <th>Stop Sequence</th>
+          <th>Shape Distance Traveled</th>
+          <th>Previous CSV Row Number</th>
+          <th>Previous Stop Sequence</th>
+          <th>Previous Shape Distance Traveled</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.tripId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.stopSequence}</td>
+            <td>{$notice.shapeDistTraveled}</td>
+            <td>{$notice.prevCsvRowNumber}</td>
+            <td>{$notice.prevStopSequence}</td>
+            <td>{$notice.prevShapeDistTraveled}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please check distance traveled for the above rows in 'stop_times.txt'!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -257,32 +263,34 @@
  */
 {template .feedInfoLangAndAgencyLangMismatch}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Language mismatch found!</p>
-  <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` and 
-    `feed_info.feed_lang`. The default language may be multilingual for datasets with the original text 
-    in multiple languages. In such cases, the feed_lang field should contain the language code mul defined 
-    by the norm ISO 639-2. If `feed_lang` is not `mul` and does not match with `agency_lang`, that's an 
-    error If there is more than one `agency_lang` and `feed_lang` isn't `mul`, that's an error If `feed_lang`
-    is `mul` and there isn't more than one `agency_lang`, that's an error</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Feed Info Language</th>
-        <th>Agency Language Collection</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#feedInfoLangAndAgencyLangMismatch" class="error collapsed">Error - Language mismatch found!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="feedInfoLangAndAgencyLangMismatch">
+    <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` and 
+      `feed_info.feed_lang`. The default language may be multilingual for datasets with the original text 
+      in multiple languages. In such cases, the feed_lang field should contain the language code mul defined 
+      by the norm ISO 639-2. If `feed_lang` is not `mul` and does not match with `agency_lang`, that's an 
+      error If there is more than one `agency_lang` and `feed_lang` isn't `mul`, that's an error If `feed_lang`
+      is `mul` and there isn't more than one `agency_lang`, that's an error</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.feedInfoLang}</td>
-          <td>{$notice.agencyLangCollection}</td>
+          <th>Feed Info Language</th>
+          <th>Agency Language Collection</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please check languages!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.feedInfoLang}</td>
+            <td>{$notice.agencyLangCollection}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please check languages!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -291,31 +299,33 @@
  */
 {template .inconsistentAgencyField}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Inconsistent Agency Field(s) found!</p>
-  <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>CSV Row Number</th>
-        <th>Field Name</th>
-        <th>Expected</th>
-        <th>Actual</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#inconsistentAgencyField" class="error collapsed">Error - Inconsistent Agency Field(s) found!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="inconsistentAgencyField">
+    <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.fieldName}</td>
-          <td>{$notice.expected}</td>
-          <td>{$notice.actual}</td>
+          <th>CSV Row Number</th>
+          <th>Field Name</th>
+          <th>Expected</th>
+          <th>Actual</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please check timezones/languages!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.fieldName}</td>
+            <td>{$notice.expected}</td>
+            <td>{$notice.actual}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please check timezones/languages!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
