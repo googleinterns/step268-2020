@@ -6,29 +6,31 @@
  */
 {template .unknownColumnNotice}
 {let $numNotices: length($notices)/}
-  <p class="warning">Warning - Unknown Column(s) found!</p>
-  <p>Description: A column name is unknown.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>Field name</th>
-        <th>Index</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#unknownColumnNotice" class="warning collapsed">Warning - Unknown Column(s) found!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="unknownColumnNotice">
+    <p>Description: A column name is unknown.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.filename}</td>
-          <td>{$notice.fieldName}</td>
-          <td>{$notice.index}</td>
+          <th>Filename</th>
+          <th>Field name</th>
+          <th>Index</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please delete or rename column!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.filename}</td>
+            <td>{$notice.fieldName}</td>
+            <td>{$notice.index}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please delete or rename column!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -37,31 +39,33 @@
  */
 {template .invalidRowLength}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Invalid csv row length!</p>
-  <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>CSV Row Number</th>
-        <th>Row length</th>
-        <th>Header count</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#invalidRowLength" class="error collapsed">Error - Invalid csv row length!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="invalidRowLength">
+    <p>Description: A row in the input file has a different number of values than specified by the CSV header.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.filename}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.rowLength}</td>
-          <td>{$notice.headerCount}</td>
+          <th>Filename</th>
+          <th>CSV Row Number</th>
+          <th>Row length</th>
+          <th>Header count</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please set the row length as specified by the CSV header!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.filename}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.rowLength}</td>
+            <td>{$notice.headerCount}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please set the row length as specified by the CSV header!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -70,37 +74,39 @@
  */
 {template .wrongParentLocationType}
 {let $numNotices: length($notices)/}
-  <p class="error">Error - Wrong parent location type!</p>
-  <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
-  <p><b>{$numNotices}</b> found:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stop ID</th>
-        <th>CSV Row Number</th>
-        <th>Location Type</th>
-        <th>Parent Station</th>
-        <th>Parent CSV Row Number</th>
-        <th>Parent Location Type</th>
-        <th>Expected Location Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $notice in $notices}
+  <button data-toggle="collapse" data-target="#wrongParentLocationType" class="error collapsed">Error - Wrong parent location type!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="wrongParentLocationType">
+    <p>Description: Incorrect type of the parent location (e.g. a parent for a stop or an entrance must be a station).</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
         <tr>
-          <td>{$notice.stopId}</td>
-          <td>{$notice.csvRowNumber}</td>
-          <td>{$notice.locationType}</td>
-          <td>{$notice.parentStation}</td>
-          <td>{$notice.parentCsvRowNumber}</td>
-          <td>{$notice.parentLocationType}</td>
-          <td>{$notice.expectedLocationType}</td>
+          <th>Stop ID</th>
+          <th>CSV Row Number</th>
+          <th>Location Type</th>
+          <th>Parent Station</th>
+          <th>Parent CSV Row Number</th>
+          <th>Parent Location Type</th>
+          <th>Expected Location Type</th>
         </tr>
-      {/foreach}
-    </tbody>
-  </table>
-  <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
-  <br><br>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.locationType}</td>
+            <td>{$notice.parentStation}</td>
+            <td>{$notice.parentCsvRowNumber}</td>
+            <td>{$notice.parentLocationType}</td>
+            <td>{$notice.expectedLocationType}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please fix the parent location type(s) corresponding to the stop location type(s)!</p>
+    <br><br>
+  </div>
 {/template}
 
 /**
@@ -307,6 +313,137 @@
     </tbody>
   </table>
   <p>Please check timezones/languages!</p>
+  <br><br>
+{/template}
+
+/**
+ * Table for location without parent station notice. 
+ * @param notices : List<[String stopId, long csvRowNumber, int locationType]>
+ */
+{template .locationWithoutParentStation}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Location(s) without a parent station found!</p>
+  <p>Description: A location that must have `parent_station` field does not have it.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stop ID</th>
+        <th>CSV Row Number</th>
+        <th>Location Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.stopId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.locationType}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check the parent locations for the above stops!</p>
+  <br><br>
+{/template}
+
+
+/**
+ * Table for meaningless trip with no more than one stop
+ * @param notices : List<[String tripId, long csvRowNumber]>
+ */
+{template .meaninglessTripWithNoMoreThanOneStop}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Meaningless trip(s) found!</p>
+  <p>Description: A trip must have at least 2 stops.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>CSV Row Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please above trip(s)!</p>
+  <br><br>
+{/template}
+
+/**
+ * Table for missing trip edge stop time notice
+ * @param notices : List<[String arrivalOrDepartureTime, String tripId, long csvRowNumber, int stopSequence]>
+ */
+{template .missingTripEdgeStopTime}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Missing arrival or departure time for trip(s)!</p>
+  <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>CSV Row Number</th>
+        <th>Arrival / Depature Time</th>
+        <th>Stop Sequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.arrivalOrDepartureTime}</td>
+          <td>{$notice.stopSequence}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check above trip(s)!</p>
+  <br><br>
+{/template}
+
+
+
+/**
+ * Table for overlapping frequency
+ * @param notices : List<[long prevCsvRowNumber, GtfsTime prevEndTime, long currCsvRowNumber, GtfsTime currStartTime, String tripId]>
+ */
+{template .overlappingFrequency}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Overlapping frequency entries found!</p>
+  <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trip ID</th>
+        <th>Current CSV Row Number</th>
+        <th>Current Start Time</th>
+        <th>Previous CSV Row Number</th>
+        <th>Previous End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.tripId}</td>
+          <td>{$notice.currCsvRowNumber}</td>
+          <td>{$notice.currStartTime}</td>
+          <td>{$notice.prevCsvRowNumber}</td>
+          <td>{$notice.prevEndTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please check above trip(s)!</p>
   <br><br>
 {/template}
 
@@ -523,6 +660,47 @@
 {/template}
 
 /**
+ * Renders a basic explanation of the route unique names notice.
+ * @param notices : List<[routeId : string, routeCsvRowNumber : number, comparedRouteId : string, comparedRouteCsvRowNumber: number, routeLongName : string, routeShortName : string, routeType : string, agencyId : string]>
+ */
+{template .routeUniqueNames}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Route without unique names!</p>
+  <p>Description: The combination of long name, short name, route type and agency ID for a route is not unique.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Route ID</th>
+        <th>Route CSV Row Number</th>
+        <th>Compared Route ID</th>
+        <th>Compared Route CSV Row Number</th>
+        <th>Route Long Name</th>
+        <th>Route Short Name</th>
+        <th>Route Type</th>
+        <th>Agency ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.routeId}</td>
+          <td>{$notice.routeCsvRowNumber}</td>
+          <td>{$notice.comparedRouteId}</td>
+          <td>{$notice.comparedRouteCsvRowNumber}</td>
+          <td>{$notice.routeLongName}</td>
+          <td>{$notice.routeShortName}</td>
+          <td>{$notice.routeType}</td>
+          <td>{$notice.agencyId}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please change the long name or short name of the route to make it unique!</p>
+  <br><br>
+{/template}
+
+/**
  * Renders a basic explanation of the station with parent station notice.
  * @param notices : List<[stopId : string, csvRowNumber : number, parentStation : string]>
  */
@@ -575,11 +753,178 @@
           <tr>
             <td>{$notice.routeId}</td>
             <td>{$notice.csvRowNumber}</td>
-          </tr>
+           </tr>
         {/foreach}
       </tbody>
     </table>
     <p>Please add a short name or a long name for the route!</p>
     <br><br>
   </div>
+{/template}
+
+/**
+ * Renders a basic explanation of a platform without a parent station.
+ * @param notices : List<[stopId : string, csvRowNumber : number]>
+ */
+{template .platformWithoutParentStation}
+{let $numNotices: length($notices)/}
+  <button data-toggle="collapse" data-target="#platformWithoutParentStation" class="warning collapsed">Warning - Platform Without Parent Station!<span>+</span><p>-</p></button>
+    <div class="content collapse in" id="platformWithoutParentStation">
+    <p>Description: A platform does not have a parent station set.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Stop ID</th>
+          <th>CSV Row Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.stopId}</td>
+            <td>{$notice.csvRowNumber}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please add parent station to the platform!</p>
+    <br><br>
+  </div>
+{/template}
+
+/**
+ * Renders a basic explanation of the station with parent station notice.
+ * @param notices : List<[routeId : string, csvRowNumber : number, routeShortName : string]>
+ */
+{template .routeShortNameTooLong}
+{let $numNotices: length($notices)/}
+ <button data-toggle="collapse" data-target="#routeShortNameTooLong" class="warning collapsed">Warning - Route short name too long!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="routeShortNameTooLong">
+    <p>Description: The short name of a route is too long.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Route ID</th>
+          <th>CSV Row Number</th>
+          <th>Route Short Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td>{$notice.routeShortName}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please shorten the route name's short name!</p>
+    <br><br>
+  </div>
+{/template}
+
+/**
+ * Renders a basic explanation of the start and end time out of order notice.
+ * @param notices : List<[filename : string, csvRowNumber : number, entityId : string, startTime : string, endTime : string]>
+ */
+{template .startAndEndTimeOutOfOrder}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Start and end time out of order!</p>
+  <p>Description: start_time is after the end_time for a row in frequencies.txt.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>CSV Row Number</th>
+        <th>Entity ID</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.entityId}</td>
+          <td>{$notice.startTime}</td>
+          <td>{$notice.endTime}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please adjust the start time or end time of the entity!</p>
+  <br><br>
+{/template}
+
+/**
+ * Renders a basic explanation of the start and end date out of order notice.
+ * @param notices : List<[filename : string, csvRowNumber : number, entityId : string, startDate : string, endDate : string]>
+ */
+{template .startAndEndDateOutOfOrder}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Start and end date out of order!</p>
+  <p>Description: Start date is later than the end date.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>CSV Row Number</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.startDate}</td>
+          <td>{$notice.endDate}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please adjust the start or the end date!</p>
+  <br><br>
+{/template}
+
+/**
+ * Renders a basic explanation of the same route name and description notice.
+ * @param notices : List<[filename : string, routeId : string, csvRowNumber : number, routeDesc : string, specifiedField : string]>
+ */
+{template .sameNameAndDescriptionForRoute}
+{let $numNotices: length($notices)/}
+  <p class="error">Error - Same route name and description!</p>
+  <p>Description: Name and description of the route are the same.</p>
+  <p><b>{$numNotices}</b> found:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>Route ID</th>
+        <th>CSV Row Number</th>
+        <th>Route Description</th>
+        <th>Specified Field</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $notice in $notices}
+        <tr>
+          <td>{$notice.filename}</td>
+          <td>{$notice.routeId}</td>
+          <td>{$notice.csvRowNumber}</td>
+          <td>{$notice.routeDesc}</td>
+          <td>{$notice.specifiedField}</td>
+        </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <p>Please adjust the specified name or the description of the route to make them different!</p>
+  <br><br>
 {/template}
