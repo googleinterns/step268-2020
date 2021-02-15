@@ -95,6 +95,30 @@ function fast_travel_between_stops(params) {
   document.getElementById('warning').appendChild(template);
 }
 
+function location_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.locationWithoutParentStation, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function meaningless_trip_with_no_more_than_one_stop(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.meaninglessTripWithNoMoreThanOneStop, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function missing_trip_edge_arrival_time_departure_time(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.missingTripEdgeStopTime, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function overlapping_frequency(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.overlappingFrequency, params);
+  document.getElementById('error').appendChild(template);
+}
+
 function trip_with_duplicate_stops(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.tripWithDuplicateStops, params);
@@ -132,6 +156,12 @@ function stop_time_with_arrival_before_previous_departure_time(params) {
   document.getElementById('error').appendChild(template);
 }
 
+function route_unique_names(params) {
+  const template =
+      goog.soy.renderAsElement(validator.templates.routeUniqueNames, params);
+  document.getElementById('error').appendChild(template);
+}
+
 function station_with_parent_station(params) {
   const template = goog.soy.renderAsElement(
       validator.templates.stationWithParentStation, params);
@@ -142,4 +172,52 @@ function route_color_contrast(params) {
   const template =
       goog.soy.renderAsElement(validator.templates.routeColorContrast, params);
   document.getElementById('error').appendChild(template);
+}
+
+function route_short_and_long_name_equal(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.routeShortAndLongNameEqual, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function route_both_short_and_long_name_missing(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.routeBothShortAndLongNameMissing, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function platform_without_parent_station(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.platformWithoutParentStation, params);
+  document.getElementById('warning').appendChild(template);
+}
+
+function route_short_name_too_long(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.routeShortNameTooLong, params);
+  document.getElementById('warning').appendChild(template);
+}
+
+function start_and_end_time_out_of_order(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.startAndEndTimeOutOfOrder, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function start_and_end_date_out_of_order(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.startAndEndDateOutOfOrder, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function same_route_name_and_description(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.sameNameAndDescriptionForRoute, params);
+  document.getElementById('error').appendChild(template);
+}
+
+function transfers_are_unique(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.transfersAreUnique, params);
+  document.getElementById('warning').appendChild(template);
 }
