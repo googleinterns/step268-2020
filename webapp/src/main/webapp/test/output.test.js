@@ -154,7 +154,8 @@ describe('Output', function() {
     };
     decreasing_stop_time_distance(params);
     const output =
-        '<div><p class="error">Error - Decreasing Stop Time Distance(s) found!</p>\
+        '<button data-toggle="collapse" data-target="#decreasingStopTimeDistance" class="error collapsed">Error - Decreasing Stop Time Distance(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="decreasingStopTimeDistance">\
 <p>Description: For some trip, stop times have decreasing `shape_dist_travelled` values.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -166,7 +167,7 @@ describe('Output', function() {
 </tbody>\
 </table>\
 <p>Please check distance traveled for the above rows in \'stop_times.txt\'!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -187,7 +188,8 @@ describe('Output', function() {
     };
     decreasing_shape_distance(params);
     const output =
-        '<div><p class="error">Error - Decreasing Shape Distance(s) found!</p>\
+        '<button data-toggle="collapse" data-target="#decreasingShapeDistance" class="error collapsed">Error - Decreasing Shape Distance(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="decreasingShapeDistance">\
 <p>Description: shape_dist_traveled along a shape in "shapes.txt" are not all increasing.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -199,7 +201,7 @@ describe('Output', function() {
 </tbody>\
 </table>\
 <p>Please check shape dist traveled for the above rows in \'shapes.txt\'!</p>\
-<br><br></div>'
+<br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -216,7 +218,8 @@ describe('Output', function() {
        };
        feed_info_lang_and_agency_lang_mismatch(params);
        const output =
-           '<div><p class="error">Error - Language mismatch found!</p>\
+           '<button data-toggle="collapse" data-target="#feedInfoLangAndAgencyLangMismatch" class="error collapsed">Error - Language mismatch found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="feedInfoLangAndAgencyLangMismatch">\
 <p>Description: Files `agency.txt` and `feed_info.txt` must define matching `agency.agency_lang` \
 and `feed_info.feed_lang`. The default language may be multilingual for datasets with \
 the original text in multiple languages. In such cases, the feed_lang field should contain \
@@ -234,7 +237,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check languages!</p>\
-<br><br></div>'
+<br><br></div></div>'
        expect(document.getElementById('error').innerHTML).toContain(output);
      });
 
@@ -252,7 +255,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     inconsistent_agency_field(params);
     const output =
-        '<div><p class="error">Error - Inconsistent Agency Field(s) found!</p>\
+        '<button data-toggle="collapse" data-target="#inconsistentAgencyField" class="error collapsed">Error - Inconsistent Agency Field(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="inconsistentAgencyField">\
 <p>Description: There is more than 1 agency and timezones or languages are inconsistent among the agencies</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -264,7 +268,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check timezones/languages!</p>\
-<br><br></div>'
+<br><br></div></div>'
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -280,8 +284,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     location_without_parent_station(params);
-    const output =
-        '<p class=\"error\">Error - Location(s) without a parent station found!</p>\
+    const output = '<button data-toggle="collapse" data-target="#locationWithoutParentStation" class="error collapsed">Error - Location(s) without a parent station found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="locationWithoutParentStation">\
 <p>Description: A location that must have `parent_station` field does not have it.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -293,7 +297,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check the parent locations for the above stops!</p>\
-<br><br>';
+<br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -310,7 +314,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     meaningless_trip_with_no_more_than_one_stop(params);
-    const output = '<p class="error">Error - Meaningless trip(s) found!</p>\
+    const output = '<button data-toggle="collapse" data-target="#meaninglessTripWithNoMoreThanOneStop" class="error collapsed">Error - Meaningless trip(s) found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="meaninglessTripWithNoMoreThanOneStop">\
 <p>Description: A trip must have at least 2 stops.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -322,7 +327,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please above trip(s)!</p>\
-<br><br>';
+<br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
   /**
@@ -340,8 +345,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     missing_trip_edge_arrival_time_departure_time(params);
-    const output =
-        '<p class="error">Error - Missing arrival or departure time for trip(s)!</p>\
+    const output = '<button data-toggle="collapse" data-target="#missingTripEdgeStopTime" class="error collapsed">Error - Missing arrival or departure time for trip(s)!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="missingTripEdgeStopTime">\
 <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -353,7 +358,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check above trip(s)!</p>\
-<br><br>';
+<br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -373,8 +378,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     overlapping_frequency(params);
-    const output =
-        '<p class="error">Error - Overlapping frequency entries found!</p>\
+    const output = '<button data-toggle="collapse" data-target="#overlappingFrequency" class="error collapsed">Error - Overlapping frequency entries found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="overlappingFrequency">\
 <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
 <p><b>1</b> found:</p>\
 <table>\
@@ -386,7 +391,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check above trip(s)!</p>\
-<br><br>';
+<br><br></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
@@ -402,7 +407,8 @@ than one `agency_lang`, that\'s an error</p>\
     };
     fast_travel_between_stops(params);
     const output =
-        '<div><p class="warning">Warning - Fast Travel Between Stops found!</p>\
+        '<button data-toggle="collapse" data-target="#fastTravelBetweenStops" class="warning collapsed">Warning - Fast Travel Between Stops found!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="fastTravelBetweenStops">\
 <p>Description: Travel speed between stops is very fast!.</p>\
 <p><b>2</b> found:</p>\
 <table>\
@@ -415,7 +421,7 @@ than one `agency_lang`, that\'s an error</p>\
 </tbody>\
 </table>\
 <p>Please check travel speed for the above trip(s)!</p>\
-<br><br></div>';
+<br><br></div></div>';
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
@@ -878,6 +884,78 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for route and route text color being too similar */
+  it('should issue route color contrast error', function() {
+    const params = {
+      code: 'route_color_contrast',
+      totalNotices: 2,
+      notices: [
+        {
+          routeId: 'routeA',
+          csvRowNumber: 2,
+          routeColor: '4b3bff',
+          routeTextColor: '5a4cfc'
+        },
+        {
+          routeId: 'routeB',
+          csvRowNumber: 4,
+          routeColor: 'fc262d',
+          routeTextColor: 'ff383f'
+        }
+      ]
+    };
+    route_color_contrast(params);
+    const output = '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeColorContrast">\
+<p>Description: The contrast between the route and the route text is too similar!</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Color</th><th>Route Text Color</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>routeA</td><td>2</td><td><div class="colorBox" style="background-color: #4b3bff;"></div><p>#4b3bff</p></td><td><div class="colorBox" style="background-color: #5a4cfc;"></div><p>#5a4cfc</p></td></tr>\
+<tr><td>routeB</td><td>4</td><td><div class="colorBox" style="background-color: #fc262d;"></div><p>#fc262d</p></td><td><div class="colorBox" style="background-color: #ff383f;"></div><p>#ff383f</p></td></tr>\
+</tbody>\
+</table>\
+<p>Please change the color of the route or the route text!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+
+  /** Test for route having the same short and long name */
+  it('should issue route short and long name error', function() {
+    const params = {
+      code: 'route_short_and_long_name_equal',
+      totalNotices: 1,
+      notices: [{
+        routeId: 'Route1',
+        csvRowNumber: 2,
+        routeShortName: 'routeName',
+        routeLongName: 'routeName'
+      }]
+    };
+    route_short_and_long_name_equal(params);
+    const output =
+        '<button data-toggle="collapse" data-target="#routeShortAndLongNameEqual" class="error collapsed">Error - Route Short and Long Name Equal!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeShortAndLongNameEqual">\
+<p>Description: Both the short and long name of a route are equal.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Name (short and long)</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>Route1</td><td>2</td><td>routeName</td></tr>\
+</tbody>\
+</table>\
+<p>Please change the short or long name of the route!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+  
   /** Test for the same route name and description notice */
   it('should issue the same route name and description error', function() {
     const params = {
@@ -949,6 +1027,39 @@ than one `agency_lang`, that\'s an error</p>\
 <p>Please delete the duplicate transfer(s)!</p>\
 <br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+  
+  /** Test for transfers that aren't unique. */
+  it('should issue the transfers are unique error', function() {
+    const params = {
+      code: 'transfers_are_unique',
+      totalNotices: 1,
+      notices: [
+        {
+          fromStopId: 'fromStop',
+          toStopId: 'toStop',
+          csvRowNumber: 5,
+          originalCsvRowNumber: 2,
+        }
+      ]
+    };
+    transfers_are_unique(params);
+    const output =
+        '<button data-toggle="collapse" data-target="#transfersAreUnique" class="warning collapsed">Warning - Transfers are not unique!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="transfersAreUnique">\
+<p>Description: The same transfer already exists.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>From Stop</th><th>To Stop</th><th>Csv Row Number</th><th>Original Csv Row Number</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>fromStop</td><td>toStop</td><td>5</td><td>2</td></tr>\
+</tbody>\
+</table>\
+<p>Please remove the duplicate transfer!</p>\
+<br><br></div>';
+    expect(document.getElementById('warning').innerHTML).toContain(output);
   });
 
   it('should call the correct functions', function() {
