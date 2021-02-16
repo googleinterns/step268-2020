@@ -884,6 +884,46 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for route and route text color being too similar */
+  it('should issue route color contrast error', function() {
+    const params = {
+      code: 'route_color_contrast',
+      totalNotices: 2,
+      notices: [
+        {
+          routeId: 'routeA',
+          csvRowNumber: 2,
+          routeColor: '4b3bff',
+          routeTextColor: '5a4cfc'
+        },
+        {
+          routeId: 'routeB',
+          csvRowNumber: 4,
+          routeColor: 'fc262d',
+          routeTextColor: 'ff383f'
+        }
+      ]
+    };
+    route_color_contrast(params);
+    const output = '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="routeColorContrast">\
+<p>Description: The contrast between the route and the route text is too similar!</p>\
+<p><b>2</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Route ID</th><th>CSV Row Number</th><th>Route Color</th><th>Route Text Color</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>routeA</td><td>2</td><td><div class="colorBox" style="background-color: #4b3bff;"></div><p>#4b3bff</p></td><td><div class="colorBox" style="background-color: #5a4cfc;"></div><p>#5a4cfc</p></td></tr>\
+<tr><td>routeB</td><td>4</td><td><div class="colorBox" style="background-color: #fc262d;"></div><p>#fc262d</p></td><td><div class="colorBox" style="background-color: #ff383f;"></div><p>#ff383f</p></td></tr>\
+</tbody>\
+</table>\
+<p>Please change the color of the route or the route text!</p>\
+<br><br></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
+
   /** Test for route having the same short and long name */
   it('should issue route short and long name error', function() {
     const params = {

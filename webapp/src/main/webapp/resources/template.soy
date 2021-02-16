@@ -1038,3 +1038,38 @@
     <br><br>
   </div>
 {/template}
+
+/**
+ * Renders a warning for routes with similar contrast to route text.
+ * @param notices : List<[routeId : string, csvRowNumber : number, routeColor : string, routeTextColor : string]>
+ */
+{template .routeColorContrast}
+{let $numNotices: length($notices)/}
+  <button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="routeColorContrast">
+    <p>Description: The contrast between the route and the route text is too similar!</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Route ID</th>
+          <th>CSV Row Number</th>
+          <th>Route Color</th>
+          <th>Route Text Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.routeId}</td>
+            <td>{$notice.csvRowNumber}</td>
+            <td><div class="colorBox" style="background-color: #{$notice.routeColor};"></div><p>#{$notice.routeColor}</p></td>
+            <td><div class="colorBox" style="background-color: #{$notice.routeTextColor};"></div><p>#{$notice.routeTextColor}</p></td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please change the color of the route or the route text!</p>
+    <br><br>
+  </div>
+{/template}
