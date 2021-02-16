@@ -283,7 +283,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     location_without_parent_station(params);
-    const output = '<button data-toggle="collapse" data-target="#locationWithoutParentStation" class="error collapsed">Error - Location(s) without a parent station found!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#locationWithoutParentStation" class="error collapsed">Error - Location(s) without a parent station found!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="locationWithoutParentStation">\
 <p>Description: A location that must have `parent_station` field does not have it.</p>\
 <p><b>1</b> found:</p>\
@@ -313,7 +314,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     meaningless_trip_with_no_more_than_one_stop(params);
-    const output = '<button data-toggle="collapse" data-target="#meaninglessTripWithNoMoreThanOneStop" class="error collapsed">Error - Meaningless trip(s) found!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#meaninglessTripWithNoMoreThanOneStop" class="error collapsed">Error - Meaningless trip(s) found!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="meaninglessTripWithNoMoreThanOneStop">\
 <p>Description: A trip must have at least 2 stops.</p>\
 <p><b>1</b> found:</p>\
@@ -344,7 +346,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     missing_trip_edge_arrival_time_departure_time(params);
-    const output = '<button data-toggle="collapse" data-target="#missingTripEdgeStopTime" class="error collapsed">Error - Missing arrival or departure time for trip(s)!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#missingTripEdgeStopTime" class="error collapsed">Error - Missing arrival or departure time for trip(s)!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="missingTripEdgeStopTime">\
 <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
 <p><b>1</b> found:</p>\
@@ -377,7 +380,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     overlapping_frequency(params);
-    const output = '<button data-toggle="collapse" data-target="#overlappingFrequency" class="error collapsed">Error - Overlapping frequency entries found!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#overlappingFrequency" class="error collapsed">Error - Overlapping frequency entries found!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="overlappingFrequency">\
 <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
 <p><b>1</b> found:</p>\
@@ -904,7 +908,8 @@ than one `agency_lang`, that\'s an error</p>\
       ]
     };
     route_color_contrast(params);
-    const output = '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="routeColorContrast">\
 <p>Description: The contrast between the route and the route text is too similar!</p>\
 <p><b>2</b> found:</p>\
@@ -954,7 +959,7 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  
+
   /** Test for the same route name and description notice */
   it('should issue the same route name and description error', function() {
     const params = {
@@ -1027,20 +1032,18 @@ than one `agency_lang`, that\'s an error</p>\
 <br><br></div></div>';
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
-  
+
   /** Test for transfers that aren't unique. */
   it('should issue the transfers are unique error', function() {
     const params = {
       code: 'transfers_are_unique',
       totalNotices: 1,
-      notices: [
-        {
-          fromStopId: 'fromStop',
-          toStopId: 'toStop',
-          csvRowNumber: 5,
-          originalCsvRowNumber: 2,
-        }
-      ]
+      notices: [{
+        fromStopId: 'fromStop',
+        toStopId: 'toStop',
+        csvRowNumber: 5,
+        originalCsvRowNumber: 2,
+      }]
     };
     transfers_are_unique(params);
     const output =

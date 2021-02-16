@@ -223,7 +223,7 @@ function ambiguous_stop_station_transfers(params) {
 }
 
 function transfers_are_unique(params) {
-  const template = goog.soy.renderAsElement(
-      validator.templates.transfersAreUnique, params);
+  const template =
+      goog.soy.renderAsElement(validator.templates.transfersAreUnique, params);
   document.getElementById('warning').appendChild(template);
 }
