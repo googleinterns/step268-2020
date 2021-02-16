@@ -203,3 +203,9 @@ function same_route_name_and_description(params) {
       validator.templates.sameNameAndDescriptionForRoute, params);
   document.getElementById('error').appendChild(template);
 }
+
+function ambiguous_stop_station_transfers(params) {
+  const template = goog.soy.renderAsElement(
+      validator.templates.ambiguousStopStationTransfers, params);
+  document.getElementById('error').appendChild(template);
+}
