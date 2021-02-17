@@ -50,8 +50,8 @@ function clearNoticeContainers() {
 }
 
 function hideVisibleSection() {
-  document.getElementById('error').style.visibility = 'hidden';
-  document.getElementById('warning').style.visibility = 'hidden';
+  document.getElementById('errorSection').style.visibility = 'hidden';
+  document.getElementById('warningSection').style.visibility = 'hidden';
   document.getElementById('allGood').style.visibility = 'hidden';
 }
 
