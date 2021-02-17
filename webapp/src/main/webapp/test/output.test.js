@@ -9,9 +9,9 @@ describe('Output', function() {
         <div id="error"></div></div>\
         <div id="warningSection" style="visibility:hidden">\
         <div id="warning"></div></div>\
-                  </div><div id="unimplementedNotices"></div>\
-                  <div id="allGood" style="visibility:hidden">\
-                  <h4>All good!</h4></div></div>';
+        </div><div id="unimplementedNotices"></div>\
+        <div id="allGood" style="visibility:hidden">\
+        <h4>All good!</h4></div></div>';
     document.body.insertAdjacentHTML('afterbegin', fixture);
   });
 
@@ -1125,7 +1125,7 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('allGood').style.visibility).toBe('visible');
   });
 
-  it('should make only error section visible if only an error is generated',
+  it('should make only error section visible if a single error is generated',
      function() {
        const params = {
          notices: [{
@@ -1148,7 +1148,7 @@ than one `agency_lang`, that\'s an error</p>\
            .toBe('hidden');
      });
 
-  it('should make only warning section visible if only a warning is generated',
+  it('should make only warning section visible if a single warning is generated',
      function() {
        const params = {
          notices: [{
