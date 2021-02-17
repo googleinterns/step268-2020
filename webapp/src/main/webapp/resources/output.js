@@ -26,6 +26,13 @@ function callCorrespondingFunction(noticesJSON) {
       unimplementedNoticesArray.push(JSON.stringify(notice));
     }
   }
+  // Dynamically set the error/warning section visible if at least one error/warning is generated
+  if (document.getElementById('error').innerHTML !== '') {
+    document.getElementById('error').style.visibility = 'visible';
+  }
+  if (document.getElementById('warning').innerHTML !== '') {
+    document.getElementById('warning').style.visibility = 'visible';
+  }
   // Print all unimplemented notices as raw JSON in the unimplemented notices
   // container
   if (unimplementedNoticesArray.length !== 0) {
