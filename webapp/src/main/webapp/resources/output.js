@@ -15,11 +15,16 @@
 function callCorrespondingFunction(noticesJSON) {
   const unimplementedNoticesArray = [];
   const noticeContainer = JSON.parse(noticesJSON);
-  for (var i = 0; i < noticeContainer.notices.length; i++) {
-    const notice = noticeContainer.notices[i];
-    // Notice has not been implemented, output raw json
-    if (!runFunctionName(notice.code, notice)) {
-      unimplementedNoticesArray.push(JSON.stringify(notice));
+  // If no notice is found, make the all_good section visible
+  if (noticeContainer.notices.length < 1) {
+    document.getElementById('allGood').style.visibility = 'visible';
+  } else {
+    for (var i = 0; i < noticeContainer.notices.length; i++) {
+      const notice = noticeContainer.notices[i];
+      // Notice has not been implemented, output raw json
+      if (!runFunctionName(notice.code, notice)) {
+        unimplementedNoticesArray.push(JSON.stringify(notice));
+      }
     }
   }
   // Print all unimplemented notices as raw JSON in the unimplemented notices
@@ -217,7 +222,7 @@ function same_route_name_and_description(params) {
 }
 
 function transfers_are_unique(params) {
-  const template = goog.soy.renderAsElement(
-      validator.templates.transfersAreUnique, params);
+  const template =
+      goog.soy.renderAsElement(validator.templates.transfersAreUnique, params);
   document.getElementById('warning').appendChild(template);
 }

@@ -35,8 +35,14 @@ td, th {
 .warning {
   background: #ff7003;
   color: white;
-  
 }
+
+h4 {
+  background: green;
+  color: white;
+  text-align: center;
+}
+
 .content {
   padding: 12px;
 }
