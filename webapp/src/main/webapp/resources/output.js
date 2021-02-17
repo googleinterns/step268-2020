@@ -18,13 +18,12 @@ function callCorrespondingFunction(noticesJSON) {
   // If no notice is found, make the all_good section visible
   if (noticeContainer.notices.length < 1) {
     document.getElementById('allGood').style.visibility = 'visible';
-  } else {
-    for (var i = 0; i < noticeContainer.notices.length; i++) {
-      const notice = noticeContainer.notices[i];
-      // Notice has not been implemented, output raw json
-      if (!runFunctionName(notice.code, notice)) {
-        unimplementedNoticesArray.push(JSON.stringify(notice));
-      }
+  }
+  for (var i = 0; i < noticeContainer.notices.length; i++) {
+    const notice = noticeContainer.notices[i];
+    // Notice has not been implemented, output raw json
+    if (!runFunctionName(notice.code, notice)) {
+      unimplementedNoticesArray.push(JSON.stringify(notice));
     }
   }
   // Print all unimplemented notices as raw JSON in the unimplemented notices
