@@ -1003,6 +1003,37 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for the ambiguous stop station transfers notice */
+  it('should issue the ambiguous stop station transfers error', function() {
+    const params = {
+      code: 'ambiguous_stop_station_transfers',
+      totalNotices: 1,
+      notices: [{
+        transferCsvRowNumberA: 8,
+        transferCsvRowNumberB: 12,
+        fromStationId: 'stationE',
+        toStationId: 'stationB'
+      }]
+    };
+    ambiguous_stop_station_transfers(params);
+    const output =
+        '<div><button data-toggle="collapse" data-target="#ambiguousStopStationTransfers" class="error collapsed">Error - Ambiguous stop station transfers!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="ambiguousStopStationTransfers">\
+<p>Description: An ambiguous stop-to-station or station-to-stop transfer.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Transfer CSV Row Number A</th><th>Transfer CSV Row Number B</th><th>From Station ID</th><th>To Station ID</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>8</td><td>12</td><td>stationE</td><td>stationB</td></tr>\
+</tbody>\
+</table>\
+<p>Please delete the duplicate transfer(s)!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for transfers that aren't unique. */
   it('should issue the transfers are unique error', function() {
     const params = {

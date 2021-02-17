@@ -972,6 +972,41 @@
 {/template}
 
 /**
+ * Renders a basic explanation of the ambiguous stop station transfers notice.
+ * @param notices : List<[transferCsvRowNumberA : number, transferCsvRowNumberB : number, fromStationId : string, toStationId : string]>
+ */
+{template .ambiguousStopStationTransfers}
+{let $numNotices: length($notices)/}
+  <button data-toggle="collapse" data-target="#ambiguousStopStationTransfers" class="error collapsed">Error - Ambiguous stop station transfers!<span>+</span><p>-</p></button>
+  <div class="content collapse in" id="ambiguousStopStationTransfers">
+    <p>Description: An ambiguous stop-to-station or station-to-stop transfer.</p>
+    <p><b>{$numNotices}</b> found:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Transfer CSV Row Number A</th>
+          <th>Transfer CSV Row Number B</th>
+          <th>From Station ID</th>
+          <th>To Station ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $notice in $notices}
+          <tr>
+            <td>{$notice.transferCsvRowNumberA}</td>
+            <td>{$notice.transferCsvRowNumberB}</td>
+            <td>{$notice.fromStationId}</td>
+            <td>{$notice.toStationId}</td>
+           </tr>
+        {/foreach}
+      </tbody>
+    </table>
+    <p>Please delete the duplicate transfer(s)!</p>
+    <br><br>
+  </div>
+{/template}
+
+/**     
  * Renders an explanation when route long and short name are equal.
  * @param notices : List<[routeId : string, csvRowNumber : number, routeShortName : string, routeLongName : string]>
  */
