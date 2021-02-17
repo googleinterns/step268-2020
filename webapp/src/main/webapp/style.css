@@ -43,11 +43,11 @@ td, th {
   text-align: center;
 }
 
-.errorTitle {
+.errorHeading {
   color: red;
 }
 
-.warningTitle {
+.warningHeading {
   color: #ff7003;
 }
 
