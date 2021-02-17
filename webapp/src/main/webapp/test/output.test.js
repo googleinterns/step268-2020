@@ -284,7 +284,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     location_without_parent_station(params);
-    const output = '<button data-toggle="collapse" data-target="#locationWithoutParentStation" class="error collapsed">Error - Location(s) without a parent station found!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#locationWithoutParentStation" class="error collapsed">Error - Location(s) without a parent station found!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="locationWithoutParentStation">\
 <p>Description: A location that must have `parent_station` field does not have it.</p>\
 <p><b>1</b> found:</p>\
@@ -314,7 +315,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     meaningless_trip_with_no_more_than_one_stop(params);
-    const output = '<button data-toggle="collapse" data-target="#meaninglessTripWithNoMoreThanOneStop" class="error collapsed">Error - Meaningless trip(s) found!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#meaninglessTripWithNoMoreThanOneStop" class="error collapsed">Error - Meaningless trip(s) found!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="meaninglessTripWithNoMoreThanOneStop">\
 <p>Description: A trip must have at least 2 stops.</p>\
 <p><b>1</b> found:</p>\
@@ -345,7 +347,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     missing_trip_edge_arrival_time_departure_time(params);
-    const output = '<button data-toggle="collapse" data-target="#missingTripEdgeStopTime" class="error collapsed">Error - Missing arrival or departure time for trip(s)!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#missingTripEdgeStopTime" class="error collapsed">Error - Missing arrival or departure time for trip(s)!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="missingTripEdgeStopTime">\
 <p>Description: The first and last stop for each trip should have both an arrival and departure time.</p>\
 <p><b>1</b> found:</p>\
@@ -378,7 +381,8 @@ than one `agency_lang`, that\'s an error</p>\
       }]
     };
     overlapping_frequency(params);
-    const output = '<button data-toggle="collapse" data-target="#overlappingFrequency" class="error collapsed">Error - Overlapping frequency entries found!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#overlappingFrequency" class="error collapsed">Error - Overlapping frequency entries found!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="overlappingFrequency">\
 <p>Description: Two frequency entries referring to the same trip may not have an overlapping time range.</p>\
 <p><b>1</b> found:</p>\
@@ -781,7 +785,7 @@ than one `agency_lang`, that\'s an error</p>\
 <br><br></div></div>';
     expect(document.getElementById('warning').innerHTML).toContain(output);
   });
-  
+
   /** Test for route with short name too long */
   it('should issue route with short name warning', function() {
     const params = {
@@ -905,7 +909,8 @@ than one `agency_lang`, that\'s an error</p>\
       ]
     };
     route_color_contrast(params);
-    const output = '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
+    const output =
+        '<button data-toggle="collapse" data-target="#routeColorContrast" class="error collapsed">Error - Route Color Contrast!<span>+</span><p>-</p></button>\
 <div class="content collapse in" id="routeColorContrast">\
 <p>Description: The contrast between the route and the route text is too similar!</p>\
 <p><b>2</b> found:</p>\
@@ -955,7 +960,7 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
-  
+
   /** Test for the same route name and description notice */
   it('should issue the same route name and description error', function() {
     const params = {
@@ -998,19 +1003,48 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(output);
   });
 
+  /** Test for the ambiguous stop station transfers notice */
+  it('should issue the ambiguous stop station transfers error', function() {
+    const params = {
+      code: 'ambiguous_stop_station_transfers',
+      totalNotices: 1,
+      notices: [{
+        transferCsvRowNumberA: 8,
+        transferCsvRowNumberB: 12,
+        fromStationId: 'stationE',
+        toStationId: 'stationB'
+      }]
+    };
+    ambiguous_stop_station_transfers(params);
+    const output =
+        '<div><button data-toggle="collapse" data-target="#ambiguousStopStationTransfers" class="error collapsed">Error - Ambiguous stop station transfers!<span>+</span><p>-</p></button>\
+<div class="content collapse in" id="ambiguousStopStationTransfers">\
+<p>Description: An ambiguous stop-to-station or station-to-stop transfer.</p>\
+<p><b>1</b> found:</p>\
+<table>\
+<thead>\
+<tr><th>Transfer CSV Row Number A</th><th>Transfer CSV Row Number B</th><th>From Station ID</th><th>To Station ID</th></tr>\
+</thead>\
+<tbody>\
+<tr><td>8</td><td>12</td><td>stationE</td><td>stationB</td></tr>\
+</tbody>\
+</table>\
+<p>Please delete the duplicate transfer(s)!</p>\
+<br><br></div></div>';
+    expect(document.getElementById('error').innerHTML).toContain(output);
+  });
+
   /** Test for transfers that aren't unique. */
   it('should issue the transfers are unique error', function() {
     const params = {
       code: 'transfers_are_unique',
       totalNotices: 1,
-      notices: [
-        {
-          fromStopId: 'fromStop',
-          toStopId: 'toStop',
-          csvRowNumber: 5,
-          originalCsvRowNumber: 2,
-        }
-      ]
+      notices: [{
+        fromStopId: 'fromStop',
+        toStopId: 'toStop',
+        csvRowNumber: 5,
+        originalCsvRowNumber: 2,
+      }]
     };
     transfers_are_unique(params);
     const output =
