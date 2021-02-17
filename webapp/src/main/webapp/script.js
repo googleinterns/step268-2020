@@ -49,6 +49,10 @@ function clearNoticeContainers() {
   unimplementedNotices.innerHTML = '';
 }
 
+function clearAllGood() {
+  document.getElementById('allGood').style.visibility = 'hidden';
+}
+
 /**
  * Fetches notices from the notice container and
  * outputs the corresponding functions onto the DOM
@@ -66,6 +70,8 @@ window.onload = function() {
     this.clearHeading();
 
     this.clearNoticeContainers();
+
+    this.clearAllGood();
 
     errorOutput.parentNode.insertBefore(
         loadingSpinner, errorOutput.nextSibling);

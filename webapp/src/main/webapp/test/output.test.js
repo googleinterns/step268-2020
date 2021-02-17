@@ -1,4 +1,3 @@
-
 /*
  * Unit tests for output.js
  */
@@ -7,8 +6,9 @@ describe('Output', function() {
   beforeEach(function() {
     var fixture =
         '<div id="fixture"><div id="errorOutput"></div><div id="error"></div><div id="warning">\
-                  </div><div id="unimplementedNotices"></div></div>';
-
+                  </div><div id="unimplementedNotices"></div>\
+                  <div id="allGood" style="visibility:hidden">\
+                  <h4>All good!</h4></div></div>';
     document.body.insertAdjacentHTML('afterbegin', fixture);
   });
 
@@ -1118,6 +1118,7 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(errorOutput);
     expect(document.getElementById('warning').innerHTML)
         .toContain(warningOutput);
+    expect(document.getElementById('allGood').style.visibility).toBe('hidden');
   });
 
   it('should output raw json if notice has not been implemented', function() {
@@ -1131,5 +1132,12 @@ than one `agency_lang`, that\'s an error</p>\
     callCorrespondingFunction(JSON.stringify(params));
     expect(document.getElementById('unimplementedNotices').innerHTML)
         .toContain(JSON.stringify(params.notices[0]));
-  })
+    expect(document.getElementById('allGood').style.visibility).toBe('hidden');
+  });
+
+  it('should make all_good visible if no notice is generated', function() {
+    const params = {notices: []};
+    callCorrespondingFunction(JSON.stringify(params));
+    expect(document.getElementById('allGood').style.visibility).toBe('visible');
+  });
 });
