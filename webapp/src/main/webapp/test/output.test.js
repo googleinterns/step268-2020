@@ -11,7 +11,7 @@ describe('Output', function() {
         <div id="warning"></div></div>\
         </div><div id="unimplementedNotices"></div>\
         <div id="allGood" style="visibility:hidden">\
-        <h4>All good!</h4></div></div>';
+        <h3 class="allGoodSection">All good!</h3></div></div>';
     document.body.insertAdjacentHTML('afterbegin', fixture);
   });
 
