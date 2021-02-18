@@ -25,11 +25,19 @@
         <button class="btn btn-outline-primary" type="submit" id="uploadButton">Upload</button>
       </form>
       <div id="errorOutput"></div>
-      <div id="error"></div>
-      <div id="warning"></div>
+      <div id="errorSection" style="visibility:hidden">
+        <h4 class='errorHeading'>Errors</h4>
+        <div id="error"></div>
+        <br>
+      </div>
+      <div id="warningSection" style="visibility:hidden">
+        <h4 class='warningHeading'>Warnings</h4>
+        <div id="warning"></div>
+        <br>
+      </div>
       <div id="unimplementedNotices"></div>
       <div id="allGood" style="visibility:hidden">
-        <h4>All good!</h4>
+        <h3 class='allGoodSection'>All good!</h3>
       </div>
     </div>
   </body>

@@ -4,11 +4,14 @@
 describe('Output', function() {
   // inject the HTML fixture for the tests
   beforeEach(function() {
-    var fixture =
-        '<div id="fixture"><div id="errorOutput"></div><div id="error"></div><div id="warning">\
-                  </div><div id="unimplementedNotices"></div>\
-                  <div id="allGood" style="visibility:hidden">\
-                  <h4>All good!</h4></div></div>';
+    var fixture = '<div id="fixture"><div id="errorOutput"></div>\
+        <div id="errorSection" style="visibility:hidden">\
+        <div id="error"></div></div>\
+        <div id="warningSection" style="visibility:hidden">\
+        <div id="warning"></div></div>\
+        </div><div id="unimplementedNotices"></div>\
+        <div id="allGood" style="visibility:hidden">\
+        <h3 class="allGoodSection">All good!</h3></div></div>';
     document.body.insertAdjacentHTML('afterbegin', fixture);
   });
 
@@ -1118,6 +1121,10 @@ than one `agency_lang`, that\'s an error</p>\
     expect(document.getElementById('error').innerHTML).toContain(errorOutput);
     expect(document.getElementById('warning').innerHTML)
         .toContain(warningOutput);
+    expect(document.getElementById('errorSection').style.visibility)
+        .toBe('visible');
+    expect(document.getElementById('warningSection').style.visibility)
+        .toBe('visible');
     expect(document.getElementById('allGood').style.visibility).toBe('hidden');
   });
 
@@ -1132,12 +1139,63 @@ than one `agency_lang`, that\'s an error</p>\
     callCorrespondingFunction(JSON.stringify(params));
     expect(document.getElementById('unimplementedNotices').innerHTML)
         .toContain(JSON.stringify(params.notices[0]));
+    expect(document.getElementById('errorSection').style.visibility)
+        .toBe('hidden');
+    expect(document.getElementById('warningSection').style.visibility)
+        .toBe('hidden');
     expect(document.getElementById('allGood').style.visibility).toBe('hidden');
   });
 
-  it('should make all_good visible if no notice is generated', function() {
+  it('should make only all_good visible if no notice is generated', function() {
     const params = {notices: []};
     callCorrespondingFunction(JSON.stringify(params));
+    expect(document.getElementById('errorSection').style.visibility)
+        .toBe('hidden');
+    expect(document.getElementById('warningSection').style.visibility)
+        .toBe('hidden');
     expect(document.getElementById('allGood').style.visibility).toBe('visible');
   });
+
+  it('should make only error section visible if a single error is generated',
+     function() {
+       const params = {
+         notices: [{
+           code: 'invalid_row_length',
+           totalNotices: 13,
+           notices: [{
+             filename: 'stop_times.txt',
+             csvRowNumber: 17,
+             rowLength: 5,
+             headerCount: 9
+           }]
+         }]
+       };
+       callCorrespondingFunction(JSON.stringify(params));
+       expect(document.getElementById('errorSection').style.visibility)
+           .toBe('visible');
+       expect(document.getElementById('warningSection').style.visibility)
+           .toBe('hidden');
+       expect(document.getElementById('allGood').style.visibility)
+           .toBe('hidden');
+     });
+
+  it('should make only warning section visible if a single warning is generated',
+     function() {
+       const params = {
+         notices: [{
+           code: 'unknown_column',
+           totalNotices: 1,
+           notices: [
+             {filename: 'stop_times.txt', fieldName: 'drop_off_time', index: 8}
+           ]
+         }]
+       };
+       callCorrespondingFunction(JSON.stringify(params));
+       expect(document.getElementById('errorSection').style.visibility)
+           .toBe('hidden');
+       expect(document.getElementById('warningSection').style.visibility)
+           .toBe('visible');
+       expect(document.getElementById('allGood').style.visibility)
+           .toBe('hidden');
+     });
 });

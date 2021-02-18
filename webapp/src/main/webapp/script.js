@@ -49,7 +49,9 @@ function clearNoticeContainers() {
   unimplementedNotices.innerHTML = '';
 }
 
-function clearAllGood() {
+function hideVisibleSection() {
+  document.getElementById('errorSection').style.visibility = 'hidden';
+  document.getElementById('warningSection').style.visibility = 'hidden';
   document.getElementById('allGood').style.visibility = 'hidden';
 }
 
@@ -71,7 +73,7 @@ window.onload = function() {
 
     this.clearNoticeContainers();
 
-    this.clearAllGood();
+    this.hideVisibleSection();
 
     errorOutput.parentNode.insertBefore(
         loadingSpinner, errorOutput.nextSibling);

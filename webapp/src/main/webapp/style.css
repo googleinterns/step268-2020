@@ -37,10 +37,18 @@ td, th {
   color: white;
 }
 
-h4 {
+.allGoodSection {
   background: green;
   color: white;
   text-align: center;
+}
+
+.errorHeading {
+  color: red;
+}
+
+.warningHeading {
+  color: #ff7003;
 }
 
 .content {
